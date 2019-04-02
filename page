@@ -1,1 +1,1268 @@
-dffdf
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+   <head>
+
+      <title>testEntrance</title>
+
+      <meta name="viewport" content="width=device-width">
+
+      <link href="CSS/owl.carousel.css" rel="stylesheet" />
+
+      <link href="CSS/owl.theme.default.min.css" rel="stylesheet" />
+
+      <script src="JS/jquery.min-1.11.js"></script>
+
+      <script src="JS/owl.carousel.js"></script>
+
+      <link href="CSS/bootstrap.min.css" rel="stylesheet" />
+
+      <script src="JS/bootstrap.min.js"></script>
+
+      <script src="JS/angular.min.js"></script>
+
+      <script src="JS/moment.js"></script>
+
+      <script src="JS/timePicker.js"></script>
+
+      <link href="CSS/timePicker.css" rel="stylesheet" />
+
+      <link href="CSS/animate.css" rel="stylesheet" />
+
+      <link rel="stylesheet" href="JS/fallback.css">
+
+      <link rel="stylesheet" href="JS/material.min.css">
+
+      <script defer src="JS/material.min.js"></script>
+
+      <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+
+      <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+
+      <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+
+       <script src="https://unpkg.com/angularjs-onsenui@1.0.0/dist/angularjs-onsenui.js"></script>
+
+      <script src="JS/firebase-app.js"></script>
+
+      <script src="JS/firebase-auth.js"></script>
+
+      <script src="JS/firebase-database.js"></script>
+
+      <script src="JS/firebase-firestore.js"></script>
+
+      <script src="JS/firebase-messaging.js"></script> 
+      
+      <script src="JS/GlobalQuestionSet.js"></script>
+      <script src="JS/underscore.js"></script> 
+
+      <link rel="stylesheet" type="text/css" href="CSS/multipleDatePicker.css"/>
+
+      <script type="text/javascript" src="JS/multipleDatePicker.min.js"></script>
+
+      <script src="https://code.highcharts.com/highcharts.js"></script>
+
+      <script src="https://code.highcharts.com/modules/data.js"></script>
+
+      <script src="https://code.highcharts.com/modules/series-label.js"></script>
+
+      <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+      <script src="https://code.highcharts.com/modules/export-data.js"></script>
+      
+      <script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+      <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+
+      <style>
+      	.highcharts-credits{
+      		display: none !important;
+      	}
+		
+		.action-sheet.action-sheet--material{
+			max-height:200px !important;
+			overflow-y:scroll;
+		}
+         .owl-item.animated {
+
+         visibility: visible;
+
+         }
+
+         .mdl-layout__tab-bar-button{
+
+         display:none !important
+
+         }
+
+         .owl-stage-outer{
+
+         height:100% !important
+
+         }
+
+         .mdl-layout__drawer-right {
+
+         display: -webkit-box;
+
+         display: -webkit-flex;
+
+         display: -ms-flexbox;
+
+         display: flex;
+
+         -webkit-box-orient: vertical;
+
+         -webkit-box-direction: normal;
+
+         -webkit-flex-direction: column;
+
+         -ms-flex-direction: column;
+
+         flex-direction: column;
+
+         -webkit-flex-wrap: nowrap;
+
+         -ms-flex-wrap: nowrap;
+
+         flex-wrap: nowrap;
+
+         width: 240px;
+
+         height: 100%;
+
+         max-height: 100%;
+
+         position: absolute;
+
+         top: 0;
+
+         right: 0;
+
+         box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+
+         box-sizing: border-box;
+
+         border-right: 1px solid #e0e0e0;
+
+         background: #fafafa;
+
+         -webkit-transform: translateX(250px);
+
+         -ms-transform: translateX(250px);
+
+         transform: translateX(250px);
+
+         -webkit-transform-style: preserve-3d;
+
+         transform-style: preserve-3d;
+
+         will-change: transform;
+
+         -webkit-transition-duration: .2s;
+
+         transition-duration: .2s;
+
+         -webkit-transition-timing-function: cubic-bezier(.4,0,.2,1);
+
+         transition-timing-function: cubic-bezier(.4,0,.2,1);
+
+         -webkit-transition-property: -webkit-transform;
+
+         transition-property: transform;
+
+         color: #424242;
+
+         overflow: visible;
+
+         overflow-y: auto;
+
+         z-index: 5;
+
+         }
+
+         .active {
+
+         -webkit-transform: translateX(0);
+
+         -ms-transform: translateX(0);
+
+         transform: translateX(0);  
+
+         }
+
+         .mdl-layout__obfuscator-right {
+
+         background-color: transparent;
+
+         position: absolute;
+
+         top: 0;
+
+         left: 0;
+
+         height: 100%;
+
+         width: 100%;
+
+         z-index: 4;
+
+         visibility: hidden;
+
+         -webkit-transition-property: background-color;
+
+         transition-property: background-color;
+
+         -webkit-transition-duration: .2s;
+
+         transition-duration: .2s;
+
+         -webkit-transition-timing-function: cubic-bezier(.4,0,.2,1);
+
+         transition-timing-function: cubic-bezier(.4,0,.2,1);
+
+         }
+
+         .mdl-layout__drawer-right.active~.mdl-layout__obfuscator-right {
+
+         background-color: rgba(0,0,0,.5);
+
+         visibility: visible;
+
+         }
+
+         .mdl-layout__drawer-right>.mdl-layout-title {
+             
+         line-height: 56px;
+
+         padding-left: 16px;
+
+         }
+
+      </style>
+
+      <script src="JS/app.js"></script>
+
+   </head>
+
+   <body>
+
+      <div ng-app="healthcareLoginApp" >
+
+         <div ng-controller="mainController as page" >
+
+            <div class="loader" style=" cursor:not-allowed;  position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;  z-index: 10000;display:none">
+
+               <div style=" margin-top:55%;margin-left:45%; z-index:1000;" layout-sm="column" layout-align="space-around">
+
+                  <div class="mdl-spinner mdl-js-spinner is-active"></div>
+
+               </div>
+
+            </div>
+
+            <ons-navigator id="appNavigator" swipeable swipe-target-width="80px">
+
+               <ons-page>
+
+                  <ons-splitter id="appSplitter">
+
+                     <ons-splitter-side id="sidemenu" page="someMenu.html" swipeable side="right" collapse="" width="100%"></ons-splitter-side>
+
+                     <ons-splitter-content page="tabbar.html"></ons-splitter-content>
+
+                  </ons-splitter>
+
+               </ons-page>
+
+            </ons-navigator>
+
+            <template id="tabbar.html">
+
+               <ons-page id="tabbar-page">
+
+                  <ons-toolbar>
+
+                     <div class="left">
+
+                        <ons-toolbar-button ng-click="toggleMenu()">
+
+                           <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
+
+                        </ons-toolbar-button>
+
+                     </div>
+
+                     <div class="center">Home</div>
+
+                  </ons-toolbar>
+
+                  <ons-tabbar swipeable id="appTabbar" position="auto">
+                  	 <ons-tab label="Home" icon="ion-home" page="home.html" active>
+                  	 
+                  	 
+                  	 </ons-tab>
+
+                    <!-- <ons-tab label="News" icon="ion-social-designernews" page="newsFeed.html"></ons-tab>
+
+                     <ons-tab label="Post" icon="ion-edit" page="forms.html"></ons-tab>-->
+
+                     <ons-tab label="Take Test" icon="fa-question-circle-o" page="testSubject.html"></ons-tab>
+
+                     <ons-tab label="Account" icon="md-face" page="accountConatiner.html"></ons-tab>
+
+                  </ons-tabbar>
+
+                  <script>
+
+                      ons.getScriptPage().addEventListener('prechange', function(event) {
+
+                          if (event.target.matches('#appTabbar')) {
+
+                              event.currentTarget.querySelector('ons-toolbar .center').innerHTML = event.tabItem.getAttribute('label');
+
+                          }
+
+                      });
+
+                  </script>
+
+               </ons-page>
+
+            </template>
+
+            <div id="appContainer" style="overflow-y:scroll">
+
+                <template id="accountConatiner.html">
+
+                    <ons-page id="Tab1">
+                        <div id="notLogged">
+                            <ons-tabbar swipeable position="auto">
+
+                                <ons-tab page="log.html" label="Login" active>
+
+                                </ons-tab>
+
+                                <ons-tab page="reg.html" label="Register">
+
+                                </ons-tab>
+                            </ons-tabbar>
+                        </div>
+
+                        <div id="logedIn" style="display:none;padding:5%">
+
+                            <div>
+                                <ons-card onclick="pushPage({'id': 'subscription.html', 'title': 'Subscription Details'})">
+
+                                    <div class="content">Subscription</div>
+
+                                </ons-card>
+                            </div>
+                            <div onclick="pushPage({'id': 'personalDetails.html', 'title': 'Personal Details'})">
+                                <ons-card>
+
+                                    <div class="content">Personal Details</div>
+
+                                </ons-card>
+                            </div>
+                            <div>
+                                <ons-card>
+
+                                    <div class="content">Something</div>
+
+                                </ons-card>
+                            </div>
+
+                            <ons-button modifier="large" class="button-margin" style="margin-top:10%" ng-click="page.logout()">Logout</ons-button>
+                            <div>
+
+
+                    </ons-page>
+
+                </template>
+
+                <template id="log.html">
+
+                    <ons-page id="log">
+
+                        <div class="content" style="padding:5%">
+
+                            <label class="center" style="width:100%;margin-top:5%">
+
+                                <ons-input id="name-input" float maxlength="20" style="width:100%" ng-model="page.username" placeholder="Name"></ons-input>
+
+                            </label>
+
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input1" float maxlength="20" style="width:100%" type="password" ng-model="page.password" placeholder="Password"></ons-input>
+
+                            </label>
+
+                            <ons-button modifier="large" class="button-margin" style="margin-top:10%" ng-click="page.login()">Login</ons-button>
+
+                        </div>
+
+                    </ons-page>
+
+                </template>
+
+                <template id="reg.html">
+
+                    <ons-page id="reg">
+
+                        <div class="content" style="padding:5%">
+
+                            <label class="center" style="width:100%;margin-top:5%">
+
+                                <ons-input id="Ons-input2" float maxlength="20" style="width:100%" ng-model="page.name" placeholder="Name"></ons-input>
+
+                            </label>
+
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input3" float style="width:100%" ng-model="page.email" placeholder="email"></ons-input>
+
+                            </label>
+
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input4" float maxlength="20" style="width:100%" ng-model="page.password" type="password" placeholder="Password"></ons-input>
+
+                            </label>
+
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input5" float maxlength="20" style="width:100%" ng-model="page.repPassword" type="password" placeholder="Repeat password"></ons-input>
+
+                            </label>
+
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input6" float maxlength="20" style="width:100%" ng-model="page.username" placeholder="Phone number"></ons-input>
+
+                            </label>
+
+
+
+                            <ons-button modifier="large" class="button-margin" style="margin-top:10%" ng-click="page.register()">Register</ons-button>
+
+                        </div>
+
+                    </ons-page>
+
+                </template>
+
+                <template id="postText.html">
+                    <ons-page id="postText">
+                        </ons-tab>
+                </template>
+
+                <template id="subscription.html">
+                    <ons-page>
+
+                        <ons-toolbar>
+
+                            <div class="left">
+
+                                <ons-back-button>Account</ons-back-button>
+
+                            </div>
+
+                            <div class="center"></div>
+
+                        </ons-toolbar>
+                        <div style="height:100%;width:100%;padding:2%">
+
+
+
+                        </div>
+                        <ons-page>
+                </template>
+
+                <template id="personalDetails.html">
+                    <ons-page>
+
+                        <ons-toolbar>
+
+                            <div class="left">
+
+                                <ons-back-button>Personal Details</ons-back-button>
+
+                            </div>
+
+                            <div class="center"></div>
+
+                        </ons-toolbar>
+                        <div class="content" style="padding:5%">
+
+                            <label class="center" style="width:100%;margin-top:5%">
+
+                                <ons-input id="Ons-input2" float maxlength="20" style="width:100%" ng-model="page.name" placeholder="Name"></ons-input>
+
+                            </label>
+
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input3" float style="width:100%" ng-model="page.email" placeholder="email"></ons-input>
+
+                            </label>
+
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input4" float maxlength="20" style="width:100%" ng-model="page.password" type="password" placeholder="Password"></ons-input>
+
+                            </label>
+
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input5" float maxlength="20" style="width:100%" ng-model="page.repPassword" type="password" placeholder="Repeat password"></ons-input>
+
+                            </label>
+
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input6" float maxlength="20" style="width:100%" ng-model="page.username" placeholder="Phone number"></ons-input>
+
+                            </label>
+
+
+
+                            <ons-button modifier="large" class="button-margin" style="margin-top:10%" ng-click="page.register()">Register</ons-button>
+
+                        </div>
+                        <ons-page>
+                </template>
+
+
+
+                <template id="postPicture.html">
+                    <ons-page id="postPicture">
+
+                        </ons-tab>
+                </template>
+
+                <template id="postDoc.html">
+                    <ons-page id="postDoc">
+                        </ons-tab>
+                </template>
+
+                <template id="forms.html">
+
+                    <ons-page id="forms">
+
+                        <ons-tabbar swipeable position="auto">
+
+                            <ons-tab page="postText.html" label="Text" active>
+
+                            </ons-tab>
+
+                            <ons-tab page="postPicture.html" label="Picture">
+
+                            </ons-tab>
+
+                            <ons-tab page="postDoc.html" label="Document">
+
+                            </ons-tab>
+
+                        </ons-tabbar>
+
+                    </ons-page>
+
+                </template>
+
+                <template id="home.html">
+
+                    <ons-page>
+                        <script>
+                            $(".loader").show();
+                            db.ref("demoTest").on('value', function (snapshot) {
+                                var testsTillNow = snapshot.val();
+                                //entire code here
+
+                                var testIDs = Object.keys(testsTillNow);
+
+                                var scores = [];
+
+                                testIDs.forEach(function (id) {
+                                    scores.push(Math.round(parseFloat(testsTillNow[id].result)));
+                                })
+
+                                var topScore = Math.max(...scores);
+
+                                var gaugeOptions = {
+
+                                    chart: {
+                                        type: 'solidgauge'
+                                    },
+
+                                    title: null,
+
+                                    pane: {
+                                        center: ['50%', '85%'],
+                                        size: '140%',
+                                        startAngle: -90,
+                                        endAngle: 90,
+                                        background: {
+                                            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                                            innerRadius: '60%',
+                                            outerRadius: '100%',
+                                            shape: 'arc'
+                                        }
+                                    },
+
+                                    tooltip: {
+                                        enabled: false
+                                    },
+
+                                    // the value axis
+                                    yAxis: {
+                                        stops: [
+                                            [0.1, '#55BF3B'], // green
+                                            [0.5, '#DDDF0D'], // yellow
+                                            [0.9, '#DF5353'] // red
+                                        ],
+                                        lineWidth: 0,
+                                        minorTickInterval: null,
+                                        tickAmount: 2,
+                                        title: {
+                                            y: -70
+                                        },
+                                        labels: {
+                                            y: 16
+                                        }
+                                    },
+
+                                    plotOptions: {
+                                        solidgauge: {
+                                            dataLabels: {
+                                                y: 5,
+                                                borderWidth: 0,
+                                                useHTML: true
+                                            }
+                                        }
+                                    }
+                                };
+
+                                var chartRpm = Highcharts.chart('containerTopScore', Highcharts.merge(gaugeOptions, {
+                                    yAxis: {
+                                        min: 0,
+                                        max: 100,
+                                        title: {
+                                            text: 'Your Top Score'
+                                        }
+                                    },
+
+                                    series: [{
+                                        name: 'RPM',
+                                        data: [topScore],
+                                        dataLabels: {
+                                            format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                                                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.1f}</span><br/>' +
+                                                '<span style="font-size:12px;color:silver">%'
+                                        },
+                                        tooltip: {
+                                            valueSuffix: ' revolutions/min'
+                                        }
+                                    }]
+
+                                }));
+
+                                Highcharts.chart('containerScore', {
+
+                                    title: {
+                                        text: 'Test Score History. Tap on points to revise.'
+                                    },
+
+                                    xAxis: {
+                                        categories: testIDs,
+                                        labels:
+                                        {
+                                            enabled: false
+                                        }
+                                    },
+
+                                    yAxis: {
+                                        title: {
+                                            text: 'Scores'
+                                        }
+                                    },
+                                    legend: {
+                                        layout: 'vertical',
+                                        align: 'right',
+                                        verticalAlign: 'middle'
+                                    },
+
+                                    plotOptions: {
+                                        series: {
+                                            label: {
+                                                connectorAllowed: false
+                                            },
+
+                                            point: {
+                                                events: {
+                                                    click: function () {
+
+                                                        //alert('Category: ' + this.category + ', value: ' + this.y);
+                                                        var testID = this.category;
+                                                        db.ref("demoTest/" + testID).on('value', function (snapshot) {
+                                                            var dbObj = snapshot.val();
+                                                            //console.log(dbObj);
+
+                                                            localStorage.setItem("testScore", dbObj.result);
+                                                            localStorage.setItem("correctAnswers", dbObj.right);
+                                                            localStorage.setItem("wrongAnswers", dbObj.wrong);
+
+                                                            pushPage({ 'id': 'reviseTest.html', 'title': 'Medicine' })
+                                                        });
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+
+                                    series: [{
+
+                                        data: scores
+                                    }],
+
+                                    responsive: {
+                                        rules: [{
+                                            condition: {
+                                                maxWidth: 500
+                                            },
+                                            chartOptions: {
+                                                legend: {
+                                                    layout: 'horizontal',
+                                                    align: 'center',
+                                                    verticalAlign: 'bottom'
+                                                }
+                                            }
+                                        }]
+                                    }
+
+                                });
+
+                                $(".loader").hide();
+
+                            });
+
+
+
+                        </script>
+                        <div id="containerTopScore" style="height:35%;width:100%"> </div>
+                        <div id="containerScore" style="height:65%;width:100%"> </div>
+                    </ons-page>
+                </template>
+                <template id="newsFeed.html">
+
+                    <ons-page>
+
+
+
+                        <ons-card>
+
+                            <div class="title">Saqib Raza</div>
+
+                            <div class="content">Took full test with 72%. Improved by 18%</div>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Farhan Raza</div>
+
+                            <div class="content">shared link for Anatomy tutorial :<a href="http://google.com/"></a></div>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Saqib Raza</div>
+
+                            <div class="content">posted a picture</div>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Saqib Raza</div>
+
+                            <div class="content">took Anatomy test and scored 85%.</div>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Saqib Raza</div>
+
+                            <div class="content">posted a picture</div>
+
+                        </ons-card>
+
+
+
+                        <style>
+
+                            .intro {
+                                text-align: center;
+                                padding: 0 20px;
+                                margin-top: 40px;
+                            }
+
+                            ons-card {
+                                cursor: pointer;
+                                color: #333;
+                            }
+
+                            .card__title,
+                            .card--material__title {
+                                font-size: 20px;
+                            }
+                        </style>
+
+                    </ons-page>
+
+                </template>
+
+                <template id="testSubject.html">
+
+                    <ons-page>
+
+
+
+                        <!-- <ons-card >
+
+               <div class="title">Full Neet Test</div>
+
+               <div class="content">There are 300 questions and time alloted is 3 hours.</div>
+
+               <ons-button style="margin-top:5%" modifier="cta" class="button-margin">Start</ons-button>
+
+            </ons-card>-->
+
+                        <ons-card>
+
+                            <div class="title">Medicine</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" onclick="pushPage({'id': 'takeTest.html', 'title': 'Medicine'})">Start</ons-button>
+
+                        </ons-card>
+
+
+
+                        <style>
+
+                            .intro {
+                                text-align: center;
+                                padding: 0 20px;
+                                margin-top: 40px;
+                            }
+
+                            ons-card {
+                                cursor: pointer;
+                                color: #333;
+                            }
+
+                            .card__title,
+                            .card--material__title {
+                                font-size: 20px;
+                            }
+                        </style>
+
+                    </ons-page>
+
+                </template>
+
+                <template id="someMenu.html">
+                    asass
+                </template>
+
+                <template id="action-sheet.html">
+                    <ons-action-sheet id="sheet" cancelable title="From template">
+                        <ons-action-sheet-button onclick="navToQues()" ng-repeat="item in questionArray">{{'Question '+item.id}}</ons-action-sheet-button>
+
+                    </ons-action-sheet>
+                </template>
+
+                <template id="reviseTest.html">
+
+                    <ons-page>
+
+                        <ons-toolbar>
+
+                            <div class="left">
+
+                                <ons-back-button>Home</ons-back-button>
+
+                            </div>
+
+
+
+                        </ons-toolbar>
+
+
+                        <div class="center">
+                            <ons-card style="height:20%">
+
+                                <p id="scoreDiv" style="margin-top:5%;font-size:18px"></p>
+
+                            </ons-card>
+
+                            <ons-card style="height:20%" ng-click="showCorrectAnswers()">
+
+
+                                <p id="correctDiv" style="margin-top:5%;font-size:18px"></p>
+
+
+                                <div id="correctArray" style="display:none">
+
+                                </div>
+                            </ons-card>
+
+                            <ons-card style="height:20%" ng-click="showWrongAnswers()">
+
+
+                                <p id="WrongDiv" style="margin-top:5%;font-size:18px"></p>
+
+                                <div id="wrongArray" style="display:none">
+
+                                </div>
+                            </ons-card>
+
+                        </div>
+                        <script>
+                            document.getElementById("scoreDiv").innerHTML = '<b>Test Score: ' + Math.round(parseFloat(localStorage.getItem("testScore"))) + '%</b>';
+                            document.getElementById("correctDiv").innerHTML = '<b>Correct Answers: ' + localStorage.getItem("correctAnswers").split(",").length + '</b>';
+                            document.getElementById("WrongDiv").innerHTML = '<b>Wrong Answers: ' + localStorage.getItem("wrongAnswers").split(",").length + '</b>';
+                            document.getElementById("correctArray").innerHTML = localStorage.getItem("correctAnswers")
+                            document.getElementById("wrongArray").innerHTML = localStorage.getItem("wrongAnswers");
+                        </script>
+                    </ons-page>
+                </template>
+                <template id="reviseTestDetail.html">
+
+                    <ons-page>
+
+                        <ons-toolbar>
+
+                            <div class="left">
+
+                                <ons-back-button>Home</ons-back-button>
+
+                            </div>
+
+
+
+                        </ons-toolbar>
+
+
+                        <div class="center">
+                            <ons-card style="height:20%;" id="clicker" ng-click="refreshClicker()">
+
+                                <p style="margin-top:5%;font-size:18px">
+                                    <b>Tap to see results</b>
+                                </p>
+
+
+                            </ons-card>
+                            <ons-card style="height:20%" ng-repeat="q in detailQuestions">
+
+                                <p style="margin-top:5%;font-size:12px">
+                                    <b>{{q.qus}}</b>
+                                </p>
+
+                                <p style="margin-top:5%;font-size:12px">
+                                    <b>Answer: {{q.ans}}</b>
+                                </p>
+
+                            </ons-card>
+
+
+
+                        </div>
+
+                    </ons-page>
+                </template>
+                <template id="startTheTest.html">
+
+                    <ons-page>
+
+                        <ons-toolbar>
+
+                            <div class="left">
+
+                                <ons-back-button>Home</ons-back-button>
+
+                            </div>
+                            <div class="right">
+                                <p id="testTimer" style="padding:15%;font-size:18px"></p>
+                            </div>
+
+
+                        </ons-toolbar>
+
+                        <ons-card style="height:20%;" id="clicker_test" ng-click="beginMedTest()">
+
+                            <p style="margin-top:5%;font-size:18px">
+                                <b>Tap to start test</b>
+                            </p>
+
+
+                        </ons-card>
+
+                        <div id="testArea" style="height:100%">
+                            <ons-carousel id="carousel" fullscreen swipeable auto-scroll overscrollable initial-index="0" style="height:90%">
+
+
+
+                                <ons-carousel-item class="carousel-item" style="background-color:white" ng-repeat="item in questionArray">
+
+                                    <ons-card style="height:100%;width:100%">
+
+                                        <p><b>{{item.qus}}</b></p>
+
+                                        <ons-list>
+
+                                            <ons-list-item tappable>
+
+                                                <label class="left">
+
+                                                    <ons-radio class="radio-fruit" input-id="{{item.qusid + '_' + option + '_' + $index }}" ng-model="page.answer[$index]" value="{{item.qusid + '_'  + item.optionA}}" ng-click="selectAnswer(this)"></ons-radio>
+
+                                                </label>
+
+                                                <label for="{{item.qusid + '_' + option + '_' + $index }}" class="center">{{item.optionA}}</label>
+
+                                            </ons-list-item>
+
+                                            <ons-list-item tappable>
+
+                                                <label class="left">
+
+                                                    <ons-radio class="radio-fruit" input-id="{{item.qusid + '_' + option + '_' + $index }}" ng-model="page.answer[$index]" value="{{item.qusid +  '_' + item.optionB}}" ng-click="selectAnswer(this)"></ons-radio>
+
+                                                </label>
+
+                                                <label for="{{item.qusid + '_' + option + '_' + $index }}" class="center">{{item.optionB}}</label>
+
+                                            </ons-list-item>
+
+                                            <ons-list-item tappable>
+
+                                                <label class="left">
+
+                                                    <ons-radio class="radio-fruit" input-id="{{item.qusid + '_' + option + '_' + $index }}" ng-model="page.answer[$index]" value="{{item.qusid +  '_' + item.optionC}}" ng-click="selectAnswer(this)"></ons-radio>
+
+                                                </label>
+
+                                                <label for="{{item.qusid + '_' + option + '_' + $index }}" class="center">{{item.optionC}}</label>
+
+                                            </ons-list-item>
+
+                                            <ons-list-item tappable>
+
+                                                <label class="left">
+
+                                                    <ons-radio class="radio-fruit" input-id="{{item.qusid + '_' + option + '_' + $index }}" ng-model="page.answer[$index]" value="{{item.qusid  + '_' + item.optionD}}" ng-click="selectAnswer(this)"></ons-radio>
+
+                                                </label>
+
+                                                <label for="{{item.qusid + '_' + option + '_' + $index }}" class="center">{{item.optionD}}</label>
+
+                                            </ons-list-item>
+
+
+
+                                        </ons-list>
+
+                                    </ons-card>
+
+                                </ons-carousel-item>
+
+
+
+                            </ons-carousel>
+
+                            <div style="height:10%;width:100%;padding:2%">
+
+                                <ons-button style="width:45%" modifier="cta" class="button-margin" onclick="swipePrev(this)">Previous</ons-button>
+
+
+
+                                <ons-button id="btnNext" style="width:45%;float:right" modifier="cta" class="button-margin" onclick="swipeNext(this)">Next</ons-button>
+                                <ons-button id="btnSubmit" style="width:45%;float:right;display:none" modifier="cta" class="button-margin" ng-click="submitTest()">Submit</ons-button>
+                            </div>
+
+
+
+
+
+                            <ons-fab position="bottom right" style="bottom:10%;margin-bottom:5%;background: #2979ff;" ng-click="showQNav()">
+                                <ons-icon icon="md-flag" style="color:white"></ons-icon>
+                            </ons-fab>
+
+                        </div>
+
+                        <div id="resultArea" style="display:none;
+                                                    padding: 5%;
+                                                    font-size: 20px;
+                                                ">
+                            <span style="font-size: 20px;"><b>Text Result</b></span>
+                            <p style="font-size: 20px;margin-top:5%"><span><b>Score:</b></span><span id="scoreContainer"></span></p>
+                            <p style="font-size: 20px"><span><b>Correct Answers(Tap to view):</b></span><span id="rightContainer"></span></p>
+                            <p style="font-size: 20px"><span><b>Incorrect Answers(Tap to view):</b></span><span id="wrongContainer"></span></p>
+                        </div>
+
+                        <script>
+
+                            ons.getScriptPage().onInit = function () {
+
+                                this.querySelector('ons-toolbar div.center').textContent = this.data.title;
+
+                                const carousel = document.getElementById('carousel');
+
+                                carousel.addEventListener('postchange', function () {
+
+                                    var index = carousel.getActiveIndex();
+
+                                    const dots = document.querySelectorAll('.dot');
+
+                                    for (dot of dots) {
+
+                                        dot.innerHTML = dot.id === 'dot' + index ? '&#9679;' : '&#9675;';
+
+                                    }
+
+                                });
+
+                                window.fn.swipe = function (target) {
+
+                                    carousel.setActiveIndex(Number(target.id.slice(-1)));
+
+                                }
+
+                            }
+
+                        </script>
+
+                        <style>
+
+                            .carousel-item {
+                                display: flex;
+                                justify-content: space-around;
+                                align-items: center;
+                            }
+
+                            .color-tag {
+                                color: #fff;
+                                font-size: 48px;
+                                font-weight: bold;
+                                text-transform: uppercase;
+                            }
+
+                            .dots {
+                                text-align: center;
+                                font-size: 30px;
+                                color: #fff;
+                                position: absolute;
+                                bottom: 40px;
+                                left: 0;
+                                right: 0;
+                            }
+
+                                .dots > span {
+                                    cursor: pointer;
+                                }
+                        </style>
+
+
+
+
+
+                    </ons-page>
+                    </template>
+                            <template id="takeTest.html">
+
+                                <ons-page>
+
+                                    <ons-toolbar>
+
+                                        <div class="left">
+
+                                            <ons-back-button>Home</ons-back-button>
+
+                                        </div>
+
+
+
+                                    </ons-toolbar>
+                                    <div class="center" id="startArea">
+                                        <ons-card style="height:100%">
+
+                                            <p><b>There are 50 questions and time alloted is 60 mins.</b></p>
+
+                                            <p><b>1. You Can pause the as many times as you want.</b></p>
+
+                                            <p><b>2. Do not worry if you get disconnected during the test.</b></p>
+
+                                            <p><b>3. Make sure you have active internet connection while submitting the test.</b></p>
+
+                                            <p><b>4. You Cannot take this test if you have already paused a test.</b></p>
+                                            <div style="height:10%;width:100%;padding:2%">
+
+                                                <ons-button style="width:45%" modifier="cta" class="button-margin" ng-click="startMedicineTest()">Start test</ons-button>
+
+
+
+                                            </div>
+
+
+
+                                        </ons-card>
+
+                                    </div>
+
+                                   
+                                </ons-page>
+                            </template>
+
+
+
+                            <template id="testContainer.html">
+
+                                <ons-page>
+
+                                    <ons-toolbar>
+
+                                        <div class="left">
+
+                                            <ons-back-button>Home</ons-back-button>
+
+                                        </div>
+
+                                        <div class="center"></div>
+
+                                    </ons-toolbar>
+
+
+
+                                </ons-page>
+
+                            </template>
+
+
+
+                        </div>
+
+            </div>
+
+      </div>
+
+   </body>
+
+</html>
+
