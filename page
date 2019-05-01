@@ -337,6 +337,7 @@
                 <template id="accountConatiner.html">
 
                     <ons-page id="Tab1">
+
                         <div id="notLogged">
                             <ons-tabbar swipeable position="auto">
 
@@ -350,35 +351,63 @@
                             </ons-tabbar>
                         </div>
 
-                        <div id="logedIn" style="display:none;padding:5%">
+                        <div id="logedIn" style="padding:5%">
 
-                            <div>
-                                <ons-card onclick="pushPage({'id': 'subscription.html', 'title': 'Subscription Details'})">
+                            <div style="width:100%">
+                                <div style="width:50%;float:left">
+                                    <ons-card ng-click="showSubcription()">
 
-                                    <div class="content">Subscription</div>
+                                        <div class="title">Subscription</div>
 
-                                </ons-card>
-                            </div>
-                            <div onclick="pushPage({'id': 'personalDetails.html', 'title': 'Personal Details'})">
-                                <ons-card>
+                                    </ons-card>
+                                </div>
+                                <div style="width:50%;float:right" ng-click="personalDetails()">
+                                    <ons-card>
 
-                                    <div class="content">Personal Details</div>
+                                        <div class="title">User info</div>
 
-                                </ons-card>
-                            </div>
-                            <div>
-                                <ons-card>
+                                    </ons-card>
+                                </div>
 
-                                    <div class="content">Something</div>
-
-                                </ons-card>
                             </div>
 
-                            <ons-button modifier="large" class="button-margin" style="margin-top:10%" ng-click="page.logout()">Logout</ons-button>
-                            <div>
+                            <div style="width:100%">
 
+                                <div style="width:100%;float:right" ng-click="openCueCards()">
+                                    <ons-card>
+
+                                        <div class="title">Cue Cards</div>
+                                        <div class="content">Revise Wrongly attempted questions.</div>
+                                    </ons-card>
+                                </div>
+
+                            </div>
+
+                            <ons-button modifier="large" class="button-margin" style="margin-top:5%" ng-click="page.logout()">Logout</ons-button>
+                        </div>
+
+
+
+
+
+                        <script>
+                            var userID = localStorage.getItem("userID");
+
+                            if (userID != null) {
+                                //$("#logedin").show();
+                                setTimeout(function () {
+                                    document.getElementById("logedIn").style.display = "block";
+                                    document.getElementById("notLogged").style.display = "none";
+                                    //$("#notlogged").hide();
+                                    $(".loader").hide();
+                                }, 1000)
+
+                            }
+                        </script>
 
                     </ons-page>
+
+
 
                 </template>
 
@@ -390,7 +419,7 @@
 
                             <label class="center" style="width:100%;margin-top:5%">
 
-                                <ons-input id="name-input" float maxlength="20" style="width:100%" ng-model="page.username" placeholder="Name"></ons-input>
+                                <ons-input id="name-input" float maxlength="20" style="width:100%" ng-model="page.username" placeholder="Phone Number(Do not add +91)"></ons-input>
 
                             </label>
 
@@ -454,86 +483,199 @@
 
                 </template>
 
+                <template id="subscription.html">
+
+                    <ons-page id="sub">
+                        <ons-toolbar>
+
+                            <div class="left">
+
+                                <ons-back-button>Subcription</ons-back-button>
+
+                            </div>
+
+                            <div class="center"></div>
+
+                        </ons-toolbar>
+
+                        <div class="content" style="padding:5%">
+                            <ons-card>
+
+                                <label class="center" style="width:100%;margin-top:5%">
+
+                                    <ons-input id="codeInput" float maxlength="20" style="width:100%" ng-disabled="disableTest" ng-model="verificationCode" placeholder="Subscription Code"></ons-input>
+
+                                </label>
+
+
+
+                                <ons-button modifier="large" id="btnSubscribe" ng-disabled="disableTest" style="margin-top:5%" class="button-margin" ng-click="page.subscribe()">{{btnText}}</ons-button>
+                            </ons-card>
+                        </div>
+
+                    </ons-page>
+
+                </template>
+
+                <template id="cuecards.html">
+
+                    <ons-page id="subcue">
+                        <ons-toolbar>
+
+                            <div class="left">
+
+                                <ons-back-button>Cue Cards</ons-back-button>
+
+                            </div>
+
+                            <div class="center"></div>
+
+                        </ons-toolbar>
+
+                        <div class="content">
+                            <ons-carousel id="carouselCueCard" fullscreen swipeable auto-scroll overscrollable initial-index="0" style="height:90%">
+
+
+
+                                <ons-carousel-item class="carousel-item" style="background-color:white" ng-repeat="item in cueCardArray">
+
+                                    <ons-card style="height:100%;width:100%">
+                                        <p><b>Question:</b></p>
+                                        <p><b>{{item.qus}}</b></p>
+                                        <p><b>Answer:</b></p>
+                                        <p><b>{{item.ans}}</b></p>
+
+                                    </ons-card>
+
+                                </ons-carousel-item>
+
+
+
+                            </ons-carousel>
+                            <div><p style="margin:4%"><b>Swipe Left and Right to navigate</b></p></div>
+                        </div>
+
+                        <script>
+
+                            ons.getScriptPage().onInit = function () {
+
+                                this.querySelector('ons-toolbar div.center').textContent = this.data.title;
+
+                                const carouselCueCard = document.getElementById('carouselCueCard');
+
+                                carouselCueCard.addEventListener('postchange', function () {
+
+                                    var index = carouselCueCard.getActiveIndex();
+
+                                    const dots = document.querySelectorAll('.dot');
+
+                                    for (dot of dots) {
+
+                                        dot.innerHTML = dot.id === 'dot' + index ? '&#9679;' : '&#9675;';
+
+                                    }
+
+                                });
+
+                                window.fn.swipe = function (target) {
+
+                                    carouselCueCard.setActiveIndex(Number(target.id.slice(-1)));
+
+                                }
+
+                            }
+
+                        </script>
+
+                        <style>
+
+                            .carousel-item {
+                                display: flex;
+                                justify-content: space-around;
+                                align-items: center;
+                            }
+
+                            .color-tag {
+                                color: #fff;
+                                font-size: 48px;
+                                font-weight: bold;
+                                text-transform: uppercase;
+                            }
+
+                            .dots {
+                                text-align: center;
+                                font-size: 30px;
+                                color: #fff;
+                                position: absolute;
+                                bottom: 40px;
+                                left: 0;
+                                right: 0;
+                            }
+
+                                .dots > span {
+                                    cursor: pointer;
+                                }
+                        </style>
+
+                    </ons-page>
+
+                </template>
+
+                <template id="personalDetails.html">
+
+                    <ons-page id="subPersonal">
+                        <ons-toolbar>
+
+                            <div class="left">
+
+                                <ons-back-button>Subcription</ons-back-button>
+
+                            </div>
+
+                            <div class="center"></div>
+
+                        </ons-toolbar>
+
+                        <div class="content" style="padding:5%">
+
+                            <ons-card>
+
+                                <div class="title">Name</div>
+
+                                <div class="content">{{fullName}}</div>
+
+                            </ons-card>
+
+                            <ons-card>
+
+                                <div class="title">Email</div>
+
+                                <div class="content">{{email}}</div>
+
+                            </ons-card>
+
+                            <ons-card>
+
+                                <div class="title">Phone Number</div>
+
+                                <div class="content">{{blckPhone}}</div>
+
+                            </ons-card>
+
+                        </div>
+
+                    </ons-page>
+
+                </template>
+
                 <template id="postText.html">
                     <ons-page id="postText">
                         </ons-tab>
                 </template>
 
-                <template id="subscription.html">
-                    <ons-page>
-
-                        <ons-toolbar>
-
-                            <div class="left">
-
-                                <ons-back-button>Account</ons-back-button>
-
-                            </div>
-
-                            <div class="center"></div>
-
-                        </ons-toolbar>
-                        <div style="height:100%;width:100%;padding:2%">
 
 
 
-                        </div>
-                        <ons-page>
-                </template>
-
-                <template id="personalDetails.html">
-                    <ons-page>
-
-                        <ons-toolbar>
-
-                            <div class="left">
-
-                                <ons-back-button>Personal Details</ons-back-button>
-
-                            </div>
-
-                            <div class="center"></div>
-
-                        </ons-toolbar>
-                        <div class="content" style="padding:5%">
-
-                            <label class="center" style="width:100%;margin-top:5%">
-
-                                <ons-input id="Ons-input2" float maxlength="20" style="width:100%" ng-model="page.name" placeholder="Name"></ons-input>
-
-                            </label>
-
-                            <label class="center" style="width:100%;margin-top:10%">
-
-                                <ons-input id="Ons-input3" float style="width:100%" ng-model="page.email" placeholder="email"></ons-input>
-
-                            </label>
-
-                            <label class="center" style="width:100%;margin-top:10%">
-
-                                <ons-input id="Ons-input4" float maxlength="20" style="width:100%" ng-model="page.password" type="password" placeholder="Password"></ons-input>
-
-                            </label>
-
-                            <label class="center" style="width:100%;margin-top:10%">
-
-                                <ons-input id="Ons-input5" float maxlength="20" style="width:100%" ng-model="page.repPassword" type="password" placeholder="Repeat password"></ons-input>
-
-                            </label>
-
-                            <label class="center" style="width:100%;margin-top:10%">
-
-                                <ons-input id="Ons-input6" float maxlength="20" style="width:100%" ng-model="page.username" placeholder="Phone number"></ons-input>
-
-                            </label>
-
-
-
-                            <ons-button modifier="large" class="button-margin" style="margin-top:10%" ng-click="page.register()">Register</ons-button>
-
-                        </div>
-                        <ons-page>
-                </template>
 
 
 
@@ -577,176 +719,191 @@
                     <ons-page>
                         <script>
                             $(".loader").show();
-                            db.ref("demoTest").on('value', function (snapshot) {
-                                var testsTillNow = snapshot.val();
-                                //entire code here
 
-                                var testIDs = Object.keys(testsTillNow);
+                            var userID = localStorage.getItem("userID");
+                            if (userID != null) {
+                                $("#logedIn").show();
+                                $("#notLogged").hide();
+                                db.ref("users/" + userID).on('value', function (snapshot) {
 
-                                var scores = [];
+                                    var testsTillNow = snapshot.val().tests;
+                                    //entire code here
+                                    localStorage.setItem("Validator", snapshot.val().subscription.code);
+                                    localStorage.setItem("fullName", snapshot.val().name);
+                                    localStorage.setItem("email", snapshot.val().email);
+                                    localStorage.setItem("testsObj", JSON.stringify(snapshot.val().tests));
+                                    var testIDs = Object.keys(testsTillNow);
 
-                                testIDs.forEach(function (id) {
-                                    scores.push(Math.round(parseFloat(testsTillNow[id].result)));
-                                })
+                                    var scores = [];
 
-                                var topScore = Math.max(...scores);
+                                    testIDs.forEach(function (id) {
+                                        scores.push(Math.round(parseFloat(testsTillNow[id].result)));
+                                    })
 
-                                var gaugeOptions = {
+                                    var topScore = Math.max(...scores);
 
-                                    chart: {
-                                        type: 'solidgauge'
-                                    },
+                                    var gaugeOptions = {
 
-                                    title: null,
-
-                                    pane: {
-                                        center: ['50%', '85%'],
-                                        size: '140%',
-                                        startAngle: -90,
-                                        endAngle: 90,
-                                        background: {
-                                            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
-                                            innerRadius: '60%',
-                                            outerRadius: '100%',
-                                            shape: 'arc'
-                                        }
-                                    },
-
-                                    tooltip: {
-                                        enabled: false
-                                    },
-
-                                    // the value axis
-                                    yAxis: {
-                                        stops: [
-                                            [0.1, '#55BF3B'], // green
-                                            [0.5, '#DDDF0D'], // yellow
-                                            [0.9, '#DF5353'] // red
-                                        ],
-                                        lineWidth: 0,
-                                        minorTickInterval: null,
-                                        tickAmount: 2,
-                                        title: {
-                                            y: -70
+                                        chart: {
+                                            type: 'solidgauge'
                                         },
-                                        labels: {
-                                            y: 16
-                                        }
-                                    },
 
-                                    plotOptions: {
-                                        solidgauge: {
-                                            dataLabels: {
-                                                y: 5,
-                                                borderWidth: 0,
-                                                useHTML: true
+                                        title: null,
+
+                                        pane: {
+                                            center: ['50%', '85%'],
+                                            size: '140%',
+                                            startAngle: -90,
+                                            endAngle: 90,
+                                            background: {
+                                                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                                                innerRadius: '60%',
+                                                outerRadius: '100%',
+                                                shape: 'arc'
+                                            }
+                                        },
+
+                                        tooltip: {
+                                            enabled: false
+                                        },
+
+                                        // the value axis
+                                        yAxis: {
+                                            stops: [
+                                                [0.1, '#55BF3B'], // green
+                                                [0.5, '#DDDF0D'], // yellow
+                                                [0.9, '#DF5353'] // red
+                                            ],
+                                            lineWidth: 0,
+                                            minorTickInterval: null,
+                                            tickAmount: 2,
+                                            title: {
+                                                y: -70
+                                            },
+                                            labels: {
+                                                y: 16
+                                            }
+                                        },
+
+                                        plotOptions: {
+                                            solidgauge: {
+                                                dataLabels: {
+                                                    y: 5,
+                                                    borderWidth: 0,
+                                                    useHTML: true
+                                                }
                                             }
                                         }
-                                    }
-                                };
+                                    };
 
-                                var chartRpm = Highcharts.chart('containerTopScore', Highcharts.merge(gaugeOptions, {
-                                    yAxis: {
-                                        min: 0,
-                                        max: 100,
-                                        title: {
-                                            text: 'Your Top Score'
-                                        }
-                                    },
-
-                                    series: [{
-                                        name: 'RPM',
-                                        data: [topScore],
-                                        dataLabels: {
-                                            format: '<div style="text-align:center"><span style="font-size:25px;color:' +
-                                                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.1f}</span><br/>' +
-                                                '<span style="font-size:12px;color:silver">%'
+                                    var chartRpm = Highcharts.chart('containerTopScore', Highcharts.merge(gaugeOptions, {
+                                        yAxis: {
+                                            min: 0,
+                                            max: 100,
+                                            title: {
+                                                text: 'Your Top Score'
+                                            }
                                         },
-                                        tooltip: {
-                                            valueSuffix: ' revolutions/min'
-                                        }
-                                    }]
 
-                                }));
-
-                                Highcharts.chart('containerScore', {
-
-                                    title: {
-                                        text: 'Test Score History. Tap on points to revise.'
-                                    },
-
-                                    xAxis: {
-                                        categories: testIDs,
-                                        labels:
-                                        {
-                                            enabled: false
-                                        }
-                                    },
-
-                                    yAxis: {
-                                        title: {
-                                            text: 'Scores'
-                                        }
-                                    },
-                                    legend: {
-                                        layout: 'vertical',
-                                        align: 'right',
-                                        verticalAlign: 'middle'
-                                    },
-
-                                    plotOptions: {
-                                        series: {
-                                            label: {
-                                                connectorAllowed: false
+                                        series: [{
+                                            name: 'RPM',
+                                            data: [topScore],
+                                            dataLabels: {
+                                                format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                                                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.1f}</span><br/>' +
+                                                    '<span style="font-size:12px;color:silver">%'
                                             },
+                                            tooltip: {
+                                                valueSuffix: ' revolutions/min'
+                                            }
+                                        }]
 
-                                            point: {
-                                                events: {
-                                                    click: function () {
+                                    }));
 
-                                                        //alert('Category: ' + this.category + ', value: ' + this.y);
-                                                        var testID = this.category;
-                                                        db.ref("demoTest/" + testID).on('value', function (snapshot) {
-                                                            var dbObj = snapshot.val();
-                                                            //console.log(dbObj);
+                                    Highcharts.chart('containerScore', {
 
-                                                            localStorage.setItem("testScore", dbObj.result);
-                                                            localStorage.setItem("correctAnswers", dbObj.right);
-                                                            localStorage.setItem("wrongAnswers", dbObj.wrong);
+                                        title: {
+                                            text: 'Test Score History. Tap on points to revise.'
+                                        },
 
-                                                            pushPage({ 'id': 'reviseTest.html', 'title': 'Medicine' })
-                                                        });
+                                        xAxis: {
+                                            categories: testIDs,
+                                            labels:
+                                            {
+                                                enabled: false
+                                            }
+                                        },
+
+                                        yAxis: {
+                                            title: {
+                                                text: 'Scores'
+                                            }
+                                        },
+                                        legend: {
+                                            layout: 'vertical',
+                                            align: 'right',
+                                            verticalAlign: 'middle'
+                                        },
+
+                                        plotOptions: {
+                                            series: {
+                                                label: {
+                                                    connectorAllowed: false
+                                                },
+
+                                                point: {
+                                                    events: {
+                                                        click: function () {
+
+                                                            //alert('Category: ' + this.category + ', value: ' + this.y);
+                                                            var testID = this.category;
+                                                            db.ref("demoTest/" + testID).on('value', function (snapshot) {
+                                                                var dbObj = snapshot.val();
+                                                                //console.log(dbObj);
+
+                                                                localStorage.setItem("testScore", dbObj.result);
+                                                                localStorage.setItem("correctAnswers", dbObj.right);
+                                                                localStorage.setItem("wrongAnswers", dbObj.wrong);
+
+                                                                pushPage({ 'id': 'reviseTest.html', 'title': 'Medicine' })
+                                                            });
+                                                        }
                                                     }
                                                 }
                                             }
-                                        }
-                                    },
+                                        },
 
-                                    series: [{
+                                        series: [{
 
-                                        data: scores
-                                    }],
+                                            data: scores
+                                        }],
 
-                                    responsive: {
-                                        rules: [{
-                                            condition: {
-                                                maxWidth: 500
-                                            },
-                                            chartOptions: {
-                                                legend: {
-                                                    layout: 'horizontal',
-                                                    align: 'center',
-                                                    verticalAlign: 'bottom'
+                                        responsive: {
+                                            rules: [{
+                                                condition: {
+                                                    maxWidth: 500
+                                                },
+                                                chartOptions: {
+                                                    legend: {
+                                                        layout: 'horizontal',
+                                                        align: 'center',
+                                                        verticalAlign: 'bottom'
+                                                    }
                                                 }
-                                            }
-                                        }]
-                                    }
+                                            }]
+                                        }
+
+                                    });
+
+                                    $(".loader").hide();
 
                                 });
-
+                            }
+                            else {
+                                var html = '<p style="padding: 25%;font-size: 18px;font-weight: bold;"> Please Login to see  Your Learning Analytics</p>';
+                                document.getElementById("containerTopScore").innerHTML = html;
                                 $(".loader").hide();
-
-                            });
+                            }
 
 
 
@@ -841,17 +998,205 @@
                <ons-button style="margin-top:5%" modifier="cta" class="button-margin">Start</ons-button>
 
             </ons-card>-->
+                        <ons-card>
 
+                            <div class="title">Full Neet Test</div>
+
+                            <div class="content">There are 300 questions and time alloted is 3 hours 30 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('full','Full Neet Test')">Start</ons-button>
+
+                        </ons-card>
                         <ons-card>
 
                             <div class="title">Medicine</div>
 
                             <div class="content">There are 50 questions and time alloted is 60 mins.</div>
 
-                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" onclick="pushPage({'id': 'takeTest.html', 'title': 'Medicine'})">Start</ons-button>
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('11','Medicine')">Start</ons-button>
 
                         </ons-card>
 
+                        <ons-card>
+
+                            <div class="title">Surgery</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('12','Surgery')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Gynecology</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('13','Gynecology')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Orthopedicts</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('14','Orthopedicts')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Paediatrics</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('15','Paediatrics')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">ENT</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('16','ENT')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Opthamology</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('17','Opthamology')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Skin VD</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('18','Skin VD')">Start</ons-button>
+
+                        </ons-card>
+
+
+                        <ons-card>
+
+                            <div class="title">Anaesthesia</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('19','Anaesthesia')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Radiology</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('20','Radiology')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Psycharity</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('21','Psycharity')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">SPM</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('22','SPM')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Pathiology</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('23','Pathiology')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Forensic Medicine</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('24','Forensic Medicine')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Pharmacology</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('25','Pharmacology')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Microbiology</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('26','Microbiology')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Bio Chemistry</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('27','Bio Chemistry')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Physiology</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('28','Physiology')">Start</ons-button>
+
+                        </ons-card>
+
+                        <ons-card>
+
+                            <div class="title">Anatomy</div>
+
+                            <div class="content">There are 50 questions and time alloted is 60 mins.</div>
+
+                            <ons-button style="margin-top:5%" modifier="cta" class="button-margin" ng-click="clickTestTile('29','Anatomy')">Start</ons-button>
+
+                        </ons-card>
 
 
                         <style>
@@ -883,7 +1228,7 @@
 
                 <template id="action-sheet.html">
                     <ons-action-sheet id="sheet" cancelable title="From template">
-                        <ons-action-sheet-button onclick="navToQues()" ng-repeat="item in questionArray">{{'Question '+item.id}}</ons-action-sheet-button>
+                        <ons-action-sheet-button onclick="navToQues()" ng-repeat="item in questionArray track by $index">{{'Question '+item.id}}</ons-action-sheet-button>
 
                     </ons-action-sheet>
                 </template>
@@ -999,27 +1344,24 @@
 
                             </div>
                             <div class="right">
-                                <p id="testTimer" style="padding:15%;font-size:18px"></p>
+                                <p id="testTimer" style="padding:15%;font-size:18px;display:none;min-width:140px"></p>
                             </div>
 
 
                         </ons-toolbar>
 
-                        <ons-card style="height:20%;" id="clicker_test" ng-click="beginMedTest()">
+                        
 
-                            <p style="margin-top:5%;font-size:18px">
-                                <b>Tap to start test</b>
-                            </p>
+                                <ons-button id="btnStartTest" style="width:90%;margin-left: 4%;margin-top: 10%;" modifier="cta" class="button-margin" ng-click="beginMedTest()">Tap to Start test</ons-button>
 
+                            
 
-                        </ons-card>
-
-                        <div id="testArea" style="height:100%">
+                        <div id="testArea" style="height:100%;display:none">
                             <ons-carousel id="carousel" fullscreen swipeable auto-scroll overscrollable initial-index="0" style="height:90%">
 
 
 
-                                <ons-carousel-item class="carousel-item" style="background-color:white" ng-repeat="item in questionArray">
+                                <ons-carousel-item class="carousel-item" style="background-color:white" ng-repeat="item in questionArray track by $index">
 
                                     <ons-card style="height:100%;width:100%">
 
@@ -1184,79 +1526,81 @@
 
 
                     </ons-page>
-                    </template>
-                            <template id="takeTest.html">
+                </template>
+                <template id="takeTest.html">
 
-                                <ons-page>
+                    <ons-page>
 
-                                    <ons-toolbar>
+                        <ons-toolbar>
 
-                                        <div class="left">
+                            <div class="left">
 
-                                            <ons-back-button>Home</ons-back-button>
+                                <ons-back-button>Home</ons-back-button>
 
-                                        </div>
-
-
-
-                                    </ons-toolbar>
-                                    <div class="center" id="startArea">
-                                        <ons-card style="height:100%">
-
-                                            <p><b>There are 50 questions and time alloted is 60 mins.</b></p>
-
-                                            <p><b>1. You Can pause the as many times as you want.</b></p>
-
-                                            <p><b>2. Do not worry if you get disconnected during the test.</b></p>
-
-                                            <p><b>3. Make sure you have active internet connection while submitting the test.</b></p>
-
-                                            <p><b>4. You Cannot take this test if you have already paused a test.</b></p>
-                                            <div style="height:10%;width:100%;padding:2%">
-
-                                                <ons-button style="width:45%" modifier="cta" class="button-margin" ng-click="startMedicineTest()">Start test</ons-button>
+                            </div>
 
 
 
-                                            </div>
+                        </ons-toolbar>
+                        <div class="center" id="startArea">
+                            <ons-card style="height:100%">
+
+                                <p><b>There are {{questionLength}} questions and time alloted is {{timeLength}}.</b></p>
+
+                                <p><b>1. You Can pause the as many times as you want.</b></p>
+
+                                <p><b>2. Do not worry if you get disconnected during the test.</b></p>
+
+                                <p><b>3. Make sure you have active internet connection while submitting the test.</b></p>
+
+                                <p><b>4. You Cannot take this test if you have already paused a test.</b></p>
+                                <div style="height:10%;width:100%;padding:2%">
+
+                                    <ons-button style="width:45%" modifier="cta" class="button-margin" ng-click="startMedicineTest()">Start test</ons-button>
 
 
 
-                                        </ons-card>
-
-                                    </div>
-
-                                   
-                                </ons-page>
-                            </template>
+                                </div>
 
 
 
-                            <template id="testContainer.html">
-
-                                <ons-page>
-
-                                    <ons-toolbar>
-
-                                        <div class="left">
-
-                                            <ons-back-button>Home</ons-back-button>
-
-                                        </div>
-
-                                        <div class="center"></div>
-
-                                    </ons-toolbar>
-
-
-
-                                </ons-page>
-
-                            </template>
-
-
+                            </ons-card>
 
                         </div>
+
+
+                    </ons-page>
+                </template>
+
+  
+
+
+
+                <template id="testContainer.html">
+
+                    <ons-page>
+
+                        <ons-toolbar>
+
+                            <div class="left">
+
+                                <ons-back-button>Home</ons-back-button>
+
+                            </div>
+
+                            <div class="center"></div>
+
+                        </ons-toolbar>
+
+
+
+                    </ons-page>
+
+                </template>
+
+
+
+            </div>
 
             </div>
 
@@ -1265,4 +1609,3 @@
    </body>
 
 </html>
-
