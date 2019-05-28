@@ -1,0 +1,624 @@
+JavaScript Objects
+ 
+Description of JavaScript Objects:
+
+The Object constructor creates an object wrapper for the given value. If the value is null or undefined, it will create and return an empty object, otherwise, it will return an object of a Type that corresponds to the given value. If the value is an object already, it will return the value.
+When called in a non-constructor context, Object behaves identically to new Object().
+
+
+Properties of the Object constructor:
+
+Object.length
+Has a value of 1.
+Object.prototype
+Allows the addition of properties to all objects of type Object.
+
+
+
+Methods of the Object constructor:
+
+Object.assign()
+Copies the values of all enumerable own properties from one or more source objects to a target object.
+Object.create()
+Creates a new object with the specified prototype object and properties.
+Object.defineProperty()
+Adds the named property described by a given descriptor to an object.
+Object.defineProperties()
+Adds the named properties described by the given descriptors to an object.
+Object.entries()
+Returns an array containing all of the [key, value] pairs of a given object's ownenumerable string properties.
+Object.freeze()
+Freezes an object: other code can't delete or change any properties.
+Object.fromEntries()
+Returns a new object from an iterable of key-value pairs (reverses Object.entries).
+Object.getOwnPropertyDescriptor()
+Returns a property descriptor for a named property on an object.
+Object.getOwnPropertyDescriptors()
+Returns an object containing all own property descriptors for an object.
+Object.getOwnPropertyNames()
+Returns an array containing the names of all of the given object's own enumerable and non-enumerable properties.
+Object.getOwnPropertySymbols()
+Returns an array of all symbol properties found directly upon a given object.
+Object.getPrototypeOf()
+Returns the prototype of the specified object.
+Object.is()
+Compares if two values are the same value. Equates all NaN values (which differs from both Abstract Equality Comparison and Strict Equality Comparison).
+Object.isExtensible()
+Determines if extending of an object is allowed.
+Object.isFrozen()
+Determines if an object was frozen.
+Object.isSealed()
+Determines if an object is sealed.
+Object.keys()
+Returns an array containing the names of all of the given object's own enumerable string properties.
+Object.preventExtensions()
+Prevents any extensions of an object.
+Object.seal()
+Prevents other code from deleting properties of an object.
+Object.setPrototypeOf()
+Sets the prototype (i.e., the internal [[Prototype]] property).
+Object.values()
+Returns an array containing the values that correspond to all of a given object's ownenumerable string properties.
+
+
+Examples:
+
+var o = new Object();
+
+var o = new Object(undefined);
+
+var o = new Object(null);
+
+var o = new Object(true);
+
+var o = new Object(Boolean(true));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Number Object:
+
+The Number JavaScript object is a wrapper object allowing you to work with numerical values. A Number object is created using the Number() constructor. A primitive type object number is created using the Number() function
+
+The primary uses of the Number object are:
+
+•	If the argument cannot be converted into a number, it returns NaN.
+•	In a non-constructor context (i.e., without the new operator), Number can be used to perform a type conversion.
+
+
+
+Methods of the Number Object:
+
+Number.isNaN()
+Determine whether the passed value is NaN.
+Number.isFinite()
+Determine whether the passed value is a finite number.
+Number.isInteger()
+Determine whether the passed value is an integer.
+Number.isSafeInteger()
+Determine whether the passed value is a safe integer (number between -(253 - 1) and 253 - 1).
+Number.toInteger() 
+Used to evaluate the passed value and convert it to an integer (or Infinity), but has been removed.
+
+Number.parseFloat()
+The value is the same as parseFloat() of the global object.
+
+Number.parseInt()
+The value is the same as parseInt() of the global object.
+
+Number.prototype.toExponential()
+Returns a string representing the number in exponential notation.
+Number.prototype.toFixed()
+Returns a string representing the number in fixed-point notation.
+Number.prototype.toLocaleString()
+Returns a string with a language sensitive representation of this number. Overrides the Object.prototype.toLocaleString() method.
+
+Number.prototype.toPrecision()
+Returns a string representing the number to a specified precision in fixed-point or exponential notation.
+Number.prototype.toSource() 
+Returns an object literal representing the specified Number object; you can use this value to create a new object. Overrides the Object.prototype.toSource() method.
+
+Number.prototype.toString()
+Returns a string representing the specified object in the specified radix (base). Overrides the Object.prototype.toString() method.
+
+Number.prototype.valueOf()
+Returns the primitive value of the specified object. Overrides the Object.prototype.valueOf() method.
+
+
+Properties:
+
+Number.EPSILON
+The smallest interval between two representable numbers.
+Number.MAX_SAFE_INTEGER
+The maximum safe integer in JavaScript (253 - 1).
+
+Number.MAX_VALUE
+The largest positive representable number.
+Number.MIN_SAFE_INTEGER
+The minimum safe integer in JavaScript (-(253 - 1)).
+
+Number.MIN_VALUE
+The smallest positive representable number - that is, the positive number closest to zero (without actually being zero).
+Number.NaN
+Special "not a number" value.
+Number.NEGATIVE_INFINITY
+Special value representing negative infinity; returned on overflow.
+Number.POSITIVE_INFINITY
+Special value representing infinity; returned on overflow.
+Number.prototype
+Allows the addition of properties to a Number object.
+
+
+
+
+Examples:
+var o = new Number(‘123’);
+var o = new Number(null);
+var o = new Number(123);
+var o = new Number(true);
+var o = new Number(‘foo’);
+var o = new Number(‘100a’);
+
+ 
+Boolean Object:
+
+The value passed as the first parameter is converted to a boolean value, if necessary. If the value is omitted or is 0, -0, null, false, NaN, undefined, or the empty string (""), the object has an initial value of false. All other values, including any object or the string "false", create an object with an initial value of true.
+Do not confuse the primitive Boolean values true and false with the true and falsevalues of the Boolean object.
+Any object of which the value is not undefined or null, including a Boolean object whose value is false, evaluates to true when passed to a conditional statement. For example, the condition in the following if statement evaluates to true:
+
+
+var o = new Boolean(false);
+
+if(o){
+//code executes here
+}
+
+
+var o = false;
+
+if(o){
+//code does not execute here
+}
+
+
+Properties
+
+Boolean.length
+Length property whose value is 1.
+Boolean.prototype
+Represents the prototype for the Boolean constructor.
+
+Examples:
+var o = new Boolean(false);
+var o = Boolean(false);
+var o = new String(‘123’);
+var a = Boolean(o);
+
+ 
+String Object:
+
+Strings are useful for holding data that can be represented in text form. Some of the most-used operations on strings are to check their length, to build and concatenate them using the + and += string operators, checking for the existence or location of substrings with the indexOf()method, or extracting substrings with the substring() method.
+
+
+Methods of the String Object:
+
+
+String.fromCharCode()
+Returns a string created by using the specified sequence of Unicode values.
+String.fromCodePoint()
+Returns a string created by using the specified sequence of code points.
+String.raw() 
+Returns a string created from a raw template string.
+String.prototype.charAt()
+Returns the character (exactly one UTF-16 code unit) at the specified index.
+String.prototype.charCodeAt()
+Returns a number that is the UTF-16 code unit value at the given index.
+String.prototype.codePointAt()
+Returns a nonnegative integer Number that is the code point value of the UTF-16 encoded code point starting at the specified index.
+String.prototype.concat()
+Combines the text of two strings and returns a new string.
+String.prototype.includes()
+Determines whether one string may be found within another string.
+String.prototype.endsWith()
+Determines whether a string ends with the characters of another string.
+String.prototype.indexOf()
+Returns the index within the calling String object of the first occurrence of the specified value, or -1 if not found.
+
+String.prototype.lastIndexOf()
+Returns the index within the calling String object of the last occurrence of the specified value, or -1 if not found.
+
+String.prototype.localeCompare()
+Returns a number indicating whether a reference string comes before or after or is the same as the given string in sort order.
+String.prototype.match()
+Used to match a regular expression against a string.
+String.prototype.matchAll()
+Returns an iterator of all matches.
+String.prototype.normalize()
+Returns the Unicode Normalization Form of the calling string value.
+String.prototype.padEnd()
+Pads the current string from the end with a given string to create a new string from a given length.
+String.prototype.padStart()
+Pads the current string from the start with a given string to create a new string from a given length.
+String.prototype.quote() 
+Wraps the string in double quotes (""").
+
+String.prototype.repeat()
+Returns a string consisting of the elements of the object repeated the given times.
+String.prototype.replace()
+Used to find a match between a regular expression and a string, and to replace the matched substring with a new substring.
+String.prototype.search()
+Executes the search for a match between a regular expression and a specified string.
+String.prototype.slice()
+Extracts a section of a string and returns a new string.
+
+
+String.prototype.split()
+Splits a String object into an array of strings by separating the string into substrings.
+
+String.prototype.startsWith()
+Determines whether a string begins with the characters of another string.
+String.prototype.substr() 
+Returns the characters in a string beginning at the specified location through the specified number of characters.
+String.prototype.substring()
+Returns the characters in a string between two indexes into the string.
+String.prototype.toLocaleLowerCase()
+The characters within a string are converted to lower case while respecting the current locale. For most languages, this will return the same as toLowerCase().
+
+String.prototype.toLocaleUpperCase()
+The characters within a string are converted to upper case while respecting the current locale. For most languages, this will return the same as toUpperCase().
+
+String.prototype.toLowerCase()
+Returns the calling string value converted to lower case.
+String.prototype.toSource() 
+Returns an object literal representing the specified object; you can use this value to create a new object. Overrides the Object.prototype.toSource() method.
+
+String.prototype.toString()
+Returns a string representing the specified object. Overrides the Object.prototype.toString() method.
+
+String.prototype.toUpperCase()
+Returns the calling string value converted to uppercase.
+String.prototype.trim()
+Trims whitespace from the beginning and end of the string. Part of the ECMAScript 5 standard.
+String.prototype.trimStart()
+String.prototype.trimLeft()
+Trims whitespace from the beginning of the string.
+
+String.prototype.trimEnd()
+String.prototype.trimRight()
+Trims whitespace from the end of the string.
+String.prototype.valueOf()
+Returns the primitive value of the specified object. Overrides the Object.prototype.valueOf() method.
+String.prototype[@@iterator]()
+Returns a new Iterator object that iterates over the code points of a String value, returning each code point as a String value.
+
+
+Properties
+
+String.prototype.constructor
+Specifies the function that creates an object's prototype.
+String.prototype.length
+Reflects the length of the string.
+
+Examples:
+var a = ’12,3,44,5,66’;
+var inputValues = a.split(‘,’) ;
+
+var outputStrings  = [];
+
+for(var i=0;i<inputValues.length;i++){
+outputString.push(String(inputValues[i]));
+};
+
+ 
+Array Object:
+
+Arrays are list-like objects whose prototype has methods to perform traversal and mutation operations. Neither the length of a JavaScript array nor the types of its elements are fixed. Since an array's length can change at any time, and data can be stored at non-contiguous locations in the array, JavaScript arrays are not guaranteed to be dense; this depends on how the programmer chooses to use them. In general, these are convenient characteristics; but if these features are not desirable for your particular use, you might consider using typed arrays.
+Arrays cannot use strings as element indexes (as in an associative array) but must use integers. Setting or accessing via non-integers using bracket notation (or dot notation) will not set or retrieve an element from the array list itself, but will set or access a variable associated with that array's object property collection. The array's object properties and list of array elements are separate, and the array's traversal and mutation operationscannot be applied to these named properties.
+
+
+var arr = [‘apple’,’microsoft’,’google’];
+
+console.log(arr[0])// apple;
+console.log(arr[1])// microsoft;
+console.log(arr[2])// google;
+
+
+Properties
+
+Array.length
+The Array constructor's length property whose value is 1.
+
+get Array[@@species]
+The constructor function that is used to create derived objects.
+Array.prototype
+Allows the addition of properties to all array objects.
+
+
+
+
+
+Methods of the Array Object:
+
+
+Array.from()
+Creates a new Array instance from an array-like or iterable object.
+
+Array.isArray()
+Returns true if a variable is an array, if not false.
+Array.of()
+Creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments.
+Array.prototype.copyWithin()
+Copies a sequence of array elements within the array.
+Array.prototype.fill()
+Fills all the elements of an array from a start index to an end index with a static value.
+Array.prototype.pop()
+Removes the last element from an array and returns that element.
+Array.prototype.push()
+Adds one or more elements to the end of an array and returns the new length of the array.
+Array.prototype.reverse()
+Reverses the order of the elements of an array in place — the first becomes the last, and the last becomes the first.
+Array.prototype.shift()
+Removes the first element from an array and returns that element.
+Array.prototype.sort()
+Sorts the elements of an array in place and returns the array.
+Array.prototype.splice()
+Adds and/or removes elements from an array.
+Array.prototype.unshift()
+Adds one or more elements to the front of an array and returns the new length of the array.
+Accessor Methods: 
+
+These methods do not modify the array and return some representation of the array.
+Array.prototype.concat()
+Returns a new array that is this array joined with other array(s) and/or value(s).
+Array.prototype.includes()
+Determines whether an array contains a certain element, returning true or false as appropriate.
+Array.prototype.indexOf()
+Returns the first (least) index of an element within the array equal to the specified value, or -1 if none is found.
+Array.prototype.join()
+Joins all elements of an array into a string.
+Array.prototype.lastIndexOf()
+Returns the last (greatest) index of an element within the array equal to the specified value, or -1 if none is found.
+Array.prototype.slice()
+Extracts a section of an array and returns a new array.
+Array.prototype.toSource() 
+Returns an array literal representing the specified array; you can use this value to create a new array. Overrides the Object.prototype.toSource() method.
+Array.prototype.toString()
+Returns a string representing the array and its elements. Overrides the Object.prototype.toString() method.
+Array.prototype.toLocaleString()
+Returns a localized string representing the array and its elements. Overrides the Object.prototype.toLocaleString() method.
+
+
+
+
+Itteration Methods:
+
+Several methods take as arguments functions to be called back while processing the array. When these methods are called, the length of the array is sampled, and any element added beyond this length from within the callback is not visited. Other changes to the array (setting the value of or deleting an element) may affect the results of the operation if the method visits the changed element afterwards. While the specific behavior of these methods in such cases is well-defined, you should not rely upon it so as not to confuse others who might read your code. If you must mutate the array, copy into a new array instead.
+Array.prototype.entries()
+Returns a new Array Iterator object that contains the key/value pairs for each index in the array.
+Array.prototype.every()
+Returns true if every element in this array satisfies the provided testing function.
+Array.prototype.filter()
+Creates a new array with all of the elements of this array for which the provided filtering function returns true.
+Array.prototype.find()
+Returns the found value in the array, if an element in the array satisfies the provided testing function or undefined if not found.
+Array.prototype.findIndex()
+Returns the found index in the array, if an element in the array satisfies the provided testing function or -1 if not found.
+Array.prototype.forEach()
+Calls a function for each element in the array.
+Array.prototype.keys()
+Returns a new Array Iterator that contains the keys for each index in the array.
+
+Array.prototype.map()
+Creates a new array with the results of calling a provided function on every element in this array.
+Array.prototype.reduce()
+Apply a function against an accumulator and each value of the array (from left-to-right) as to reduce it to a single value.
+
+Array.prototype.reduceRight()
+Apply a function against an accumulator and each value of the array (from right-to-left) as to reduce it to a single value.
+Array.prototype.some()
+Returns true if at least one element in this array satisfies the provided testing function.
+Array.prototype.values()
+Returns a new Array Iterator object that contains the values for each index in the array.
+Array.prototype[@@iterator]()
+Returns a new Array Iterator object that contains the values for each index in the array.
+
+
+
+Examples: 
+var msgArray = [];
+
+msgArray[0] = ‘Hello’;
+ 
+msgArray[99] = ‘World;
+
+if(msgArray.length == 100){
+console.log(‘The array length is 100’)
+} ;
+
+ 
+Date Object:
+
+A JavaScript date is fundamentally specified as the number of milliseconds that have elapsed since midnight on January 1, 1970, UTC. This date and time is called the Unix epoch, which is the predominant base value for computer-recorded date and time values.
+
+A day is made up of 86,400,000 milliseconds. Given that and the size of the underlying number used to record the timestamp, and it can be calculated that the Date object can represent dates within ±100,000,000 (one hundred million) days relative to January 1, 1970 UTC. That means that in the year 293,742, we'll have to think about fixing this.
+
+There are a number of methods available to obtain the date in various formats, as well as to do time zone conversions. Especially useful are the functions that output the date and time in Coordinated Universal Time (UTC), the global standard time defined by the World Time Standard. This time is historically known as Greenwich Mean Time, as UTC lies along the meridian that includes London and nearby Greenwhich in the United Kingdom. The user's device provides the local time.
+In addition to methods to read and alter individual components of the local date and time, such as getDay() and setHours(), there are also versions of the same methods that read and maniuplate the date and time using UTC, such as getUTCDay() and setUTCHours().
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Properties
+
+Date.prototype
+Allows the addition of properties to a JavaScript Date object.
+
+Date.length
+The value of Date.length is 7. This is the number of arguments handled by the constructor. It's not generally a useful result.
+
+
+Methods of the Date Object:
+
+
+Date.now()
+Returns the numeric value corresponding to the current time - the number of milliseconds elapsed since January 1, 1970 00:00:00 UTC, with leap seconds ignored.
+Date.parse()
+Parses a string representation of a date and returns the number of milliseconds since 1 January, 1970, 00:00:00, UTC, with leap seconds ignored.
+Date.UTC()
+Accepts the same parameters as the longest form of the constructor (i.e. 2 to 7) and returns the number of milliseconds since January 1, 1970, 00:00:00 UTC, with leap seconds ignored.
+Date.prototype.getDate()
+Returns the day of the month (1-31) for the specified date according to local time.
+Date.prototype.getDay()
+Returns the day of the week (0-6) for the specified date according to local time.
+Date.prototype.getFullYear()
+Returns the year (4 digits for 4-digit years) of the specified date according to local time.
+Date.prototype.getHours()
+Returns the hour (0-23) in the specified date according to local time.
+Date.prototype.getMilliseconds()
+Returns the milliseconds (0-999) in the specified date according to local time.
+
+Date.prototype.getMinutes()
+Returns the minutes (0-59) in the specified date according to local time.
+Date.prototype.getMonth()
+Returns the month (0-11) in the specified date according to local time.
+Date.prototype.getSeconds()
+Returns the seconds (0-59) in the specified date according to local time.
+Date.prototype.getTime()
+Returns the numeric value of the specified date as the number of milliseconds since January 1, 1970, 00:00:00 UTC (negative for prior times).
+Date.prototype.getTimezoneOffset()
+Returns the time-zone offset in minutes for the current locale.
+Date.prototype.getUTCDate()
+Returns the day (date) of the month (1-31) in the specified date according to universal time.
+Date.prototype.getUTCDay()
+Returns the day of the week (0-6) in the specified date according to universal time.
+Date.prototype.getUTCFullYear()
+Returns the year (4 digits for 4-digit years) in the specified date according to universal time.
+Date.prototype.getUTCHours()
+Returns the hours (0-23) in the specified date according to universal time.
+Date.prototype.getUTCMilliseconds()
+Returns the milliseconds (0-999) in the specified date according to universal time.
+Date.prototype.getUTCMinutes()
+Returns the minutes (0-59) in the specified date according to universal time.
+Date.prototype.getUTCMonth()
+Returns the month (0-11) in the specified date according to universal time.
+Date.prototype.getUTCSeconds()
+Returns the seconds (0-59) in the specified date according to universal time.
+
+
+Date.prototype.getYear() 
+Returns the year (usually 2-3 digits) in the specified date according to local time. Use getFullYear() instead.
+
+Date.prototype.setDate()
+Sets the day of the month for a specified date according to local time.
+Date.prototype.setFullYear()
+Sets the full year (e.g. 4 digits for 4-digit years) for a specified date according to local time.
+Date.prototype.setHours()
+Sets the hours for a specified date according to local time.
+Date.prototype.setMilliseconds()
+Sets the milliseconds for a specified date according to local time.
+Date.prototype.setMinutes()
+Sets the minutes for a specified date according to local time.
+Date.prototype.setMonth()
+Sets the month for a specified date according to local time.
+Date.prototype.setSeconds()
+Sets the seconds for a specified date according to local time.
+Date.prototype.setTime()
+Sets the Date object to the time represented by a number of milliseconds since January 1, 1970, 00:00:00 UTC, allowing for negative numbers for times prior.
+Date.prototype.setUTCDate()
+Sets the day of the month for a specified date according to universal time.
+Date.prototype.setUTCFullYear()
+Sets the full year (e.g. 4 digits for 4-digit years) for a specified date according to universal time.
+Date.prototype.setUTCHours()
+Sets the hour for a specified date according to universal time.
+Date.prototype.setUTCMilliseconds()
+Sets the milliseconds for a specified date according to universal time.
+Date.prototype.setUTCMinutes()
+Sets the minutes for a specified date according to universal time.
+Date.prototype.setUTCMonth()
+Sets the month for a specified date according to universal time.
+Date.prototype.setUTCSeconds()
+Sets the seconds for a specified date according to universal time.
+Date.prototype.setYear() 
+Sets the year (usually 2-3 digits) for a specified date according to local time. Use setFullYear() instead.
+Date.prototype.toDateString()
+Returns the "date" portion of the Date as a human-readable string like 'Thu Apr 12 2018'
+Date.prototype.toISOString()
+Converts a date to a string following the ISO 8601 Extended Format.
+Date.prototype.toJSON()
+Returns a string representing the Date using toISOString(). Intended for use by JSON.stringify().
+Date.prototype.toGMTString() 
+Returns a string representing the Date based on the GMT (UT) time zone. Use toUTCString() instead.
+Date.prototype.toLocaleDateString()
+Returns a string with a locality sensitive representation of the date portion of this date based on system settings.
+Date.prototype.toLocaleFormat() 
+Converts a date to a string, using a format string.
+Date.prototype.toLocaleString()
+Returns a string with a locality sensitive representation of this date. Overrides the Object.prototype.toLocaleString() method.
+Date.prototype.toLocaleTimeString()
+Returns a string with a locality sensitive representation of the time portion of this date based on system settings.
+Date.prototype.toSource() 
+Returns a string representing the source for an equivalent Date object; you can use this value to create a new object. Overrides the Object.prototype.toSource() method.
+
+Date.prototype.toString()
+Returns a string representing the specified Date object. Overrides the Object.prototype.toString() method.
+
+
+
+Date.prototype.toTimeString()
+Returns the "time" portion of the Date as a human-readable string.
+
+Date.prototype.toUTCString()
+Converts a date to a string using the UTC timezone.
+Date.prototype.valueOf()
+Returns the primitive value of a Date object. Overrides the Object.prototype.valueOf()method.
+
+
+
+Examples: 
+var today = new Date();
+
+var today = new Date(1995,11,17);
+
+var today = new Date(‘1995-11-17T03:24:00’);
+
+var today = new Date(‘December 17, 1995 03:24:00’); 
