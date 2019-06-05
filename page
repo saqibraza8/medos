@@ -81,7 +81,7 @@
       	}
 		
 		.action-sheet.action-sheet--material{
-			max-height:200px !important;
+			max-height:400px !important;
 			overflow-y:scroll;
 		}
          .owl-item.animated {
@@ -89,7 +89,44 @@
          visibility: visible;
 
          }
-
+          ons-button {
+              background-color: rgb(40,53,147) !important;
+          }
+          ons-toolbar {
+              background-color: rgb(40,53,147) !important;
+          }
+          ons-tab {
+              background-color: rgb(40,53,147) !important;
+          }
+          ons-tab > button {
+            color:white !important;
+          
+          }
+          .tabbar--material__border {
+                height: 2px;
+                background-color: white !important;
+            }
+          ons-toolbar-button {
+              color: white !important;
+          }
+          .toolbar__title {
+            color: white !important;
+          }
+          #toolbar-back-button {
+                fill:white !important;
+          }
+          #testQuit {
+                background-color: rgb(255,87,34) !important;
+          }
+          #testTimer {
+                color:white !important;
+          }
+          ons-fab {
+                 background-color: rgb(40,53,147) !important;
+          }
+          ons-ripple {
+                color: white !important;
+          }
          .mdl-layout__tab-bar-button{
 
          display:none !important
@@ -101,7 +138,7 @@
          height:100% !important
 
          }
-
+         
          .mdl-layout__drawer-right {
 
          display: -webkit-box;
@@ -494,7 +531,7 @@
 
                             </div>
 
-                            <div class="center"></div>
+                            <div class="center">Subcription</div>
 
                         </ons-toolbar>
 
@@ -537,7 +574,7 @@
 
 
 
-                                <ons-carousel-item class="carousel-item" style="background-color:white" ng-repeat="item in cueCardArray">
+                                <ons-carousel-item class="carousel-item" style="background-color:white" ng-repeat="item in cueCardArray track by $index">
 
                                     <ons-card style="height:100%;width:100%">
                                         <p><b>Question:</b></p>
@@ -628,11 +665,11 @@
 
                             <div class="left">
 
-                                <ons-back-button>Subcription</ons-back-button>
+                                <ons-back-button>User Information</ons-back-button>
 
                             </div>
 
-                            <div class="center"></div>
+                            <div class="center">User Information</div>
 
                         </ons-toolbar>
 
@@ -716,200 +753,41 @@
 
                 <template id="home.html">
 
-                    <ons-page>
-                        <script>
-                            $(".loader").show();
+                    <ons-page style="background-color:white" class="homePageContainer">
+                        <div id="notLoggedLanding" style="height:35%;width:100%;margin-top:10px;">
+                            <img style="margin-left:35%;margin-top:25%;height:100px" src="icons/loginRegister.png" />
+                            <p style="text-align:center;
+                                          font-family: Lucida Grande, Lucida Sans Unicode, Arial, Helvetica, sans-serif;
+                                            font-size: 12px;
+                                            margin-top:10%;
+                                            color: #666666;">Please Login or register to continue</p>
+                        </div>
+                        <div id="containerTopScore" style="height:35%;width:100%;margin-top:10px;display:none"> </div>
+                        <div id="containerScore" style="margin-top:10px;width:100%;display:none">
+                            <div style="width:100%">
+                                <p style="text-align:center;
+                                          font-family: Lucida Grande, Lucida Sans Unicode, Arial, Helvetica, sans-serif;
+                                            font-size: 14px;
+                                            color: #666666;">{{historyTitle}}</p>
+                                <div id="hasTest" style="width:100%;" ng-repeat="test in testsHome">
+                                    <ons-card style="min-height:95px">
 
-                            var userID = localStorage.getItem("userID");
-                            if (userID != null) {
-                                $("#logedIn").show();
-                                $("#notLogged").hide();
-                                db.ref("users/" + userID).on('value', function (snapshot) {
+                                        <div class="title">{{test.ID.split('_')[2].charAt(0).toUpperCase() + test.ID.split('_')[2].slice(1);}}</div>
+                                        <div style="width:100%">
+                                            <div class="content" style="width:50%;float:left">{{'Score: ' + test.result + '%'}}</div>
+                                            
+                                            <ons-button style="float:right;width:30%;margin-top:-6%" modifier="cta" class="button-margin" ng-click="reviseTest()">Revise</ons-button>
 
-                                    var testsTillNow = snapshot.val().tests;
-                                    //entire code here
-                                    localStorage.setItem("Validator", snapshot.val().subscription.code);
-                                    localStorage.setItem("fullName", snapshot.val().name);
-                                    localStorage.setItem("email", snapshot.val().email);
-                                    localStorage.setItem("testsObj", JSON.stringify(snapshot.val().tests));
-                                    var testIDs = Object.keys(testsTillNow);
+                                        </div>
+                                       </ons-card>
+                                </div>
+                                <div id="noTestsYet" ng-show="testsHome == 'Not Yet'">
+                                    <img style="margin-left:35%;margin-top:10%;height:100px" src="icons/try3.png"/>
+                                </div>
 
-                                    var scores = [];
+                            </div>
 
-                                    testIDs.forEach(function (id) {
-                                        scores.push(Math.round(parseFloat(testsTillNow[id].result)));
-                                    })
-
-                                    var topScore = Math.max(...scores);
-
-                                    var gaugeOptions = {
-
-                                        chart: {
-                                            type: 'solidgauge'
-                                        },
-
-                                        title: null,
-
-                                        pane: {
-                                            center: ['50%', '85%'],
-                                            size: '140%',
-                                            startAngle: -90,
-                                            endAngle: 90,
-                                            background: {
-                                                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
-                                                innerRadius: '60%',
-                                                outerRadius: '100%',
-                                                shape: 'arc'
-                                            }
-                                        },
-
-                                        tooltip: {
-                                            enabled: false
-                                        },
-
-                                        // the value axis
-                                        yAxis: {
-                                            stops: [
-                                                [0.1, '#55BF3B'], // green
-                                                [0.5, '#DDDF0D'], // yellow
-                                                [0.9, '#DF5353'] // red
-                                            ],
-                                            lineWidth: 0,
-                                            minorTickInterval: null,
-                                            tickAmount: 2,
-                                            title: {
-                                                y: -70
-                                            },
-                                            labels: {
-                                                y: 16
-                                            }
-                                        },
-
-                                        plotOptions: {
-                                            solidgauge: {
-                                                dataLabels: {
-                                                    y: 5,
-                                                    borderWidth: 0,
-                                                    useHTML: true
-                                                }
-                                            }
-                                        }
-                                    };
-
-                                    var chartRpm = Highcharts.chart('containerTopScore', Highcharts.merge(gaugeOptions, {
-                                        yAxis: {
-                                            min: 0,
-                                            max: 100,
-                                            title: {
-                                                text: 'Your Top Score'
-                                            }
-                                        },
-
-                                        series: [{
-                                            name: 'RPM',
-                                            data: [topScore],
-                                            dataLabels: {
-                                                format: '<div style="text-align:center"><span style="font-size:25px;color:' +
-                                                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.1f}</span><br/>' +
-                                                    '<span style="font-size:12px;color:silver">%'
-                                            },
-                                            tooltip: {
-                                                valueSuffix: ' revolutions/min'
-                                            }
-                                        }]
-
-                                    }));
-
-                                    Highcharts.chart('containerScore', {
-
-                                        title: {
-                                            text: 'Test Score History. Tap on points to revise.'
-                                        },
-
-                                        xAxis: {
-                                            categories: testIDs,
-                                            labels:
-                                            {
-                                                enabled: false
-                                            }
-                                        },
-
-                                        yAxis: {
-                                            title: {
-                                                text: 'Scores'
-                                            }
-                                        },
-                                        legend: {
-                                            layout: 'vertical',
-                                            align: 'right',
-                                            verticalAlign: 'middle'
-                                        },
-
-                                        plotOptions: {
-                                            series: {
-                                                label: {
-                                                    connectorAllowed: false
-                                                },
-
-                                                point: {
-                                                    events: {
-                                                        click: function () {
-
-                                                            //alert('Category: ' + this.category + ', value: ' + this.y);
-                                                            var testID = this.category;
-                                                            db.ref("demoTest/" + testID).on('value', function (snapshot) {
-                                                                var dbObj = snapshot.val();
-                                                                //console.log(dbObj);
-
-                                                                localStorage.setItem("testScore", dbObj.result);
-                                                                localStorage.setItem("correctAnswers", dbObj.right);
-                                                                localStorage.setItem("wrongAnswers", dbObj.wrong);
-
-                                                                pushPage({ 'id': 'reviseTest.html', 'title': 'Medicine' })
-                                                            });
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        },
-
-                                        series: [{
-
-                                            data: scores
-                                        }],
-
-                                        responsive: {
-                                            rules: [{
-                                                condition: {
-                                                    maxWidth: 500
-                                                },
-                                                chartOptions: {
-                                                    legend: {
-                                                        layout: 'horizontal',
-                                                        align: 'center',
-                                                        verticalAlign: 'bottom'
-                                                    }
-                                                }
-                                            }]
-                                        }
-
-                                    });
-
-                                    $(".loader").hide();
-
-                                });
-                            }
-                            else {
-                                var html = '<p style="padding: 25%;font-size: 18px;font-weight: bold;"> Please Login to see  Your Learning Analytics</p>';
-                                document.getElementById("containerTopScore").innerHTML = html;
-                                $(".loader").hide();
-                            }
-
-
-
-                        </script>
-                        <div id="containerTopScore" style="height:35%;width:100%"> </div>
-                        <div id="containerScore" style="height:65%;width:100%"> </div>
+                        </div>
                     </ons-page>
                 </template>
                 <template id="newsFeed.html">
@@ -1245,7 +1123,7 @@
 
                             </div>
 
-
+                            <div class="center">Revise Test</div>
 
                         </ons-toolbar>
 
@@ -1300,7 +1178,7 @@
 
                             </div>
 
-
+                            <div class="center">{{localStorage.reviseTitle}}</div>
 
                         </ons-toolbar>
 
@@ -1314,14 +1192,14 @@
 
 
                             </ons-card>
-                            <ons-card style="height:20%" ng-repeat="q in detailQuestions">
+                            <ons-card style="height:20%" ng-repeat="q in detailQuestions track by $index">
 
                                 <p style="margin-top:5%;font-size:12px">
                                     <b>{{q.qus}}</b>
                                 </p>
 
                                 <p style="margin-top:5%;font-size:12px">
-                                    <b>Answer: {{q.ans}}</b>
+                                    <b>Correct Answer: {{q.ans}}</b>
                                 </p>
 
                             </ons-card>
@@ -1340,7 +1218,8 @@
 
                             <div class="left">
 
-                                <ons-back-button>Home</ons-back-button>
+                                <ons-back-button id="testBack">Home</ons-back-button>
+                                <ons-button onclick="cancelTest()" id="testQuit" style="display:none;margin-left:8px;margin-right:8px">Quit</ons-button>
 
                             </div>
                             <div class="right">
@@ -1357,14 +1236,14 @@
                             
 
                         <div id="testArea" style="height:100%;display:none">
-                            <ons-carousel id="carousel" fullscreen swipeable auto-scroll overscrollable initial-index="0" style="height:90%">
+                            <ons-carousel id="carouselTest" fullscreen swipeable auto-scroll overscrollable initial-index="0" style="height:90%">
 
 
 
                                 <ons-carousel-item class="carousel-item" style="background-color:white" ng-repeat="item in questionArray track by $index">
 
                                     <ons-card style="height:100%;width:100%">
-
+                                        <p><b>Question No. {{$index + 1}} of {{questionArray.length}}</b></p>
                                         <p><b>{{item.qus}}</b></p>
 
                                         <ons-list>
@@ -1453,10 +1332,11 @@
                                                     padding: 5%;
                                                     font-size: 20px;
                                                 ">
-                            <span style="font-size: 20px;"><b>Text Result</b></span>
+                            <span style="font-size: 20px;"><b>Test Result</b></span>
                             <p style="font-size: 20px;margin-top:5%"><span><b>Score:</b></span><span id="scoreContainer"></span></p>
-                            <p style="font-size: 20px"><span><b>Correct Answers(Tap to view):</b></span><span id="rightContainer"></span></p>
-                            <p style="font-size: 20px"><span><b>Incorrect Answers(Tap to view):</b></span><span id="wrongContainer"></span></p>
+                            <p style="font-size: 20px"><span><b>Correct Answers:</b></span><span id="rightContainer"></span></p>
+                            <p style="font-size: 20px"><span><b>Incorrect Answers:</b></span><span id="wrongContainer"></span></p>
+                            <ons-button id="btnStartTest" style="width:90%;margin-left: 4%;margin-top: 10%;" modifier="cta" class="button-margin" ng-click="reloadPage()">Go to Home</ons-button>
                         </div>
 
                         <script>
@@ -1539,7 +1419,7 @@
 
                             </div>
 
-
+                            <div class="center">Instructions</div>
 
                         </ons-toolbar>
                         <div class="center" id="startArea">
@@ -1547,13 +1427,13 @@
 
                                 <p><b>There are {{questionLength}} questions and time alloted is {{timeLength}}.</b></p>
 
-                                <p><b>1. You Can pause the as many times as you want.</b></p>
+                                <p><b>1. You can quit the test as many times as you want.</b></p>
 
                                 <p><b>2. Do not worry if you get disconnected during the test.</b></p>
 
                                 <p><b>3. Make sure you have active internet connection while submitting the test.</b></p>
 
-                                <p><b>4. You Cannot take this test if you have already paused a test.</b></p>
+                                <p><b>4. Your attempts wont be deducted if you quit the test.</b></p>
                                 <div style="height:10%;width:100%;padding:2%">
 
                                     <ons-button style="width:45%" modifier="cta" class="button-margin" ng-click="startMedicineTest()">Start test</ons-button>
