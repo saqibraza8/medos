@@ -14,13 +14,14 @@ var db = firebase.database();
 var userPos = {}
 $(document).ready(function(){
 
-
-
+    //var html = '<p style="padding: 25%;font-size: 18px;font-weight: bold;"> Please Login or Register to continue</p>';
+    //document.getElementById("containerTopScore").innerHTML = html;
+    
     
    
 })
 
-
+var qidsOnly = _.pluck(questionBank, 'qusid')
 
 function pushPage(page, anim) {
     if (anim) {
@@ -31,7 +32,8 @@ function pushPage(page, anim) {
 };
 
 function swipeNext(id) {
-    var activeIndex = document.querySelector('ons-carousel').getActiveIndex();
+    var carousel = document.getElementById('carouselTest');
+    var activeIndex = carousel.getActiveIndex();
     carousel.setActiveIndex(activeIndex + 1);
     console.log(carousel._swiper.itemCount);
     if (activeIndex + 2 == carousel._swiper.itemCount) {
@@ -43,12 +45,21 @@ function swipeNext(id) {
         $("#btnNext").show();
     }
 }
-
+function cancelTest() {
+    if (document.getElementById('testArea').style.display != 'none') {
+        var con = confirm('Are you sure you want to Cancel test?');
+        if (con) {
+            $('#testBack').trigger('click');
+        }
+    }
+    
+}
 function swipePrev(id) {
-    var activeIndex = document.querySelector('ons-carousel').getActiveIndex();
+    var carousel = document.getElementById('carouselTest');
+    var activeIndex = carousel.getActiveIndex();
     carousel.setActiveIndex(activeIndex - 1);
     console.log(carousel._swiper.itemCount);
-    if (activeIndex + 2 == carousel._swiper.itemCount) {
+    if (activeIndex == carousel._swiper.itemCount) {
         $("#btnSubmit").show();
         $("#btnNext").hide();
     }
@@ -89,9 +100,14 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
         var ques = [];
 		
 		
-        for(var i=0;i<this.questionArray.length;i++){
-        
-            ques.push({'label' :'Question '+(i+1)})
+        for (var i = 0; i < this.questionArray.length; i++){
+            if (Object.keys(this.testAnswers[localStorage.testID]).indexOf(this.questionArray[i].qusid.toString()) >-1) {
+                ques.push({ 'label': 'Question ' + (i + 1) + ': Attempted' })
+            }
+            else {
+                ques.push({ 'label': '<b>Question ' + (i + 1) + ': Not Attempted</b>' })
+            }
+            
         }
         
 
@@ -101,6 +117,7 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
             buttons: ques
         }).then(function (index) {
             if (index > -1) {
+                var carousel = document.getElementById('carouselTest');
                 if (index + 1 == carousel._swiper.itemCount) {
                     $("#btnSubmit").show();
                     $("#btnNext").hide();
@@ -109,7 +126,7 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
                     $("#btnSubmit").hide();
                     $("#btnNext").show();
                 }
-                carousel.setActiveIndex(index + 1 );
+                carousel.setActiveIndex(index);
             }
             
         })
@@ -124,7 +141,7 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
         var state = status + "Answers";
         var rightAns = localStorage.getItem(state).split(",");
         this.detailQuestions = _.filter(questionBank, function (question) { return rightAns.indexOf(question.qusid.toString()) > -1 })
-        
+        $('#clicker').hide();
         $(".loader").hide();
                 
     }
@@ -168,9 +185,12 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
 		//$(".loader").hide();
 
   //  })
-    function loadHomePage() {
-        $(".loader").show();
+    $scope.historyTitle = "Your test history";
+    $scope.testsHome = {};
+    $scope.loadHomePage = function () {
         
+        $(".loader").show();
+        var _scope = $scope;
         var userID = localStorage.getItem("userID");
         if (userID != null) {
             db.ref("users/" + userID).on('value', function (snapshot) {
@@ -180,6 +200,19 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
                 localStorage.setItem("fullName", snapshot.val().name);
                 localStorage.setItem("email", snapshot.val().email);
                 localStorage.setItem("testsObj", JSON.stringify(snapshot.val().tests));
+                localStorage.setItem("freeTest", snapshot.val().freeTest);
+                _scope.testsHome = snapshot.val().tests;
+                if (_scope.testsHome === 'Not Yet') {
+                    _scope.historyTitle = "You have not taken any test yet!";
+                    $('#containerTopScore').hide();
+                }
+                else {
+                    _scope.historyTitle = "Your test history.";
+                    $('#containerTopScore').show();
+                }
+                
+                
+                _scope.$apply();
                 var testIDs = Object.keys(testsTillNow);
 
                 var scores = [];
@@ -193,6 +226,7 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
                 var gaugeOptions = {
 
                     chart: {
+                        backgroundColor: '#eceff1',
                         type: 'solidgauge'
                     },
 
@@ -268,93 +302,89 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
 
                 }));
 
-                Highcharts.chart('containerScore', {
+                //Highcharts.chart('containerScore', {
 
-                    title: {
-                        text: 'Test Score History. Tap on points to revise.'
-                    },
+                //    title: {
+                //        text: 'Test Score History. Tap on points to revise.'
+                //    },
 
-                    xAxis: {
-                        categories: testIDs,
-                        labels:
-                        {
-                            enabled: false
-                        }
-                    },
+                //    xAxis: {
+                //        categories: testIDs,
+                //        labels:
+                //        {
+                //            enabled: false
+                //        }
+                //    },
 
-                    yAxis: {
-                        title: {
-                            text: 'Scores'
-                        }
-                    },
-                    legend: {
-                        layout: 'vertical',
-                        align: 'right',
-                        verticalAlign: 'middle'
-                    },
+                //    yAxis: {
+                //        title: {
+                //            text: 'Scores'
+                //        }
+                //    },
+                //    legend: {
+                //        layout: 'vertical',
+                //        align: 'right',
+                //        verticalAlign: 'middle'
+                //    },
 
-                    plotOptions: {
-                        series: {
-                            label: {
-                                connectorAllowed: false
-                            },
+                //    plotOptions: {
+                //        series: {
+                //            label: {
+                //                connectorAllowed: false
+                //            },
 
-                            point: {
-                                events: {
-                                    click: function () {
+                //            point: {
+                //                events: {
+                //                    click: function () {
+                //                        var testID = this.category;
+                //                        var dbObj = JSON.parse(localStorage.testsObj)[testID]
+                //                        localStorage.setItem("testScore", dbObj.result);
+                //                        localStorage.setItem("correctAnswers", dbObj.right);
+                //                        localStorage.setItem("wrongAnswers", dbObj.wrong);
 
-                                        //alert('Category: ' + this.category + ', value: ' + this.y);
-                                        var testID = this.category;
-                                        db.ref("demoTest/" + testID).on('value', function (snapshot) {
-                                            var dbObj = snapshot.val();
-                                            //console.log(dbObj);
+                //                        pushPage({ 'id': 'reviseTest.html', 'title': dbObj.ID.split('_')[2]})                                    }
+                //                }
+                //            }
+                //        }
+                //    },
 
-                                            localStorage.setItem("testScore", dbObj.result);
-                                            localStorage.setItem("correctAnswers", dbObj.right);
-                                            localStorage.setItem("wrongAnswers", dbObj.wrong);
+                //    series: [{
 
-                                            pushPage({ 'id': 'reviseTest.html', 'title': 'Medicine' })
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                    },
+                //        data: scores
+                //    }],
 
-                    series: [{
+                //    responsive: {
+                //        rules: [{
+                //            condition: {
+                //                maxWidth: 500
+                //            },
+                //            chartOptions: {
+                //                legend: {
+                //                    layout: 'horizontal',
+                //                    align: 'center',
+                //                    verticalAlign: 'bottom'
+                //                }
+                //            }
+                //        }]
+                //    }
 
-                        data: scores
-                    }],
-
-                    responsive: {
-                        rules: [{
-                            condition: {
-                                maxWidth: 500
-                            },
-                            chartOptions: {
-                                legend: {
-                                    layout: 'horizontal',
-                                    align: 'center',
-                                    verticalAlign: 'bottom'
-                                }
-                            }
-                        }]
-                    }
-
-                });
-
+                //});
+                $('#notLoggedLanding').hide();
+                //$('#containerTopScore').show();
+                $('#containerScore').show();
                 $(".loader").hide();
 
             });
         }
         else {
-            var html = '<p style="padding: 25%;font-size: 18px;font-weight: bold;"> Please Login or Register to continue</p>';
-            document.getElementById("containerTopScore").innerHTML = html;
+            $('.loader').hide();
         }
 
 
 
     }
+
+    $scope.loadHomePage();
     $scope.verificationCode = "";
     $scope.showSubcription = function () {
         console.log($scope, this);
@@ -493,7 +523,8 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
         $scope.password = this.password;
         localStorage.setItem("typePw", this.password);
         localStorage.setItem("typeID", this.username);
-		$(".loader").show();
+        $(".loader").show();
+        var _scope = $scope;
     	db.ref('users/'+this.username).once('value',function(snapshot){
     		if(snapshot.val()!=null){
     			
@@ -501,7 +532,7 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
                     
                     localStorage.setItem("userID", localStorage["typeID"]);
                     
-                    loadHomePage();
+                    _scope.loadHomePage();
                     
                     $("#notLogged").hide();
                     $("#logedIn").show();
@@ -539,15 +570,27 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
     	
     }
 
-   
+    $scope.reviseTest = function () {
+        
+        var testID = this.test.ID;
+        var dbObj = JSON.parse(localStorage.testsObj)[testID]
+        localStorage.setItem("testScore", dbObj.result);
+        localStorage.setItem("correctAnswers", dbObj.right);
+        localStorage.setItem("wrongAnswers", dbObj.wrong);
+
+        pushPage({ 'id': 'reviseTest.html', 'title': dbObj.ID.split('_')[2]})
+    }
     $scope.submitTest = function () {
-        var testId = Object.keys(this.testAnswers)[0];
-        var questionsAttempted = Object.keys(this.testAnswers[testId]);
-        clearInterval(xTimer);
-        //if (questionsAttempted.length == 0) {
-        //    alert("You have not attempted any question. Please attempt atlaest one question.");
-        //}
-        //else {
+        var rr = confirm('Are you sure you want to submit the test?');
+        if (rr) {
+            $('#testQuit').hide();
+            var testId = Object.keys(this.testAnswers)[0];
+            var questionsAttempted = Object.keys(this.testAnswers[testId]);
+            clearInterval(xTimer);
+            //if (questionsAttempted.length == 0) {
+            //    alert("You have not attempted any question. Please attempt atlaest one question.");
+            //}
+            //else {
             $scope.testFlow = false;
             var totalMarks = this.questionArray.length;
             var rightQuestions = [];
@@ -558,11 +601,11 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
                     if (_this.testAnswers[testId][question].result === "correct") {
                         rightQuestions.push(question);
                     }
-                    
+
                 }
             });
             this.questionArray.forEach(function (question) {
-                if (rightQuestions.indexOf(question.qusid) == -1) {
+                if (rightQuestions.indexOf(question.qusid.toString()) == -1) {
                     wrongQuestions.push(question.qusid);
                 }
             });
@@ -584,16 +627,26 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
             $("#testArea").hide();
 
             $("#resultArea").show();
-
+            $(".back-button__icon").hide()
             var testResultObj = {};
-
+            document.getElementById("containerTopScore").innerHTML = "";
+            document.getElementById("containerScore").innerHTML = "";
             testResultObj["ID"] = testId;
-            testResultObj["result"] = result;
+            testResultObj["result"] = Math.round(result);
             testResultObj["right"] = rightQuestions.toString();
             testResultObj["wrong"] = wrongQuestions.toString();
 
-        db.ref("users/" + localStorage.userID + "/tests/" + testId).set(testResultObj);
+            db.ref("users/" + localStorage.userID + "/tests/" + testId).set(testResultObj).then(function () {
+                if (localStorage.Validator === "INVALID") {
+                    db.ref("users/" + localStorage.userID + "/freeTest").set('Done');
+                }
+            });
         //}
+        }
+        
+    }
+    $scope.reloadPage = function () {
+        location.reload();
     }
     this.register = function(){
     
@@ -620,7 +673,8 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
                         email: $scope.email,
                         password: $scope.password,
                         subscription: { code: "INVALID" },
-                        tests: "Not Yet"
+                         tests: "Not Yet",
+                         freeTest: "Not Yet"
                     }).then(function(){
                     	alert('Registered Succesfully');
                     	location.reload();
@@ -736,13 +790,15 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
     $scope.testAnswers = {};
     $scope.testID = "";
     $scope.showCorrectAnswers = function () {
-        localStorage.setItem("state","correct");
+        localStorage.setItem("state", "correct");
+        localStorage.setItem("reviseTitle", "Correct Answers");
         pushPage({ 'id': 'reviseTestDetail.html', 'title': 'Correct Answers' });
        
     }
     $scope.showWrongAnswers = function () {
         localStorage.setItem("state", "wrong");
-        pushPage({ 'id': 'reviseTestDetail.html', 'title': 'Correct Answers' });
+        localStorage.setItem("reviseTitle", "Wrong Answers");
+        pushPage({ 'id': 'reviseTestDetail.html', 'title': 'Wrong Answers' });
     }
     $scope.testFlow = false;
     $scope.countDownDate = new Date();
@@ -754,7 +810,23 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
             localStorage.setItem("QID", id);
             localStorage.setItem("testSubject", subject);
             if (localStorage.Validator === "INVALID" || localStorage.Validator === null) {
-                alert("Please get a subscription first");
+                if (id === 'full') {
+                    if (localStorage.freeTest === 'Not Yet') {
+                        var er = confirm('This is your free test. Are you sure you to continue?');
+                        if (er) {
+                            $scope.questionLength = '300';
+                            $scope.timeLength = '3 hours 30 mins';
+                            pushPage({ 'id': 'takeTest.html', 'title': subject });
+                        }
+                    }
+                    else {
+                        alert("Please get a subscription first. You have reached your free test quota.");
+                    }
+                }
+                else {
+                    alert("Please get a subscription first.");
+                }
+                
             }
             else {
                 if (id == "full") {
@@ -772,14 +844,288 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
         
         
     }
+
+    $scope.loadTestQuestions = function () {
+        //new logic Starts here
+        var medQuestions = _.filter(questionBank, function (item) { return item.qusid.toString().substring(0, 2) == localStorage.QID });
+        var testJSON = JSON.parse(localStorage.testsObj);
+        var questions = [];
+        if (localStorage.QID === "full") {
+            var pattern =
+                [{ code: "29", number: 15, right: 14, wrong: 1 },
+                    { code: "28", number: 15, right: 14, wrong: 1 },
+                    { code: "27", number: 15, right: 14, wrong: 1 },
+                    { code: "25", number: 20, right: 18, wrong: 2 },
+                    { code: "26", number: 20, right: 18, wrong: 2 },
+                    { code: "23", number: 25, right: 22, wrong: 3 },
+                    { code: "24", number: 10, right: 9, wrong: 1 },
+                    { code: "22", number: 25, right: 22, wrong: 3 },
+                    { code: "11", number: 19, right: 17, wrong: 2 },
+                    { code: "18", number: 18, right: 16, wrong: 2 },
+                    { code: "12", number: 12, right: 11, wrong: 1 },
+                    { code: "16", number: 11, right: 10, wrong: 1 },
+                    { code: "14", number: 12, right: 11, wrong: 1 },
+                    { code: "19", number: 11, right: 10, wrong: 1 },
+                    { code: "20", number: 12, right: 11, wrong: 1 },
+                    { code: "13", number: 25, right: 22, wrong: 3 },
+                    { code: "15", number: 15, right: 13, wrong: 2 },
+                    { code: "17", number: 10, right: 9, wrong: 1 },
+                    { code: "21", number: 10, right: 9, wrong: 1 }
+                ];
+
+            pattern.forEach(function (patternObj) {
+                var code = patternObj.code;
+                var rightLen = patternObj.right;
+                var wrongLen = patternObj.wrong;
+
+                var correctQustions = [];
+                var wrongQuestions = [];
+                if (testJSON === 'Not Yet') {
+
+                }
+                else {
+                    Object.keys(testJSON).forEach(function (test) {
+                        testJSON[test].right.split(',').forEach(function (qid) {
+                            if (qid.substring(0, 2) === code) {
+                                correctQustions.push(qid);
+                            }
+
+                        })
+
+                        testJSON[test].wrong.split(',').forEach(function (qid) {
+                            if (qid.substring(0, 2) === code) {
+                                wrongQuestions.push(qid);
+                            }
+
+                        })
+                    });
+                    wrongQuestions = _.difference(correctQustions, wrongQuestions);
+                }
+                
+                //build random question Array of 45 questions excluding attemted ones
+
+                var arr = []
+                while (arr.length < rightLen) {
+                    var r = Math.floor(Math.random() * 600) + 1;
+                    var s = r + "";
+                    while (s.length < 3) s = "0" + s;
+                    var checkstr = code + "00" + s
+                    if (arr.indexOf(code + "00" + s) === -1 && correctQustions.indexOf(checkstr) == -1 && qidsOnly.indexOf(parseInt(code + "00" + s)) > -1) {
+                        arr.push(code + "00" + s);
+                        arr = _.unique(arr);
+                    }
+                }
+
+                console.log("right",arr);
+
+                //fresh Set of Questions
+                
+                questionBank.forEach(function (quest) {
+                    if (arr.indexOf(quest.qusid.toString()) > -1) {
+
+                        questions.push(quest);
+
+                    }
+                });
+
+                //Add Old set of Questions
+                var arrw = []
+                if (wrongQuestions.length < wrongLen) {
+
+                    while (arrw.length < wrongLen) {
+                        var r = Math.floor(Math.random() * 600) + 1;
+                        var s = r + "";
+                        while (s.length < 3) s = "0" + s;
+                        var checkstr = code + "00" + s
+                        if (arrw.indexOf(code + "00" + s) === -1
+                            && correctQustions.indexOf(checkstr) == -1
+                            && qidsOnly.indexOf(parseInt(code + "00" + s)) > -1
+                            && arr.indexOf(code + "00" + s) === -1) {
+                            arrw.push(code + "00" + s);
+                            arrw = _.unique(arrw);
+                        }
+                    }
+
+                    console.log("Wrong",arrw);
+
+
+                }
+                else {
+                    for (var i = 0; i < wrongLen; i++) {
+                        if (arrw.indexOf(wrongQuestions[i]) == -1) {
+                            arrw.push(wrongQuestions[i])
+                        }
+                    }
+                    console.log(arrw);
+                }
+
+
+                //fresh Set of Questions
+                questionBank.forEach(function (quest) {
+                    if (arrw.indexOf(quest.qusid.toString()) > -1) {
+
+                        questions.push(quest);
+
+                    }
+                });
+
+
+
+            })
+        }
+        else {
+            
+            var correctQustions = [];
+            var wrongQuestions = [];
+            if (testJSON === 'Not Yet') {
+
+            }
+            else {
+                Object.keys(testJSON).forEach(function (test) {
+                    testJSON[test].right.split(',').forEach(function (qid) {
+                        if (qid.substring(0, 2) === localStorage.QID) {
+                            correctQustions.push(qid);
+                        }
+
+                    })
+
+                    testJSON[test].wrong.split(',').forEach(function (qid) {
+                        if (qid.substring(0, 2) === localStorage.QID) {
+                            wrongQuestions.push(qid);
+                        }
+
+                    })
+                });
+                wrongQuestions = _.difference(correctQustions, wrongQuestions);
+            }
+            
+            //build random question Array of 45 questions excluding attemted ones
+
+            var arr = []
+            while (arr.length < 45) {
+                var r = Math.floor(Math.random() * 600) + 1;
+                var s = r + "";
+                while (s.length < 3) s = "0" + s;
+                var checkstr = localStorage.QID + "00" + s
+                if (arr.indexOf(localStorage.QID + "00" + s) === -1 && correctQustions.indexOf(checkstr) == -1 && qidsOnly.indexOf(parseInt(localStorage.QID + "00" + s)) > -1) {
+                    arr.push(localStorage.QID + "00" + s);
+                    arr = _.unique(arr);
+                }
+            }
+
+            console.log(arr);
+            
+            //fresh Set of Questions
+            medQuestions.forEach(function (quest) {
+                if (arr.indexOf(quest.qusid.toString()) > -1) {
+
+                    questions.push(quest);
+
+                }
+            });
+
+            //Add Old set of Questions
+            var arrw = []
+            if (wrongQuestions.length < 5) {
+                
+                while (arrw.length < 5) {
+                    var r = Math.floor(Math.random() * 600) + 1;
+                    var s = r + "";
+                    while (s.length < 3) s = "0" + s;
+                    var checkstr = localStorage.QID + "00" + s
+                    if (arrw.indexOf(localStorage.QID + "00" + s) === -1
+                        && correctQustions.indexOf(checkstr) == -1
+                        && qidsOnly.indexOf(parseInt(localStorage.QID + "00" + s)) >-1
+                            && arr.indexOf(localStorage.QID + "00" + s) === -1) {
+                        arrw.push(localStorage.QID + "00" + s);
+                        arrw = _.unique(arrw);
+                    }
+                }
+
+                console.log(arrw);
+
+
+            }
+            else {
+                for (var i = 0; i < 5; i++) {
+                    if (arrw.indexOf(wrongQuestions[i]) == -1) {
+                        arrw.push(wrongQuestions[i])
+                    }
+                }
+                console.log(arrw);
+            }
+
+
+            //fresh Set of Questions
+            medQuestions.forEach(function (quest) {
+                if (arrw.indexOf(quest.qusid.toString()) > -1) {
+
+                    questions.push(quest);
+
+                }
+            });
+
+        }
+
+        //new logic ends here
+
+        
+
+        return questions;
+    }
+
+    function sleep(milliseconds) {
+       
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+            if ((new Date().getTime() - start) > milliseconds) {
+                break;
+            }
+        }
+    }
+    
     $scope.beginMedTest = function () {
+        $scope.questionArray = [];
+        $('#testBack').show();
+        $('#testQuit').hide();
         $scope.testAnswers = {};
-        localStorage.setItem("testID", "test_user1_" + "medicine" + new Date().getTime());
+        localStorage.setItem("testID", "test_user1_" + localStorage.testSubject + "_" + new Date().getTime());
         $scope.testAnswers[localStorage.getItem("testID")] = {};
         $("#clicker_test").hide();
+        $('#testArea').hide();
         $('.loader').show();
-        $('#testArea').show();
-        $('#testTimer').show();
+        $('#testTimer').hide();
+        var _scope = $scope;
+        var questions = [];
+        setTimeout(function () {
+            questions = _scope.loadTestQuestions();
+            _scope.questionArray = questions;
+            _scope.$apply();
+            _scope.testFlow = true;
+            $('.loader').hide();
+            $('#testArea').show();
+            $('#testBack').hide();
+            $('#testQuit').show();
+            $('#testTimer').show();
+            if (localStorage.QID === "full") {
+                _scope.countDownDate = new Date(moment().add(3.5, 'hours'));
+            }
+            else {
+                _scope.countDownDate = new Date(moment().add(60, 'minutes'));
+            }
+
+
+            // Update the count down every 1 second
+            if (timerValid) {
+                clearInterval(xTimer);
+                timerValid = null;
+            }
+
+            timerValid = setInterval(xTimer, 1000);
+        }, 2000)
+
+        
+        
         $("#btnStartTest").hide();
 
         //limit = this.userObject.sets.MEDICINE;
@@ -788,142 +1134,10 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
         //this.questionArray = globalQuestionObject;
 
 
-        var medQuestions = _.filter(questionBank, function (item) { return item.qusid.toString().substring(0, 2) == localStorage.QID });
-        var testJSON = JSON.parse(localStorage.testsObj);
-        var attemptedQues = [];
-        Object.keys(testJSON).forEach(function (testKey) {
-            attemptedQues = [...testJSON[testKey].right.split(",")];
-            attemptedQues = [...testJSON[testKey].wrong.split(",")];
-        });
-
-        if (localStorage.QID === "full") {
-            var questions = [];
-
-            var pattern =
-                [{ code: "29", number: 15 },
-                { code: "28", number: 15 },
-                { code: "27", number: 15 },
-                { code: "25", number: 20 },
-                { code: "26", number: 20 },
-                { code: "23", number: 25 },
-                { code: "24", number: 10 },
-                { code: "22", number: 25 },
-                { code: "11", number: 19 },
-                { code: "18", number: 18 },
-                { code: "12", number: 12 },
-                { code: "16", number: 16 },
-                { code: "14", number: 14 },
-                { code: "19", number: 19 },
-                { code: "20", number: 12 },
-                { code: "13", number: 25 },
-                { code: "15", number: 15 },
-                { code: "17", number: 10 },
-                { code: "21", number: 10 }
-                ];
-
-            pattern.forEach(function (subItem) {
-                var arr = []
-                while (arr.length < subItem.number) {
-                    var r = Math.floor(Math.random() * 600) + 1;
-                    var s = r + "";
-                    while (s.length < 3) s = "0" + s;
-                    var checkstr = subItem.code + "00" + s
-                    if (arr.indexOf(s) === -1 && attemptedQues.indexOf(checkstr) == -1) arr.push(subItem.code + "00" + s);
-                }
-
-                console.log(arr);
-
-
-                var qidArr = [];
-
-                questionBank.forEach(function (quest) {
-                    if (arr.indexOf(quest.qusid.toString()) > -1 && questions.indexOf(quest) == -1) {
-                        if (qidArr.indexOf(quest.qusid.toString()) == -1) {
-                            questions.push(quest);
-                            qidArr.push(quest.qusid.toString());
-                        }
-
-                    }
-                })
-
-            })
-
-        }
-        else {
-            var arr = []
-            while (arr.length < 45) {
-                var r = Math.floor(Math.random() * 600) + 1;
-                var s = r + "";
-                while (s.length < 3) s = "0" + s;
-                var checkstr = localStorage.QID + "00" + s
-                if (arr.indexOf(s) === -1 && attemptedQues.indexOf(checkstr) == -1) arr.push(localStorage.QID + "00" + s);
-            }
-
-            console.log(arr);
-
-            var questions = [];
-            var qidArr = [];
-
-            medQuestions.forEach(function (quest) {
-                if (arr.indexOf(quest.qusid.toString()) > -1 && questions.indexOf(quest) == -1) {
-                    if (qidArr.indexOf(quest.qusid.toString()) == -1) {
-                        questions.push(quest);
-                        qidArr.push(quest.qusid.toString());
-                    }
-
-                }
-            })
-        }
-
-        
-
-
-        //$.ajax({
-        //    url: "GlobalQuestionSet.json",
-        //    async: false,
-        //    dataType: 'json',
-        //    success: function (json) {
-        //        //console.log(json); 
-        //        //var totalSet = _.filter(json,function(item,index){
-
-        //        //    return index > limit;
-
-        //        //})
-
-        //        //var freshquestion = _.filter(totalSet,function(item,index){
-        //        //    return index < 45;
-        //        //})
-        //        //testLimitNow = limit + 45;
-        //        //var alreadyWrongIDMedicine = _.filter(globalUserObject.incorrectId.split(";"),function(item){ return item.toString().substring(0,2) === "11"});
-
-        //        //var previousWrongQuestionforRevsion = _.filter(json,function(item){ return alreadyWrongIDMedicine.indexOf(item.qusid.toString())>-1 });
-
-        //        //var finalQuestionArray = freshquestion.concat(previousWrongQuestionforRevsion);
-
-        //        //globalQuestionObject = finalQuestionArray;
-
-        //    }
-        //});
-
-        this.questionArray = questions;
-        $scope.testFlow = true;
-        $('.loader').hide();
-
-        if (localStorage.QID === "full") {
-            $scope.countDownDate = new Date(moment().add(3.5, 'hours'));
-        }
-        else {
-            $scope.countDownDate = new Date(moment().add(60, 'minutes'));
-        }
        
 
-        // Update the count down every 1 second
-        if (timerValid) {
-            clearInterval(xTimer);
-            timerValid = null;
-        }
+       
         
-        timerValid = setInterval(xTimer, 1000);
     }
     var timerValid;
     function xTimer () {
@@ -943,9 +1157,11 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
 
             // Output the result in an element with id="demo"
             if (localStorage.QID === "full") {
+                if (document.getElementById("testTimer") != null)
                 document.getElementById("testTimer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
             }
             else {
+                if (document.getElementById("testTimer") != null)
                 document.getElementById("testTimer").innerHTML = minutes + "m " + seconds + "s ";
             }
             
@@ -962,7 +1178,8 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
 
     }
 
-    $scope.startMedicineTest = function(){
+    $scope.startMedicineTest = function () {
+        //buildQuestionSet
 
         pushPage({ 'id': 'startTheTest.html', 'title': localStorage.testSubject });
     }
