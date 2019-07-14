@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+   <head>
+
+      <title>testEntrance</title>
+
+      <meta name="viewport" content="width=device-width">
+
+      <link href="CSS/owl.carousel.css" rel="stylesheet" />
+
+      <link href="CSS/owl.theme.default.min.css" rel="stylesheet" />
+
+      <script src="JS/jquery.min-1.11.js"></script>
+
+      <script src="JS/owl.carousel.js"></script>
+
+      <link href="CSS/bootstrap.min.css" rel="stylesheet" />
+
+      <script src="JS/bootstrap.min.js"></script>
+
+      <script src="JS/angular.min.js"></script>
+
+      <script src="JS/moment.js"></script>
+
+      <script src="JS/timePicker.js"></script>
+
+      <link href="CSS/timePicker.css" rel="stylesheet" />
+
+      <link href="CSS/animate.css" rel="stylesheet" />
+
+      <link rel="stylesheet" href="JS/fallback.css">
+
+      <link rel="stylesheet" href="JS/material.min.css">
+
+      <script defer src="JS/material.min.js"></script>
+
+      <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+
+      <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+
+      <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+
+       <script src="https://unpkg.com/angularjs-onsenui@1.0.0/dist/angularjs-onsenui.js"></script>
+
+      <script src="JS/firebase-app.js"></script>
+
+      <script src="JS/firebase-auth.js"></script>
+
+      <script src="JS/firebase-database.js"></script>
+
+      <script src="JS/firebase-firestore.js"></script>
+
+      <script src="JS/firebase-messaging.js"></script> 
+      
+  
+      <script src="JS/underscore.js"></script> 
+
+      <link rel="stylesheet" type="text/css" href="CSS/multipleDatePicker.css"/>
+
+      <script type="text/javascript" src="JS/multipleDatePicker.min.js"></script>
+
+     
+
+      <style>
+      	.highcharts-credits{
+      		display: none !important;
+      	}
+		
+		.action-sheet.action-sheet--material{
+			max-height:400px !important;
+			overflow-y:scroll;
+		}
+         .owl-item.animated {
+
+         visibility: visible;
+
+         }
+          ons-button {
+              background-color: rgb(40,53,147) !important;
+          }
+          ons-toolbar {
+              background-color: rgb(40,53,147) !important;
+          }
+          ons-tab {
+              background-color: rgb(40,53,147) !important;
+          }
+          ons-tab > button {
+            color:white !important;
+          
+          }
+          .tabbar--material__border {
+                height: 2px;
+                background-color: white !important;
+            }
+          ons-toolbar-button {
+              color: white !important;
+          }
+          .toolbar__title {
+            color: white !important;
+          }
+          #toolbar-back-button {
+                fill:white !important;
+          }
+          #testQuit {
+                background-color: rgb(255,87,34) !important;
+          }
+          #testTimer {
+                color:white !important;
+          }
+          ons-fab {
+                 background-color: rgb(40,53,147) !important;
+          }
+          ons-ripple {
+                color: white !important;
+          }
+         .mdl-layout__tab-bar-button{
+
+         display:none !important
+
+         }
+
+         .owl-stage-outer{
+
+         height:100% !important
+
+         }
+         
+         .mdl-layout__drawer-right {
+
+         display: -webkit-box;
+
+         display: -webkit-flex;
+
+         display: -ms-flexbox;
+
+         display: flex;
+
+         -webkit-box-orient: vertical;
+
+         -webkit-box-direction: normal;
+
+         -webkit-flex-direction: column;
+
+         -ms-flex-direction: column;
+
+         flex-direction: column;
+
+         -webkit-flex-wrap: nowrap;
+
+         -ms-flex-wrap: nowrap;
+
+         flex-wrap: nowrap;
+
+         width: 240px;
+
+         height: 100%;
+
+         max-height: 100%;
+
+         position: absolute;
+
+         top: 0;
+
+         right: 0;
+
+         box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+
+         box-sizing: border-box;
+
+         border-right: 1px solid #e0e0e0;
+
+         background: #fafafa;
+
+         -webkit-transform: translateX(250px);
+
+         -ms-transform: translateX(250px);
+
+         transform: translateX(250px);
+
+         -webkit-transform-style: preserve-3d;
+
+         transform-style: preserve-3d;
+
+         will-change: transform;
+
+         -webkit-transition-duration: .2s;
+
+         transition-duration: .2s;
+
+         -webkit-transition-timing-function: cubic-bezier(.4,0,.2,1);
+
+         transition-timing-function: cubic-bezier(.4,0,.2,1);
+
+         -webkit-transition-property: -webkit-transform;
+
+         transition-property: transform;
+
+         color: #424242;
+
+         overflow: visible;
+
+         overflow-y: auto;
+
+         z-index: 5;
+
+         }
+
+         .active {
+
+         -webkit-transform: translateX(0);
+
+         -ms-transform: translateX(0);
+
+         transform: translateX(0);  
+
+         }
+
+         .mdl-layout__obfuscator-right {
+
+         background-color: transparent;
+
+         position: absolute;
+
+         top: 0;
+
+         left: 0;
+
+         height: 100%;
+
+         width: 100%;
+
+         z-index: 4;
+
+         visibility: hidden;
+
+         -webkit-transition-property: background-color;
+
+         transition-property: background-color;
+
+         -webkit-transition-duration: .2s;
+
+         transition-duration: .2s;
+
+         -webkit-transition-timing-function: cubic-bezier(.4,0,.2,1);
+
+         transition-timing-function: cubic-bezier(.4,0,.2,1);
+
+         }
+
+         .mdl-layout__drawer-right.active~.mdl-layout__obfuscator-right {
+
+         background-color: rgba(0,0,0,.5);
+
+         visibility: visible;
+
+         }
+
+         .mdl-layout__drawer-right>.mdl-layout-title {
+             
+         line-height: 56px;
+
+         padding-left: 16px;
+
+         }
+
+      </style>
+
+      <script src="JS/app.js"></script>
+
+   </head>
+
+   <body>
+
+      <div ng-app="healthcareLoginApp" >
+
+         <div ng-controller="mainController as page" >
+
+            <div class="loader" style=" cursor:not-allowed;  position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;  z-index: 10000;display:none">
+
+               <div style=" margin-top:55%;margin-left:45%; z-index:1000;" layout-sm="column" layout-align="space-around">
+
+                  <div class="mdl-spinner mdl-js-spinner is-active"></div>
+
+               </div>
+
+            </div>
+
+            <ons-navigator id="appNavigator" swipeable swipe-target-width="80px">
+
+               <ons-page>
+
+                  <ons-splitter id="appSplitter">
+
+                     <ons-splitter-side id="sidemenu" page="someMenu.html" swipeable side="right" collapse="" width="100%"></ons-splitter-side>
+
+                     <ons-splitter-content page="tabbar.html"></ons-splitter-content>
+
+                  </ons-splitter>
+
+               </ons-page>
+
+            </ons-navigator>
+
+            <template id="tabbar.html">
+
+               <ons-page id="tabbar-page">
+
+                  <ons-toolbar>
+
+                     <div class="left">
+
+                        <ons-toolbar-button ng-click="toggleMenu()">
+
+                           <ons-icon icon="ion-navicon, material:md-menu"></ons-icon>
+
+                        </ons-toolbar-button>
+
+                     </div>
+
+                     <div class="center">Home</div>
+
+                  </ons-toolbar>
+
+                  <ons-tabbar swipeable id="appTabbar" position="auto">
+                  	 <ons-tab label="Home" icon="ion-home" page="home.html" active>
+                  	 
+                  	 
+                  	 </ons-tab>
+
+                    <!-- <ons-tab label="News" icon="ion-social-designernews" page="newsFeed.html"></ons-tab>
+
+                     <ons-tab label="Post" icon="ion-edit" page="forms.html"></ons-tab>-->
+
+                     
+
+                     <ons-tab label="Account" icon="md-face" page="accountConatiner.html"></ons-tab>
+
+                  </ons-tabbar>
+
+                  <script>
+
+                      ons.getScriptPage().addEventListener('prechange', function(event) {
+
+                          if (event.target.matches('#appTabbar')) {
+
+                              event.currentTarget.querySelector('ons-toolbar .center').innerHTML = event.tabItem.getAttribute('label');
+
+                          }
+
+                      });
+
+                  </script>
+
+               </ons-page>
+
+            </template>
+
+            <div id="appContainer" style="overflow-y:scroll">
+
+                <template id="accountConatiner.html">
+
+                    <ons-page id="Tab1">
+
+                        <div id="notLogged">
+                            <ons-tabbar swipeable position="auto">
+
+                                <ons-tab page="log.html" label="Login" active>
+
+                                </ons-tab>
+
+                                <ons-tab page="reg.html" label="Register">
+
+                                </ons-tab>
+                            </ons-tabbar>
+                        </div>
+
+                        <div id="logedIn" style="padding:5%">
+
+                           
+
+                            <ons-button modifier="large" class="button-margin" style="margin-top:5%" ng-click="page.logout()">Logout</ons-button>
+                        </div>
+
+
+
+
+
+                        <script>
+                            var userID = localStorage.getItem("userID");
+
+                            if (userID != null) {
+                                //$("#logedin").show();
+                                setTimeout(function () {
+                                    document.getElementById("logedIn").style.display = "block";
+                                    document.getElementById("notLogged").style.display = "none";
+                                    //$("#notlogged").hide();
+                                    $(".loader").hide();
+                                }, 1000)
+
+                            }
+                        </script>
+
+                    </ons-page>
+
+
+
+                </template>
+
+                <template id="log.html">
+
+                    <ons-page id="log">
+
+                        <div class="content" style="padding:5%">
+
+                            <label class="center" style="width:100%;margin-top:5%">
+
+                                <ons-input id="name-input" float maxlength="20" style="width:100%" ng-model="page.username" placeholder="Phone Number(Do not add +91)"></ons-input>
+
+                            </label>
+
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input1" float maxlength="20" style="width:100%" type="password" ng-model="page.password" placeholder="Password"></ons-input>
+
+                            </label>
+
+                            <ons-button modifier="large" class="button-margin" style="margin-top:10%" ng-click="page.login()">Login</ons-button>
+
+                        </div>
+
+                    </ons-page>
+
+                </template>
+
+                <template id="reg.html">
+
+                    <ons-page id="reg">
+
+                        <div class="content" style="padding:5%">
+
+                            <label class="center" style="width:100%;margin-top:5%">
+
+                                <ons-input id="Ons-input2" float maxlength="20" style="width:100%" ng-model="page.name" placeholder="Name"></ons-input>
+
+                            </label>
+
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input3" float style="width:100%" ng-model="page.email" placeholder="email"></ons-input>
+
+                            </label>
+
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input4" float maxlength="20" style="width:100%" ng-model="page.password" type="password" placeholder="Password"></ons-input>
+
+                            </label>
+
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input5" float maxlength="20" style="width:100%" ng-model="page.repPassword" type="password" placeholder="Repeat password"></ons-input>
+
+                            </label>
+
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input6" float maxlength="20" style="width:100%" ng-model="page.username" placeholder="Phone number"></ons-input>
+
+                            </label>
+
+
+
+                            <ons-button modifier="large" class="button-margin" style="margin-top:10%" ng-click="page.register()">Register</ons-button>
+
+                        </div>
+
+                    </ons-page>
+
+                </template>
+
+               
+
+                <template id="home.html">
+
+                    <ons-page style="background-color:white" class="homePageContainer">
+                        <div id="notLoggedLanding" style="height:35%;width:100%;margin-top:10px;">
+                            <img style="margin-left:35%;margin-top:25%;height:100px" src="icons/loginRegister.png" />
+                            <p style="text-align:center;
+                                          font-family: Lucida Grande, Lucida Sans Unicode, Arial, Helvetica, sans-serif;
+                                            font-size: 12px;
+                                            margin-top:10%;
+                                            color: #666666;">Please Login or register to continue</p>
+                        </div>
+                        <div id="containerTopScore" style="height:35%;width:100%;margin-top:10px;display:none"> </div>
+                        <div id="containerScore" style="margin-top:10px;width:100%;display:none">
+                            <div style="width:100%">
+                                <p style="text-align:center;
+                                          font-family: Lucida Grande, Lucida Sans Unicode, Arial, Helvetica, sans-serif;
+                                            font-size: 14px;
+                                            color: #666666;">{{historyTitle}}</p>
+                                <div id="hasTest" style="width:100%;" ng-repeat="test in testsHome">
+                                    <ons-card style="min-height:95px">
+
+                                        <div class="title">{{test.ID.split('_')[2].charAt(0).toUpperCase() + test.ID.split('_')[2].slice(1);}}</div>
+                                        <div style="width:100%">
+                                            <div class="content" style="width:50%;float:left">{{'Score: ' + test.result + '%'}}</div>
+                                            
+                                            <ons-button style="float:right;width:30%;margin-top:-6%" modifier="cta" class="button-margin" ng-click="reviseTest()">Revise</ons-button>
+
+                                        </div>
+                                       </ons-card>
+                                </div>
+                                <div id="noTestsYet" ng-show="testsHome == 'Not Yet'">
+                                    <img style="margin-left:35%;margin-top:10%;height:100px" src="icons/try3.png"/>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </ons-page>
+                </template>
+                
+
+
+
+
+            </div>
+
+            </div>
+
+      </div>
+
+   </body>
+
+</html>
