@@ -1,0 +1,317 @@
+// Initialize Firebase(connection string here)
+var config = {
+    apiKey: "AIzaSyA_vYMMwJZwo4XNWpRYL5vhdFgtq1l13_U",
+    authDomain: "test-neet.firebaseapp.com",
+    databaseURL: "https://test-neet.firebaseio.com",
+    projectId: "test-neet",
+    storageBucket: "test-neet.appspot.com",
+    messagingSenderId: "689626797297"
+};
+firebase.initializeApp(config);
+
+const auth = firebase.auth();
+var db = firebase.database();
+var userPos = {}
+$(document).ready(function () {
+
+    //ready method
+
+
+})
+
+
+function pushPage(page, anim) {
+    if (anim) {
+        document.getElementById('appNavigator').pushPage(page.id, { data: { title: page.title }, animation: anim });
+    } else {
+        document.getElementById('appNavigator').pushPage(page.id, { data: { title: page.title } });
+    }
+};
+
+function swipeNext(id) {
+    var carousel = document.getElementById('carouselTest');
+    var activeIndex = carousel.getActiveIndex();
+    carousel.setActiveIndex(activeIndex + 1);
+
+}
+
+function swipePrev(id) {
+    var carousel = document.getElementById('carouselTest');
+    var activeIndex = carousel.getActiveIndex();
+    carousel.setActiveIndex(activeIndex - 1);
+    console.log(carousel._swiper.itemCount);
+
+}
+
+var LoginApp = ons.bootstrap("healthcareLoginApp", ['multipleDatePicker', 'onsen']);
+
+LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $element, $window, $log, $filter, $element) {
+
+
+
+    this.username = '';
+    this.password = '';
+    $scope.searchText = '';
+    $scope.searchItems = ['Tax Consultant', 'TDS Return Service'];
+    $scope.searchItems2 = ['Income Tax Filing for Individual', 'Income Tax Filing for Business House'];
+    $scope.searchItems3 = ['GST Return Filing', 'Service Tax Filing', 'VAT Filing', 'GST Registration', 'Service Tax Return Service'];
+    $scope.searchItems4 = ['Income Tax Auditing'];
+    
+    
+
+    $scope.historyTitle = "Your test history";
+
+    $scope.showSearchPage = function () {
+        pushPage({ 'id': 'searchPage.html', 'title': 'Search' });
+    }
+
+    $scope.type1 = true;
+    $scope.type2 = true;
+    $scope.type3 = true;
+    $scope.type4 = true;
+
+    $scope.searchTextChange = function () {
+        
+        $scope.type1 = $scope.showListHeader($scope.searchItems, event.currentTarget.value)
+        $scope.type2 = $scope.showListHeader($scope.searchItems2, event.currentTarget.value)
+        $scope.type3 = $scope.showListHeader($scope.searchItems3, event.currentTarget.value)
+        $scope.type4 = $scope.showListHeader($scope.searchItems4, event.currentTarget.value)
+    }
+
+    $scope.showListHeader = function (obj,val) {
+        
+        if (val == "") {
+            return true;
+        }
+        else {
+            var arr = _.filter(obj, function (item) { return item.toUpperCase().indexOf(val.toUpperCase()) > -1 });
+
+            if (arr.length > 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        
+
+    }
+
+    $scope.hiddenTabClick = function (tabId) {
+        $("#" + tabId).trigger('click');
+
+        if (tabId == 'accountTab' || 'menuTab') {
+            $('#btn_menu').hide();
+            $('#btn_home').show()
+        }
+
+        if (tabId == 'homeTab') {
+            $('#btn_menu').show();
+            $('#btn_home').hide()
+        }
+    }
+
+
+
+    //load home page
+    $scope.loadHomePage = function () {
+
+        $(".loader").show();
+        var _scope = $scope;
+        var userID = localStorage.getItem("userID");
+        if (userID != null) {
+            db.ref("users/" + userID).on('value', function (snapshot) {
+
+                //login logic here
+
+               
+               
+                $(".loader").hide();
+
+            });
+        }
+        else {
+            $('.loader').hide();
+        }
+
+
+
+    }
+
+    $scope.loadHomePage();
+
+    //load verification code
+    $scope.verificationCode = "";
+
+    //subscibe logic
+    this.subscribe = function () {
+        var code = $("#codeInput")[0].value;
+        if (code.length > 0) {
+            db.ref("subscriptioncodes/" + code).once('value', function (snapshot) {
+                if (snapshot.val() == null) {
+                    alert("Please Enter a valid Subscription Code");
+                }
+                else {
+                    if (snapshot.val().isActive.toString() === "false") {
+                        var isActive = localStorage.userID;
+                        db.ref("users/" + localStorage.userID + "/" + "subscription").set({ code }).then(function () {
+                            db.ref("subscriptioncodes/" + code).set({ isActive }).then(function () {
+                                alert("You have successfully activated your subscription");
+                            })
+                        })
+                    }
+                    else {
+                        alert("Please Enter a valid Subscription Code");
+                    }
+                }
+            });
+        }
+        else {
+            alert("Please Enter a valid Code");
+        }
+
+    }
+
+    //login logic
+    this.getOtp = function () {
+        $('#btnotp').hide();
+        $('.loader').show();
+
+        setTimeout(function () {
+            $('.loader').hide();
+            $('#btnlogin').show();
+            $('#lblotp').show();
+        }, 2000)
+    }
+
+    this.login = function () {
+
+        this.userObject = [];
+
+        //alert("Log in disabled in demo version. You are logged in as demoUser. Please Contact administrator for more details")
+
+        $scope.username = this.username;
+        $scope.password = this.password;
+        localStorage.setItem("typePw", this.password);
+        localStorage.setItem("typeID", this.username);
+        $(".loader").show();
+        var _scope = $scope;
+        db.ref('users/' + this.username).once('value', function (snapshot) {
+            if (snapshot.val() != null) {
+
+                if (snapshot.val().password == localStorage["typePw"]) {
+
+                    localStorage.setItem("userID", localStorage["typeID"]);
+
+                    _scope.loadHomePage();
+
+                    $("#notLogged").hide();
+                    $("#logedIn").show();
+                    $(".loader").hide()
+                }
+                else {
+                    alert("You have entered an incorrect password");
+                    $(".loader").hide();
+                }
+            }
+            else {
+                alert("Phone Number Does not Exist.");
+                $(".loader").hide();
+            }
+
+        })
+
+        //       .then(function () {
+        //    if(this.userObject!=null){
+        //    $scope.userObject = this.userObject;
+        //	const promise =  auth.signInWithEmailAndPassword(this.userObject.email,$scope.password);
+        //                           promise.catch(function(e){
+        //                               alert(e.message);
+        //                               $(".loader").hide();
+
+        //                           });
+
+        //	}
+        //	else{
+        //	alert('Phone number does not exist');
+        //	$(".loader").hide();
+        //	}
+
+        //})
+
+    }
+
+    //register logic
+    this.register = function () {
+
+        $(".loader").show();
+        this.userObject = [];
+        $scope.username = this.username;
+        $scope.password = this.password;
+        $scope.name = this.name;
+        $scope.email = this.email;
+        if (this.password == this.repPassword) {
+
+            db.ref('users/' + this.username).once('value', function (snapshot) {
+
+                this.userObject = snapshot.val();
+
+
+            }).then(function () {
+                if (this.userObject == null) {
+                    //auth.createUserWithEmailAndPassword($scope.email,$scope.password).then(function(){
+                    //const promise =  auth.signInWithEmailAndPassword($scope.email,$scope.password);
+                    //promise.then(function(){
+                    firebase.database().ref('users/' + $scope.username).set({
+                        name: $scope.name,
+                        email: $scope.email,
+                        password: $scope.password,
+                        subscription: { code: "INVALID" },
+                        tests: "Not Yet",
+                        freeTest: "Not Yet"
+                    }).then(function () {
+                        alert('Registered Succesfully');
+                        location.reload();
+                    });
+                    //})
+
+                    //});
+                }
+                else {
+                    alert('Phone number already exists');
+                    $(".loader").hide();
+                }
+
+            })
+        }
+        else {
+
+            alert("Passwords dont match");
+        }
+
+
+    }
+
+    //logout/ session out logic
+    this.logout = function () {
+        var r = confirm("Are you sure Logout?");
+        if (r) {
+            delete localStorage["userID"];
+            delete localStorage["Validator"];
+
+            location.reload();
+        }
+
+    }
+
+
+
+
+}).config(function ($httpProvider) {
+    $httpProvider.defaults.headers.post = {};
+    $httpProvider.defaults.headers.post["Content-Type"] = "application/json; charset=utf-8";
+})
+
+ons.ready(function () {
+
+});
