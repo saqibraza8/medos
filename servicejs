@@ -29,17 +29,17 @@ function pushPage(page, anim) {
 };
 
 function swipeNext(id) {
-    var carousel = document.getElementById('carouselTest');
+    var carousel = document.getElementById('carousel');
     var activeIndex = carousel.getActiveIndex();
     carousel.setActiveIndex(activeIndex + 1);
 
 }
 
 function swipePrev(id) {
-    var carousel = document.getElementById('carouselTest');
+    var carousel = document.getElementById('carousel');
     var activeIndex = carousel.getActiveIndex();
     carousel.setActiveIndex(activeIndex - 1);
-    console.log(carousel._swiper.itemCount);
+    //console.log(carousel._swiper.itemCount);
 
 }
 
@@ -313,5 +313,24 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
 })
 
 ons.ready(function () {
-
+    ons.platform._selectedPlatform = 'android';
+    localStorage.setItem("scrollCount", "1");
+    setInterval(function () {
+        if (document.getElementById('carousel')) {
+            var number = parseInt(Math.random() * 100);
+            if (number % 2 == 0) {
+                swipeNext();
+                var index = parseInt(localStorage.scrollCount) + 1;
+                localStorage.setItem('scrollCount', index);
+            }
+            else {
+                var index = parseInt(localStorage.scrollCount) + 1;
+                localStorage.setItem('scrollCount', index);
+                swipePrev();
+            }
+            console.log("ScollFunction", number, localStorage.scrollCount);
+            
+        }
+        
+    }, 3000);
 });
