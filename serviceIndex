@@ -519,53 +519,57 @@
                         <ons-list style="background-color: #efeff4;">
 
                             <ons-list-item expandable>
-                                <b>Tax Consultation</b>
-                                
+                                <b>Services</b>
                                 <div class="expandable-content">
-                                    <ons-list style="background-color: #efeff4;">
-                                        <ons-list-item tappable>Tax Consultant</ons-list-item>
-                                        <ons-list-item tappable>TDS Return Service</ons-list-item>
-                                    </ons-list>
-                                </div>
-                            </ons-list-item>
-                            <ons-list-item expandable>
-                                <b>Direct Tax Service</b>
-                               
-                                <div class="expandable-content">
-                                    <ons-list style="background-color: #efeff4;">
-                                        <ons-list-item tappable>Income Tax Filing for Individual</ons-list-item>
-                                        <ons-list-item tappable>Income Tax Filing for Business House</ons-list-item>
-                                    </ons-list>
-                                </div>
+                                    <ons-list-item expandable>
+                                        <b>Tax Consultation</b>
 
-                            </ons-list-item>
-                            <ons-list-item expandable>
-                                <b>Indirect Tax Service</b>
-                                <div class="expandable-content" tappable>
-                                    <ons-list style="background-color: #efeff4;">
-                                        <ons-list-item tappable>GST Return Filing</ons-list-item>
-                                        <ons-list-item tappable>Service Tax Filing</ons-list-item>
-                                        <ons-list-item tappable>VAT Filing</ons-list-item>
-                                        <ons-list-item tappable>GST Registration</ons-list-item>
-                                        <ons-list-item tappable>Service Tax Return Service</ons-list-item>
-                                    </ons-list>
-                                </div>
-                                
-                            </ons-list-item>
-                            <ons-list-item expandable>
-                                <b>Tax Audit</b>
-                                <div class="expandable-content">
-                                    <ons-list style="background-color: #efeff4;">
-                                        <ons-list-item tappable>Income Tax Auditing</ons-list-item>
-                                        
-                                    </ons-list>
-                                </div>
-                            </ons-list-item>
+                                        <div class="expandable-content">
+                                            <ons-list style="background-color: #efeff4;">
+                                                <ons-list-item tappable>Tax Consultant</ons-list-item>
+                                                <ons-list-item tappable>TDS Return Service</ons-list-item>
+                                            </ons-list>
+                                        </div>
+                                    </ons-list-item>
+                                    <ons-list-item expandable>
+                                        <b>Direct Tax Service</b>
 
+                                        <div class="expandable-content">
+                                            <ons-list style="background-color: #efeff4;">
+                                                <ons-list-item tappable>Income Tax Filing for Individual</ons-list-item>
+                                                <ons-list-item tappable>Income Tax Filing for Business House</ons-list-item>
+                                            </ons-list>
+                                        </div>
 
+                                    </ons-list-item>
+                                    <ons-list-item expandable>
+                                        <b>Indirect Tax Service</b>
+                                        <div class="expandable-content" tappable>
+                                            <ons-list style="background-color: #efeff4;">
+                                                <ons-list-item tappable>GST Return Filing</ons-list-item>
+                                                <ons-list-item tappable>Service Tax Filing</ons-list-item>
+                                                <ons-list-item tappable>VAT Filing</ons-list-item>
+                                                <ons-list-item tappable>GST Registration</ons-list-item>
+                                                <ons-list-item tappable>Service Tax Return Service</ons-list-item>
+                                            </ons-list>
+                                        </div>
+
+                                    </ons-list-item>
+                                    <ons-list-item expandable>
+                                        <b>Tax Audit</b>
+                                        <div class="expandable-content">
+                                            <ons-list style="background-color: #efeff4;">
+                                                <ons-list-item tappable>Income Tax Auditing</ons-list-item>
+
+                                            </ons-list>
+                                        </div>
+                                    </ons-list-item>
+                                </div>
+                            </ons-list-item>
+                            <ons-list-item tappable><b>Client Testimonials</b></ons-list-item>
+                            <ons-list-item tappable><b>Leadership</b></ons-list-item>
+                            <ons-list-item tappable><b>About Us</b></ons-list-item>
                             <ons-list-item tappable><b>Contact Us</b></ons-list-item>
-
-
                         </ons-list>
                     </ons-page>
 
