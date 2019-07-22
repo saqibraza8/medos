@@ -229,6 +229,39 @@
         .zmdi-home {
             margin-top:12px !important;
         }
+        .text-input--material__label {
+            color:#212121 !important;
+        }
+        .text-input--material {
+            background-image:linear-gradient(to top,transparent 1px,#212121 1px) !important;
+        }
+        .page__content {
+            background-color: lightsteelblue !important;
+        }
+        .menuPageStyle {
+            background-color: #efeff4 !important;
+        }
+        .menuPageStyle .page__content {
+         background-color: #efeff4 !important;
+
+        }
+        .searchPageStyle {
+            background-color:white !important;
+        }
+        .searchPageStyle .page__content {
+         background-color: white !important;
+
+        }
+        .tabbar--material__button {
+            text-transform: none !important;
+            font-size: 18px !important;
+        }
+        .button--material, .button--material--flat {
+                text-transform: none !important;
+        }
+        .button--material {
+            font-size: 18px !important;
+        }
     </style>
 
     <script src="JS/app.js"></script>
@@ -295,7 +328,7 @@
 
                         </div>
 
-                        <div class="center">Home</div>
+                        <div class="center">Audit Booking</div>
 
                         <div class="right">
 
@@ -309,7 +342,7 @@
                     </ons-toolbar>
 
                     <ons-tabbar swipeable id="appTabbar" position="auto">
-                        <ons-tab label="Home" id="homeTab" icon="ion-home" style="display:none" page="home.html" active>
+                        <ons-tab label="Audit Booking" id="homeTab" icon="ion-home" style="display:none" page="home.html" active>
 
 
                         </ons-tab>
@@ -355,7 +388,7 @@
 
                                 </ons-tab>
 
-                                <ons-tab page="reg.html" label="Register">
+                                <ons-tab page="reg.html" label="Sign Up">
 
                                 </ons-tab>
                             </ons-tabbar>
@@ -459,7 +492,7 @@
 
 
 
-                            <ons-button modifier="large" class="button-margin" style="margin-top:10%" ng-click="page.register()">Register</ons-button>
+                            <ons-button modifier="large" class="button-margin" style="margin-top:10%" ng-click="page.register()">Sign Up</ons-button>
 
                         </div>
 
@@ -482,7 +515,7 @@
     </div>-->
 
                         <p style="text-align: center; margin-top: 10px;">
-                            <ons-search-input placeholder="Search" style="width:90%" ng-click="showSearchPage()"></ons-search-input>
+                            <ons-search-input placeholder="Search for services here e.g. Tax audit" style="width:90%" ng-click="showSearchPage()"></ons-search-input>
                         </p>
                         <div style="width:100%;height:450px;padding-left:5%;padding-right:5%">
                             <ons-carousel swipeable auto-scroll style="height:450px" id="carousel">
@@ -515,7 +548,7 @@
                 </template>
 
                 <template id="menuPage.html">
-                    <ons-page >
+                    <ons-page class="menuPageStyle" style="background-color: #efeff4;">
                         <ons-list style="background-color: #efeff4;">
 
                             <ons-list-item expandable>
@@ -577,7 +610,7 @@
 
                 <template id="searchPage.html">
 
-                    <ons-page style="background-color:white">
+                    <ons-page class="searchPageStyle" style="background-color:white">
                         <ons-toolbar>
 
                             <div class="left">
@@ -589,7 +622,7 @@
 
                         </ons-toolbar>
                         <p style="text-align: center; margin-top: 10px;">
-                            <ons-search-input placeholder="Search" ng-model="searchText" ng-change="searchTextChange()" style="width:90%"></ons-search-input>
+                            <ons-search-input placeholder="Search for services here e.g. Tax audit" ng-model="searchText" ng-change="searchTextChange()" style="width:90%"></ons-search-input>
                         </p>
 
                         <ons-list>
