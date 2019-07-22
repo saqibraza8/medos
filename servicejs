@@ -314,21 +314,31 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
 
 ons.ready(function () {
     ons.platform._selectedPlatform = 'android';
-    localStorage.setItem("scrollCount", "1");
+    localStorage.setItem("scrollCount", "0");
     setInterval(function () {
         if (document.getElementById('carousel')) {
             var number = parseInt(Math.random() * 100);
-            if (number % 2 == 0) {
+
+            var actI = document.getElementById('carousel').getActiveIndex();
+
+            if (actI < 3) {
                 swipeNext();
-                var index = parseInt(localStorage.scrollCount) + 1;
-                localStorage.setItem('scrollCount', index);
             }
             else {
-                var index = parseInt(localStorage.scrollCount) + 1;
-                localStorage.setItem('scrollCount', index);
-                swipePrev();
+                carousel.setActiveIndex(0);
             }
-            console.log("ScollFunction", number, localStorage.scrollCount);
+
+            //if (number % 2 == 0) {
+            //    swipeNext();
+            //    var index = parseInt(localStorage.scrollCount) + 1;
+            //    localStorage.setItem('scrollCount', index);
+            //}
+            //else {
+            //    var index = parseInt(localStorage.scrollCount) + 1;
+            //    localStorage.setItem('scrollCount', index);
+            //    swipePrev();
+            //}
+            //console.log("ScollFunction", number, localStorage.scrollCount);
             
         }
         
