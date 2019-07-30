@@ -12,13 +12,14 @@
 const auth = firebase.auth();
 var db = firebase.database();
 var userPos = {}
-$(document).ready(function(){
+$(document).ready(function () {
 
-    //var html = '<p style="padding: 25%;font-size: 18px;font-weight: bold;"> Please Login or Register to continue</p>';
-    //document.getElementById("containerTopScore").innerHTML = html;
+    //setting device Identification
+    if (!localStorage["deviceID"]) {
+        localStorage.setItem('deviceID', parseInt(Math.random() * 10000000000).toString())
+    }
     
     
-   
 })
 
 var qidsOnly = _.pluck(questionBank, 'qusid')
@@ -193,22 +194,26 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
         var _scope = $scope;
         var userID = localStorage.getItem("userID");
         if (userID != null) {
-            db.ref("users/" + userID).on('value', function (snapshot) {
+            db.ref("users/" + userID).once('value', function (snapshot) {
                 var testsTillNow = snapshot.val().tests;
                 //entire code here
                 localStorage.setItem("Validator", snapshot.val().subscription.code);
                 localStorage.setItem("fullName", snapshot.val().name);
                 localStorage.setItem("email", snapshot.val().email);
+                localStorage.setItem("deviceObj", JSON.stringify(snapshot.val().device))
                 localStorage.setItem("testsObj", JSON.stringify(snapshot.val().tests));
                 localStorage.setItem("freeTest", snapshot.val().freeTest);
                 _scope.testsHome = snapshot.val().tests;
                 if (_scope.testsHome === 'Not Yet') {
                     _scope.historyTitle = "You have not taken any test yet!";
+                    $('#headerP').css('margin-top','20%')
                     $('#containerTopScore').hide();
+                    $('#containerAvgScore').hide();
                 }
                 else {
                     _scope.historyTitle = "Your test history.";
                     $('#containerTopScore').show();
+                    $('#containerAvgScore').show();
                 }
                 
                 
@@ -222,6 +227,7 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
                 })
 
                 var topScore = Math.max(...scores);
+                const arrAvg = scores.reduce((a, b) => a + b, 0) / scores.length;
 
                 var gaugeOptions = {
 
@@ -233,12 +239,14 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
                     title: null,
 
                     pane: {
-                        center: ['50%', '85%'],
-                        size: '140%',
-                        startAngle: -90,
-                        endAngle: 90,
+                        center: ['50%', '50%'],
+                        size: '100%',
+                        startAngle: 0,
+                        endAngle: 360,
+                        borderWidth: 5,
                         background: {
-                            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                            backgroundColor: '#FFFF',
+                            borderColor: 'rgb(40,53,147)',
                             innerRadius: '60%',
                             outerRadius: '100%',
                             shape: 'arc'
@@ -252,9 +260,9 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
                     // the value axis
                     yAxis: {
                         stops: [
-                            [0.1, '#55BF3B'], // green
-                            [0.5, '#DDDF0D'], // yellow
-                            [0.9, '#DF5353'] // red
+                            [70, 'rgb(40,53,147)'], // green
+                            [40, '#DDDF0D'], // yellow
+                            [30, '#DF5353'] // red
                         ],
                         lineWidth: 0,
                         minorTickInterval: null,
@@ -286,7 +294,7 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
                             text: 'Your Top Score'
                         }
                     },
-
+                    title: 'Your Top Score',
                     series: [{
                         name: 'RPM',
                         data: [topScore],
@@ -298,7 +306,36 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
                         tooltip: {
                             valueSuffix: ' revolutions/min'
                         }
-                    }]
+                    }],
+                    exporting: {
+                        enabled: false
+                    }
+
+                }));
+                var chartRpm2 = Highcharts.chart('containerAvgScore', Highcharts.merge(gaugeOptions, {
+                    yAxis: {
+                        min: 0,
+                        max: 100,
+                        title: {
+                            text: 'Your Top Score'
+                        }
+                    },
+
+                    series: [{
+                        name: 'RPM',
+                        data: [arrAvg],
+                        dataLabels: {
+                            format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.1f}</span><br/>' +
+                                '<span style="font-size:12px;color:silver">%'
+                        },
+                        tooltip: {
+                            valueSuffix: ' revolutions/min'
+                        }
+                    }],
+                    exporting: {
+                        enabled: false
+                    }
 
                 }));
 
@@ -374,6 +411,19 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
                 $('#containerScore').show();
                 $(".loader").hide();
 
+                setTimeout(function () {
+                    var devices = JSON.parse(localStorage.deviceObj);
+                    if (devices[localStorage["deviceID"]]) {
+                        if (devices[localStorage["deviceID"]].STATUS != "ACTIVE") {
+                            _scope.regNewDevice();
+                        }
+                    }
+                    else {
+                        _scope.regNewDevice();
+                    }
+
+                }, 5000)
+
             });
         }
         else {
@@ -383,7 +433,59 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
 
 
     }
+    $scope.regNewDevice = function () {
+        var devices = JSON.parse(localStorage.deviceObj);
+        var confrm = confirm("New Device detected. You need to remove your previous device to continue");
+        if (confrm) {
+            var remDevice = "";
+            var removalDates = [];
+            var chkFlag = 'N';
+            Object.keys(devices).forEach(function (device) {
+                if (devices[device].STATUS === 'ACTIVE') {
+                    remDevice = device;
+                }
+                else {
+                    removalDates.push(devices[device].STATUS);
+                    var a = moment(devices[device].STATUS)
+                    var b = moment(new Date())
+                    var d = b.diff(a, 'days');
+                    if (d <= 2) {
+                        chkFlag = 'Y';
+                    }
+                }
+            })
+            if (chkFlag === 'Y') {
+                alert("You can only remove a device after 2 days of last device removal. Thank you for understanding.");
+                delete localStorage["userID"];
+                delete localStorage["Validator"];
 
+                location.reload();
+            }
+            else {
+                var val = { STATUS: "ACTIVE" }
+                var val2 = { STATUS: new Date().toString() }
+                db.ref("users/" + localStorage.userID + "/device/" + localStorage["deviceID"]).set(val).then(function () {
+                    if (remDevice != "") {
+                        db.ref("users/" + localStorage.userID + "/device/" + remDevice).set(val2).then(function () {
+                            alert("New Device Configured.");
+                        });
+                    }
+                    else {
+                        alert("New Device Configured.");
+                    }
+
+                });
+            }
+            
+
+        }
+        else {
+            delete localStorage["userID"];
+            delete localStorage["Validator"];
+
+            location.reload();
+        }
+    }
     $scope.loadHomePage();
     $scope.verificationCode = "";
     $scope.showSubcription = function () {
@@ -536,7 +638,8 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
                     
                     $("#notLogged").hide();
                     $("#logedIn").show();
-                    $(".loader").hide()
+                    $(".loader").hide();
+
                 }
                 else {
                     alert("You have entered an incorrect password");
@@ -630,6 +733,7 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
             $(".back-button__icon").hide()
             var testResultObj = {};
             document.getElementById("containerTopScore").innerHTML = "";
+            document.getElementById("containerAvgScore").innerHTML = "";
             document.getElementById("containerScore").innerHTML = "";
             testResultObj["ID"] = testId;
             testResultObj["result"] = Math.round(result);
@@ -664,19 +768,24 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
     		  
     	
     	}).then(function(){
-    		if(this.userObject==null){
-    			 //auth.createUserWithEmailAndPassword($scope.email,$scope.password).then(function(){
-    			 //const promise =  auth.signInWithEmailAndPassword($scope.email,$scope.password);
-    			 //promise.then(function(){
-    			 firebase.database().ref('users/' + $scope.username).set({
-                        name :   $scope.name,      
-                        email: $scope.email,
-                        password: $scope.password,
-                        subscription: { code: "INVALID" },
-                         tests: "Not Yet",
-                         freeTest: "Not Yet"
+            if (this.userObject == null) {
+                //auth.createUserWithEmailAndPassword($scope.email,$scope.password).then(function(){
+                //const promise =  auth.signInWithEmailAndPassword($scope.email,$scope.password);
+                //promise.then(function(){
+                var dObj = {}
+                dObj[localStorage['deviceID']] = { "STATUS": "ACTIVE" }
+                firebase.database().ref('users/' + $scope.username).set({
+                    name: $scope.name,
+                    email: $scope.email,
+                    password: $scope.password,
+                    subscription: { code: "INVALID" },
+                    device: dObj,
+                        tests: "Not Yet",
+                        freeTest: "Not Yet"
                     }).then(function(){
-                    	alert('Registered Succesfully');
+                        alert('Registered Succesfully');
+                        
+                        localStorage.setItem("userID", $scope.username);
                     	location.reload();
                     });
     			 //})
@@ -700,13 +809,48 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
     
     this.logout = function () {
         var r = confirm("Are you sure Logout?");
-        if (r) {
+        if (r == true) {
             delete localStorage["userID"];
             delete localStorage["Validator"];
             
             location.reload();
         }
     	
+    }
+
+    this.updatePW = function () {
+        
+        $(".loader").show();
+        localStorage["typePw"] = this.OldPassword;
+        localStorage["typeNewPw"] = this.newPassword;
+        localStorage["typeNewRepPw"] = this.repNewPassword;
+        db.ref('users/' + localStorage.userID).once('value', function (snapshot) {
+            
+
+                if (snapshot.val().password == localStorage["typePw"]) {
+
+                    if (localStorage["typeNewPw"] === localStorage["typeNewRepPw"]) {
+                        db.ref("users/" + localStorage.userID + "/password").set(localStorage["typeNewRepPw"]).then(function () {
+                            $(".loader").hide();
+                            alert("Password has been updated");
+                        });
+                    }
+                    else {
+                        alert("New Passwords don't match.")
+                        $(".loader").hide();
+                    }
+                    
+                    
+
+                }
+                else {
+                    alert("You have entered an incorrect password");
+                    $(".loader").hide();
+                }
+            
+            
+
+        })
     }
 
     $scope.nextQ = function(){
@@ -783,9 +927,19 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
     $scope.selectAnswer = function(id){
         var qid = id.item.qusid;
         $scope.testAnswers[localStorage.getItem("testID")][qid] = {};
-        $scope.testAnswers[localStorage.getItem("testID")][qid]["result"] = (event.currentTarget.value.split("_")[1] === id.item.ans) ? "correct" : "wrong";
+        $scope.testAnswers[localStorage.getItem("testID")][qid]["tappedAnswer"] = event.currentTarget.childNodes[1].innerText;
+        $scope.testAnswers[localStorage.getItem("testID")][qid]["result"] = (event.currentTarget.childNodes[1].innerText === id.item.ans) ? "correct" : "wrong";
+        var col = $("ons-list-item[questionCollection='" + id.item.qusid + "_option']")
+        for (var i = 0; i < col.length; i++) {
+            $(col[i].childNodes[2].childNodes[1]).hide();
+            $(col[i].childNodes[2].childNodes[3]).show();
+        }
 
-
+        // .forEach(function (item) {
+        //    $(item[0].childNodes[2].childNodes[1]).hide();
+        //})
+        $(event.currentTarget.childNodes[2].childNodes[1]).show();
+        $(event.currentTarget.childNodes[2].childNodes[3]).hide();
     }
     $scope.testAnswers = {};
     $scope.testID = "";
