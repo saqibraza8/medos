@@ -54,7 +54,7 @@
 
       <script src="JS/firebase-messaging.js"></script> 
       
-      <script src="JS/GlobalQuestionSet.js"></script>
+      <script src="JS/GlobalQuestionSet.js" ></script>
       <script src="JS/underscore.js"></script> 
 
       <link rel="stylesheet" type="text/css" href="CSS/multipleDatePicker.css"/>
@@ -276,6 +276,12 @@
          padding-left: 16px;
 
          }
+          .list-item--material__left {
+            min-width:40px !important;
+          }
+          .highcharts-label > span {
+            top:-20px !important
+          }
 
       </style>
 
@@ -336,7 +342,7 @@
                   </ons-toolbar>
 
                   <ons-tabbar swipeable id="appTabbar" position="auto">
-                  	 <ons-tab label="Home" icon="ion-home" page="home.html" active>
+                  	 <ons-tab label="Home" icon="md-home" page="home.html" active>
                   	 
                   	 
                   	 </ons-tab>
@@ -388,40 +394,79 @@
                             </ons-tabbar>
                         </div>
 
-                        <div id="logedIn" style="padding:5%">
 
-                            <div style="width:100%">
-                                <div style="width:50%;float:left">
-                                    <ons-card ng-click="showSubcription()">
+                        <div id="logedIn">
+                            <img style="width:200px;margin-left:25%;margin-top:5%" src="icons/medical-student.png"/>
+                            <div style="margin: 5%;border: 1px solid rgb(40, 53, 147);border-radius: 18px;">
+                                <ons-list style="background-color:#efeff4;border-radius: 18px;">
+                                    <ons-list-item tappable modifier="longdivider" style="border-bottom: 1px solid rgb(40,53,147)" ng-click="showSubcription()">
+                                        <div class="left">
+                                            <ons-icon icon="md-shopping-cart" class="list-item__icon"></ons-icon>
+                                        </div>
+                                        <div class="center">
+                                            <b>Subscription</b>
+                                        </div>
+                                    </ons-list-item>
+                                    <ons-list-item tappable modifier="longdivider" style="border-bottom: 1px solid rgb(40,53,147)" ng-click="personalDetails()">
+                                        <div class="left">
+                                            <ons-icon icon="md-face" class="list-item__icon"></ons-icon>
+                                        </div>
+                                        <div class="center">
+                                            <b>Account Details</b>
+                                        </div>
+                                    </ons-list-item>
+                                    <ons-list-item tappable modifier="longdivider" style="border-bottom: 1px solid rgb(40,53,147)" ng-click="openCueCards()">
+                                        <div class="left">
+                                            <ons-icon icon="md-book" class="list-item__icon"></ons-icon>
+                                        </div>
+                                        <div class="center">
+                                            <b>Cue Cards</b>
+                                        </div>
+                                    </ons-list-item>
+                                    <ons-list-item tappable modifier="longdivider" style="border-bottom: 1px solid rgb(40,53,147)" ng-click="page.logout()">
+                                        <div class="left">
+                                            <ons-icon icon="md-run" class="list-item__icon"></ons-icon>
+                                        </div>
+                                        <div class="center">
+                                            <b>Logout</b>
+                                        </div>
+                                    </ons-list-item>
+                                </ons-list>
 
-                                        <div class="title">Subscription</div>
+                                <!--<div style="width:100%">
+            <div style="width:50%;float:left">
+                <ons-card ng-click="showSubcription()">
 
-                                    </ons-card>
-                                </div>
-                                <div style="width:50%;float:right" ng-click="personalDetails()">
-                                    <ons-card>
+                    <div class="title">Subscription</div>
 
-                                        <div class="title">User info</div>
+                </ons-card>
+            </div>
+            <div style="width:50%;float:right" ng-click="personalDetails()">
+                <ons-card>
 
-                                    </ons-card>
-                                </div>
+                    <div class="title">User info</div>
 
+                </ons-card>
+            </div>
+
+        </div>
+
+        <div style="width:100%">
+
+            <div style="width:100%;float:right" ng-click="openCueCards()">
+                <ons-card>
+
+                    <div class="title">Cue Cards</div>
+                    <div class="content">Revise Wrongly attempted questions.</div>
+                </ons-card>
+            </div>
+
+        </div>
+
+        <ons-button modifier="large" class="button-margin" style="margin-top:5%" ng-click="page.logout()">Logout</ons-button>-->
                             </div>
-
-                            <div style="width:100%">
-
-                                <div style="width:100%;float:right" ng-click="openCueCards()">
-                                    <ons-card>
-
-                                        <div class="title">Cue Cards</div>
-                                        <div class="content">Revise Wrongly attempted questions.</div>
-                                    </ons-card>
-                                </div>
-
-                            </div>
-
-                            <ons-button modifier="large" class="button-margin" style="margin-top:5%" ng-click="page.logout()">Logout</ons-button>
                         </div>
+                        
 
 
 
@@ -658,6 +703,47 @@
 
                 </template>
 
+                <template id="passwordChange.html">
+                    <ons-page id="subPersonal">
+                        <ons-toolbar>
+
+                            <div class="left">
+
+                                <ons-back-button>Change Password</ons-back-button>
+
+                            </div>
+
+                            <div class="center">Change Password</div>
+
+                        </ons-toolbar>
+
+                        <div class="content" style="padding:5%">
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input  float maxlength="20" style="width:100%" ng-model="page.OldPassword" type="password" placeholder="Old Password"></ons-input>
+
+                            </label>
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input4" float maxlength="20" style="width:100%" ng-model="page.newPassword" type="password" placeholder="New Password"></ons-input>
+
+                            </label>
+
+                            <label class="center" style="width:100%;margin-top:10%">
+
+                                <ons-input id="Ons-input5" float maxlength="20" style="width:100%" ng-model="page.repNewPassword" type="password" placeholder="Repeat new password"></ons-input>
+
+                            </label>
+
+                            <ons-button modifier="large" class="button-margin" style="margin-top:10%" ng-click="page.updatePW()">Update</ons-button>
+
+
+                        </div>
+                        </ons-page>
+                    
+
+                </template>
+
                 <template id="personalDetails.html">
 
                     <ons-page id="subPersonal">
@@ -677,7 +763,14 @@
 
                             <ons-card>
 
-                                <div class="title">Name</div>
+                                <div class="title" style="display:flex;">
+                                    <div style="width:90%">
+                                        Name
+                                    </div>
+                                    <div class="right">
+                                        <ons-icon icon="md-edit" class="list-item__icon"></ons-icon>
+                                    </div>
+                                </div>
 
                                 <div class="content">{{fullName}}</div>
 
@@ -685,7 +778,14 @@
 
                             <ons-card>
 
-                                <div class="title">Email</div>
+                                <div class="title" style="display:flex;">
+                                    <div style="width:90%">
+                                        E-MAIL
+                                    </div>
+                                    <div class="right">
+                                        <ons-icon icon="md-edit" class="list-item__icon"></ons-icon>
+                                    </div>
+                                </div>
 
                                 <div class="content">{{email}}</div>
 
@@ -698,6 +798,22 @@
                                 <div class="content">{{blckPhone}}</div>
 
                             </ons-card>
+                            <ons-card>
+
+                                <div class="title" style="display:flex;">
+                                    <div style="width:90%">
+                                        Password
+                                    </div>
+                                    <div class="right">
+                                        
+                                        
+                                        <ons-icon icon="md-edit" class="list-item__icon" onclick="pushPage({ 'id': 'passwordChange.html', 'title': 'Change Password' });"></ons-icon>
+                                    </div>
+                                </div>
+
+                                <div class="content"><b>XXXXXXXXX</b></div>
+
+                            </ons-card>
 
                         </div>
 
@@ -705,69 +821,27 @@
 
                 </template>
 
-                <template id="postText.html">
-                    <ons-page id="postText">
-                        </ons-tab>
-                </template>
-
-
-
-
-
-
-
-                <template id="postPicture.html">
-                    <ons-page id="postPicture">
-
-                        </ons-tab>
-                </template>
-
-                <template id="postDoc.html">
-                    <ons-page id="postDoc">
-                        </ons-tab>
-                </template>
-
-                <template id="forms.html">
-
-                    <ons-page id="forms">
-
-                        <ons-tabbar swipeable position="auto">
-
-                            <ons-tab page="postText.html" label="Text" active>
-
-                            </ons-tab>
-
-                            <ons-tab page="postPicture.html" label="Picture">
-
-                            </ons-tab>
-
-                            <ons-tab page="postDoc.html" label="Document">
-
-                            </ons-tab>
-
-                        </ons-tabbar>
-
-                    </ons-page>
-
-                </template>
+                
 
                 <template id="home.html">
 
                     <ons-page style="background-color:white" class="homePageContainer">
                         <div id="notLoggedLanding" style="height:35%;width:100%;margin-top:10px;">
-                            <img style="margin-left:35%;margin-top:25%;height:100px" src="icons/loginRegister.png" />
+                            <img style="margin-left:24%;margin-top:25%;height:200px" src="icons/loginRegister.png" />
                             <p style="text-align:center;
                                           font-family: Lucida Grande, Lucida Sans Unicode, Arial, Helvetica, sans-serif;
                                             font-size: 12px;
                                             margin-top:10%;
-                                            color: #666666;">Please Login or register to continue</p>
+                                            color: #666666;">Please <a>Login</a> or <a>register</a> to continue</p>
                         </div>
-                        <div id="containerTopScore" style="height:35%;width:100%;margin-top:10px;display:none"> </div>
+                        <div id="containerTopScore" style="height:35%;width:50%;margin-top:10px;display:none;float:left"> </div>
+                        <div id="containerAvgScore" style="height:35%;width:50%;margin-top:10px;display:none;float:right"> </div>
                         <div id="containerScore" style="margin-top:10px;width:100%;display:none">
                             <div style="width:100%">
-                                <p style="text-align:center;
+                                <p id="headerP" style="text-align:center;
                                           font-family: Lucida Grande, Lucida Sans Unicode, Arial, Helvetica, sans-serif;
                                             font-size: 14px;
+                                            
                                             color: #666666;">{{historyTitle}}</p>
                                 <div id="hasTest" style="width:100%;" ng-repeat="test in testsHome">
                                     <ons-card style="min-height:95px">
@@ -782,7 +856,7 @@
                                        </ons-card>
                                 </div>
                                 <div id="noTestsYet" ng-show="testsHome == 'Not Yet'">
-                                    <img style="margin-left:35%;margin-top:10%;height:100px" src="icons/try3.png"/>
+                                    <img style="margin-left:20%;margin-top:10%;height:200px;width:200px" src="icons/try3.png"/>
                                 </div>
 
                             </div>
@@ -790,76 +864,7 @@
                         </div>
                     </ons-page>
                 </template>
-                <template id="newsFeed.html">
-
-                    <ons-page>
-
-
-
-                        <ons-card>
-
-                            <div class="title">Saqib Raza</div>
-
-                            <div class="content">Took full test with 72%. Improved by 18%</div>
-
-                        </ons-card>
-
-                        <ons-card>
-
-                            <div class="title">Farhan Raza</div>
-
-                            <div class="content">shared link for Anatomy tutorial :<a href="http://google.com/"></a></div>
-
-                        </ons-card>
-
-                        <ons-card>
-
-                            <div class="title">Saqib Raza</div>
-
-                            <div class="content">posted a picture</div>
-
-                        </ons-card>
-
-                        <ons-card>
-
-                            <div class="title">Saqib Raza</div>
-
-                            <div class="content">took Anatomy test and scored 85%.</div>
-
-                        </ons-card>
-
-                        <ons-card>
-
-                            <div class="title">Saqib Raza</div>
-
-                            <div class="content">posted a picture</div>
-
-                        </ons-card>
-
-
-
-                        <style>
-
-                            .intro {
-                                text-align: center;
-                                padding: 0 20px;
-                                margin-top: 40px;
-                            }
-
-                            ons-card {
-                                cursor: pointer;
-                                color: #333;
-                            }
-
-                            .card__title,
-                            .card--material__title {
-                                font-size: 20px;
-                            }
-                        </style>
-
-                    </ons-page>
-
-                </template>
+               
 
                 <template id="testSubject.html">
 
@@ -1247,54 +1252,57 @@
                                         <p><b>{{item.qus}}</b></p>
 
                                         <ons-list>
-
-                                            <ons-list-item tappable>
-
-                                                <label class="left">
-
-                                                    <ons-radio class="radio-fruit" input-id="{{item.qusid + '_' + option + '_' + $index }}" ng-model="page.answer[$index]" value="{{item.qusid + '_'  + item.optionA}}" ng-click="selectAnswer(this)"></ons-radio>
-
-                                                </label>
-
-                                                <label for="{{item.qusid + '_' + option + '_' + $index }}" class="center">{{item.optionA}}</label>
-
+                                            <ons-list-item tappable questionCollection="{{item.qusid + '_option' }}" ng-click="selectAnswer(this)">
+                                                <div class="left">
+                                                    <ons-icon icon="md-check-circle" style="display:none" class="list-item__icon"></ons-icon>
+                                                    <ons-icon icon="md-circle-o" class="list-item__icon"></ons-icon>
+                                                </div>
+                                                <div class="center">
+                                                    {{item.optionA}}
+                                                </div>
                                             </ons-list-item>
 
-                                            <ons-list-item tappable>
-
-                                                <label class="left">
-
-                                                    <ons-radio class="radio-fruit" input-id="{{item.qusid + '_' + option + '_' + $index }}" ng-model="page.answer[$index]" value="{{item.qusid +  '_' + item.optionB}}" ng-click="selectAnswer(this)"></ons-radio>
-
-                                                </label>
-
-                                                <label for="{{item.qusid + '_' + option + '_' + $index }}" class="center">{{item.optionB}}</label>
-
+                                            <ons-list-item tappable questionCollection="{{item.qusid + '_option'  }}" ng-click="selectAnswer(this)">
+                                                <div class="left">
+                                                    <ons-icon icon="md-check-circle" style="display:none" class="list-item__icon"></ons-icon>
+                                                    <ons-icon icon="md-circle-o" class="list-item__icon"></ons-icon>
+                                                </div>
+                                                <div class="center">
+                                                    {{item.optionB}}
+                                                </div>
                                             </ons-list-item>
 
-                                            <ons-list-item tappable>
-
-                                                <label class="left">
-
-                                                    <ons-radio class="radio-fruit" input-id="{{item.qusid + '_' + option + '_' + $index }}" ng-model="page.answer[$index]" value="{{item.qusid +  '_' + item.optionC}}" ng-click="selectAnswer(this)"></ons-radio>
-
-                                                </label>
-
-                                                <label for="{{item.qusid + '_' + option + '_' + $index }}" class="center">{{item.optionC}}</label>
-
+                                            <ons-list-item tappable questionCollection="{{item.qusid + '_option'  }}" ng-click="selectAnswer(this)">
+                                                <div class="left">
+                                                    <ons-icon icon="md-check-circle" style="display:none" class="list-item__icon"></ons-icon>
+                                                    <ons-icon icon="md-circle-o" class="list-item__icon"></ons-icon>
+                                                </div>
+                                                <div class="center">
+                                                    {{item.optionC}}
+                                                </div>
                                             </ons-list-item>
 
-                                            <ons-list-item tappable>
-
-                                                <label class="left">
-
-                                                    <ons-radio class="radio-fruit" input-id="{{item.qusid + '_' + option + '_' + $index }}" ng-model="page.answer[$index]" value="{{item.qusid  + '_' + item.optionD}}" ng-click="selectAnswer(this)"></ons-radio>
-
-                                                </label>
-
-                                                <label for="{{item.qusid + '_' + option + '_' + $index }}" class="center">{{item.optionD}}</label>
-
+                                            <ons-list-item tappable questionCollection="{{item.qusid + '_option'  }}" ng-click="selectAnswer(this)">
+                                                <div class="left">
+                                                    <ons-icon icon="md-check-circle" style="display:none" class="list-item__icon"></ons-icon>
+                                                    <ons-icon icon="md-circle-o" class="list-item__icon"></ons-icon>
+                                                </div>
+                                                <div class="center">
+                                                    {{item.optionD}}
+                                                </div>
                                             </ons-list-item>
+
+                                            <!--<ons-list-item tappable questionCollection="{{item.qusid + '_option'  }}" ng-click="selectAnswer(this)">
+                                                <div class="left">
+                                                    <ons-icon icon="md-circle" class="list-item__icon"></ons-icon>
+                                                    <ons-icon icon="md-circle" class="list-item__icon"></ons-icon>
+                                                </div>
+                                                <div class="center">
+                                                    {{item.optionE}}
+                                                </div>
+                                            </ons-list-item>-->
+
+                                            
 
 
 
