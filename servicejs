@@ -120,15 +120,18 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
         var _scope = $scope;
         var userID = localStorage.getItem("userID");
         if (userID != null) {
-            db.ref("users/" + userID).on('value', function (snapshot) {
+            //db.ref("users/" + userID).on('value', function (snapshot) {
 
-                //login logic here
+            //    //login logic here
 
                
                
-                $(".loader").hide();
+            //    $(".loader").hide();
 
-            });
+            //});
+            $("#notLogged").hide();
+            $("#logedIn").show();
+            $(".loader").hide()
         }
         else {
             $('.loader').hide();
@@ -177,8 +180,12 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
         $('#btnotp').hide();
         $('.loader').show();
 
+        var otp = parseInt( Math.random() * 1000000);
+        localStorage.setItem("otp",otp);
+        alert("Please Enter " + otp + " as your OTP.")
         setTimeout(function () {
             $('.loader').hide();
+            $('#btnResend').show();
             $('#btnlogin').show();
             $('#lblotp').show();
         }, 2000)
@@ -196,30 +203,41 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
         localStorage.setItem("typeID", this.username);
         $(".loader").show();
         var _scope = $scope;
-        db.ref('users/' + this.username).once('value', function (snapshot) {
-            if (snapshot.val() != null) {
 
-                if (snapshot.val().password == localStorage["typePw"]) {
+        var otp = localStorage.otp;
 
-                    localStorage.setItem("userID", localStorage["typeID"]);
+        if(otp == $scope.password){
+            localStorage.setItem("userID",$scope.username);
+            _scope.loadHomePage();
 
-                    _scope.loadHomePage();
+            $("#notLogged").hide();
+            $("#logedIn").show();
+            $(".loader").hide()
+        }
+        else{
+            alert("You have entered an incorrect OTP");
+            $(".loader").hide();
+        }
 
-                    $("#notLogged").hide();
-                    $("#logedIn").show();
-                    $(".loader").hide()
-                }
-                else {
-                    alert("You have entered an incorrect password");
-                    $(".loader").hide();
-                }
-            }
-            else {
-                alert("Phone Number Does not Exist.");
-                $(".loader").hide();
-            }
+        //db.ref('users/' + this.username).once('value', function (snapshot) {
+        //    if (snapshot.val() != null) {
 
-        })
+        //        if (snapshot.val().password == localStorage["typePw"]) {
+
+        //            localStorage.setItem("userID", localStorage["typeID"]);
+
+                   
+        //        }
+        //        else {
+                   
+        //        }
+        //    }
+        //    else {
+        //        alert("Phone Number Does not Exist.");
+        //        $(".loader").hide();
+        //    }
+
+        //})
 
         //       .then(function () {
         //    if(this.userObject!=null){
