@@ -282,6 +282,9 @@
         .text-input--material {
         background-image:none !important;
         }
+        .noBottom {
+            margin-bottom:0px !important;
+        }
     </style>
 
     <script src="JS/app.js"></script>
@@ -414,11 +417,102 @@
                             </ons-tabbar>
                         </div>
 
-                        <div id="logedIn" style="padding:5%">
+                        <div id="logedIn" style="display:none">
+                            <div style="width:100%;height:200px;background-color:steelblue">
+                                <img style="height:200px;margin-left:75px" src="icons/ap.png"/>
+                            </div>
 
+                            <ons-list style="background-color: #efeff4;border: 1px solid rgb(40, 53, 147);border-radius: 18px; border-bottom: 1px solid rgb(40, 53, 147);margin:15px">
 
+                            
+                            
+                            <ons-list-item tappable style="border-bottom: 1px solid rgb(40, 53, 147);">
+                                
+                                <div class="left">
+                                            <ons-icon icon="md-face" class="list-item__icon"></ons-icon>
+                                        </div>
+                                        <div class="center">
+                                           <b>Account Information</b>
+                                        </div>
+                            </ons-list-item>
+                                <ons-list-item tappable   style="border-bottom: 1px solid rgb(40, 53, 147);" ng-click="page.logout()">
+                                
+                                <div class="left">
+                                            <ons-icon icon="md-run" class="list-item__icon"></ons-icon>
+                                        </div>
+                                        <div class="center">
+                                           <b>Logout</b>
+                                        </div>
+                            </ons-list-item>
+                            <ons-list-item tappable>
+                                
+                                <div class="left">
+                                            <ons-icon icon="md-book" class="list-item__icon"></ons-icon>
+                                        </div>
+                                        <div class="center">
+                                           <b>FAQs</b>
+                                        </div>
+                            </ons-list-item>
+                            
+                        </ons-list>
+                        <p style="margin:15px">
+                           <b>Active Requests</b>
+                        </p>
+                        <div >
+                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                           
+                            border-radius: 15px !important;">
+                               
+                                <div class="title">
+                                  Tax Consultation
+                                </div>
+                                <div class="content">
+                                  <p class="noBottom"><b>TDS Return Service</b></p>
+                                  <p class="noBottom"><b>Status: Awaiting Documents</b></p>
+                                  <ons-button modifier="small" class="button-margin" style="margin-top:5%;">Cancel</ons-button>
+                                  <ons-button modifier="small" class="button-margin" style="margin-top:5%;">Track</ons-button>
+                                </div>
+                              </ons-card>
+                        </div>
 
-                            <ons-button modifier="large" class="button-margin" style="margin-top:5%" ng-click="page.logout()">Logout</ons-button>
+                        <p style="margin:15px">
+                           <b>Past Requests</b>
+                        </p>
+
+                        <div >
+                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                           
+                            border-radius: 15px !important;">
+                               
+                                <div class="title">
+                                  Indirect Tax
+                                </div>
+                                <div class="content">
+                                  <p class="noBottom"><b>GST return Filing</b></p>
+                                  <p class="noBottom"><b>Status: Completed</b></p>
+                                  <ons-button modifier="small" class="button-margin" style="margin-top:5%;">Rate Us</ons-button>
+                                </div>
+                              </ons-card>
+                        </div>
+
+                        <div >
+                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                           
+                            border-radius: 15px !important;">
+                               
+                                <div class="title">
+                                  Indirect Tax
+                                </div>
+                                <div class="content">
+                                  <p class="noBottom"><b>GST Registration</b></p>
+                                  <p class="noBottom"><b>Status: Cancelled</b></p>
+                                  <ons-button modifier="small" class="button-margin" style="margin-top:5%;">Rate Us</ons-button>
+                                </div>
+                              </ons-card>
+                        </div>
+                       
+
+                            <!--<ons-button modifier="large" class="button-margin" style="margin-top:5%;margin-left:5%;margin-right:5%" ng-click="page.logout()">Logout</ons-button>-->
                         </div>
 
 
@@ -465,7 +559,7 @@
                             </label>
 
                             <ons-button modifier="large" id="btnotp" class="button-margin" style="margin-top:10%" ng-click="page.getOtp()">Get OTP</ons-button>
-
+                            <a id="btnResend" style="display:none" ng-click="page.getOtp()">Resend OTP</a>
                             <ons-button modifier="large" id="btnlogin" class="button-margin" style="margin-top:10%;display:none" ng-click="page.login()">Login</ons-button>
 
                         </div>
@@ -528,24 +622,24 @@
                       <!--  <p style="text-align: center;background-color: rgb(40,53,147)">
                             <ons-search-input placeholder="Search here e.g. Tax audit" ng-model="searchText" ng-change="searchTextChange()" style="width:90%; margin-top: 10px;margin-bottom:10px"></ons-search-input>
                         </p>-->
-                        <div style="width:100%;height:450px;padding-left:5%;padding-right:5%">
+                        <div style="width:100%;padding-left:5%;padding-right:5%">
                             <ons-carousel swipeable auto-scroll style="height:100px" id="carousel">
-                                <ons-carousel-item style="background-color: #085078;">
+                                <ons-carousel-item style="background-color: rgb(40,53,147)">
                                     <div style="text-align: center; font-size: 30px; margin-top: 20px; color: #fff;">
                                         Tax Consultation
                                     </div>
                                 </ons-carousel-item>
-                                <ons-carousel-item style="background-color: #373B44;">
+                                <ons-carousel-item style="background-color: rgb(40,53,147)">
                                     <div style="text-align: center; font-size: 30px; margin-top: 20px; color: #fff;">
                                         Direct Tax Service
                                     </div>
                                 </ons-carousel-item>
-                                <ons-carousel-item style="background-color: #D38312;">
+                                <ons-carousel-item style="background-color: rgb(40,53,147)">
                                     <div style="text-align: center; font-size: 30px; margin-top: 20px; color: #fff;">
                                         Indirect Tax Service
                                     </div>
                                 </ons-carousel-item>
-                                <ons-carousel-item style="background-color: #D38312;">
+                                <ons-carousel-item style="background-color: rgb(40,53,147)">
                                     <div style="text-align: center; font-size: 30px; margin-top: 20px; color: #fff;">
                                         Tax Audit
                                     </div>
@@ -553,9 +647,111 @@
                             </ons-carousel>
 
                         </div>
-                        
 
-                    </ons-page>
+                        <div >
+                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                           
+                            border-radius: 15px !important;">
+                               
+                                <div class="title">
+                                  Special Offer!!
+                                </div>
+                                <div class="content">
+                                  <b>Get upto 20% off on first booking!!</b>
+                                  
+                                </div>
+                              </ons-card>
+                        </div>
+                        <p style="margin:15px">
+                           <b>Top Picks for you</b>
+                        </p>
+
+                        <!--row 1-->
+                        <div style="display:inline-flex">
+                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                             height:134px;width:150px;
+                            border-radius: 15px !important;">
+                               
+                                <div class="title">
+                                 Tax
+                                </div>
+                                <div class="content">
+                                  <b><i>TDS Return Service</i></b>
+                                  
+                                </div>
+                              </ons-card>
+                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                            height:134px;width:150px;
+                            border-radius: 15px !important;">
+                               
+                                <div class="title">
+                                  IT
+                                </div>
+                                <div class="content">
+                                  <b><i>IT filing for business house</i></b>
+                                  
+                                </div>
+                              </ons-card>
+                        </div>
+
+                        <!--row 2-->
+                        <div style="display:inline-flex">
+                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                             height:134px;width:150px;
+                            border-radius: 15px !important;">
+                               
+                                <div class="title">
+                                  IT
+                                </div>
+                                <div class="content">
+                                  <b><i>IT filing for indivisual</i></b>
+                                  
+                                </div>
+                              </ons-card>
+                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                            height:134px;width:150px;
+                            border-radius: 15px !important;">
+                               
+                                <div class="title">
+                                 VAT
+                                </div>
+                                <div class="content">
+                                  <b><i>VAT filing</i></b>
+                                  
+                                </div>
+                              </ons-card>
+                        </div>
+
+                        <!--row 3-->
+
+                        <div style="display:inline-flex">
+                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                             height:134px;width:150px;
+                            border-radius: 15px !important;">
+                               
+                                <div class="title">
+                                  Audit
+                                </div>
+                                <div class="content">
+                                  <b><i>IT Auditing</i></b> 
+                                  
+                                </div>
+                              </ons-card>
+                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                            border-radius: 15px !important;">
+                               
+                                <div class="title">
+                                  GST
+                                </div>
+                                <div class="content">
+                                 <b><i>GST Registration</i></b>
+                                  
+                                </div>
+                              </ons-card>
+                        </div>
+                       
+
+                     </ons-page>
                 </template>
 
                 <template id="menuPage.html">
@@ -619,7 +815,7 @@
                             <ons-list-item tappable style="border-bottom: 1px solid rgb(40, 53, 147);">
                                
                                 <div class="left">
-                                            <ons-icon icon="md-shopping-cart" class="list-item__icon"></ons-icon>
+                                            <ons-icon icon="md-book" class="list-item__icon"></ons-icon>
                                         </div>
                                         <div class="center">
                                             <b>Client Testimonials</b>
@@ -628,7 +824,7 @@
                             <ons-list-item tappable style="border-bottom: 1px solid rgb(40, 53, 147);">
                                 
                                  <div class="left">
-                                            <ons-icon icon="md-shopping-cart" class="list-item__icon"></ons-icon>
+                                            <ons-icon icon="md-nature-people" class="list-item__icon"></ons-icon>
                                         </div>
                                         <div class="center">
                                             <b>Leadership</b>
@@ -637,7 +833,7 @@
                             <ons-list-item tappable style="border-bottom: 1px solid rgb(40, 53, 147);">
                                 
                                 <div class="left">
-                                            <ons-icon icon="md-shopping-cart" class="list-item__icon"></ons-icon>
+                                            <ons-icon icon="fa-question-circle-o" class="list-item__icon"></ons-icon>
                                         </div>
                                         <div class="center">
                                            <b>About Us</b>
@@ -646,7 +842,7 @@
                             <ons-list-item tappable>
                                 
                                 <div class="left">
-                                            <ons-icon icon="md-shopping-cart" class="list-item__icon"></ons-icon>
+                                            <ons-icon icon="md-phone-ring" class="list-item__icon"></ons-icon>
                                         </div>
                                         <div class="center">
                                            <b>Contact Us</b>
