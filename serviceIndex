@@ -285,6 +285,18 @@
         .noBottom {
             margin-bottom:0px !important;
         }
+        .cardTitle {
+            margin:0px !important;
+            text-align:center;
+        }
+        .cardIcon {
+                height: 40px;
+                width: 40px;
+                font-size: 45px;
+    
+                margin-top: 30%;
+                margin-left: 11%;
+        }
     </style>
 
     <script src="JS/app.js"></script>
@@ -351,7 +363,7 @@
 
                         </div>
 
-                        <div class="center">Audit Booking</div>
+                        <div class="center">Auditbooking.com</div>
 
                         <div class="right">
 
@@ -625,16 +637,16 @@
                         <div style="width:100%;padding-left:5%;padding-right:5%">
                             <ons-carousel swipeable auto-scroll style="height:100px" id="carousel">
                                 <ons-carousel-item style="background-color: rgb(40,53,147)">
-                                    <div style="text-align: center; font-size: 30px; margin-top: 20px; color: #fff;">
-                                        Tax Consultation
+                                    <div style="text-align: center; font-size: 20px; margin-top: 20px; color: #fff;">
+                                        IT Return/Tax Filling
                                     </div>
                                 </ons-carousel-item>
                                 <ons-carousel-item style="background-color: rgb(40,53,147)">
-                                    <div style="text-align: center; font-size: 30px; margin-top: 20px; color: #fff;">
-                                        Direct Tax Service
+                                    <div style="text-align: center; font-size: 20px; margin-top: 20px; color: #fff;">
+                                       GST Filling / New Registration
                                     </div>
                                 </ons-carousel-item>
-                                <ons-carousel-item style="background-color: rgb(40,53,147)">
+                                <!--<ons-carousel-item style="background-color: rgb(40,53,147)">
                                     <div style="text-align: center; font-size: 30px; margin-top: 20px; color: #fff;">
                                         Indirect Tax Service
                                     </div>
@@ -643,7 +655,7 @@
                                     <div style="text-align: center; font-size: 30px; margin-top: 20px; color: #fff;">
                                         Tax Audit
                                     </div>
-                                </ons-carousel-item>
+                                </ons-carousel-item>-->
                             </ons-carousel>
 
                         </div>
@@ -663,96 +675,104 @@
                               </ons-card>
                         </div>
                         <p style="margin:15px">
-                           <b>Top Picks for you</b>
+                           <b>Recommended for you</b>
                         </p>
 
                         <!--row 1-->
                         <div style="display:inline-flex">
-                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
-                             height:134px;width:150px;
-                            border-radius: 15px !important;">
+                            <div>
+                                <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                                             height:87px;width:87px;
+                                             border-radius: 50% !important;"
+                                             ng-click="showServiceDetails(serviceObj[1].subCategory[0])"
+                                             >
+                                <ons-icon icon="md-balance" class="cardIcon"></ons-icon>
                                
-                                <div class="title">
-                                 Tax
-                                </div>
-                                <div class="content">
-                                  <b><i>TDS Return Service</i></b>
-                                  
-                                </div>
-                              </ons-card>
-                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
-                            height:134px;width:150px;
-                            border-radius: 15px !important;">
+                                </ons-card>
+                                <p class="cardTitle" >
+                                   <b>GST Filing</b>
+                                </p>
+                            </div>
+                             <div>
+                                <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                                             height:87px;width:87px;
+                                             border-radius: 50% !important;"
+                                    ng-click="showServiceDetails(serviceObj[1].subCategory[1])">
+                                             
+                               <ons-icon icon="md-accounts-add" class="cardIcon"></ons-icon>
+                                </ons-card>
+                                <p class="cardTitle" >
+                                   <b>GST Registration</b>
+                                </p>
+                            </div>
+                             <div>
+                                <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                                             height:87px;width:87px;
+                                             border-radius: 50% !important;"
+                                             ng-click="showServiceDetails(serviceObj[0].subCategory[1])"
+                                    >
                                
-                                <div class="title">
-                                  IT
-                                </div>
-                                <div class="content">
-                                  <b><i>IT filing for business house</i></b>
-                                  
-                                </div>
-                              </ons-card>
+                               <ons-icon icon="md-book" class="cardIcon"></ons-icon>
+                                </ons-card>
+                                <p class="cardTitle" >
+                                   <b>Tax Filing</b>
+                                </p>
+                            </div>
+                            
+                            
+                           
                         </div>
 
                         <!--row 2-->
                         <div style="display:inline-flex">
-                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
-                             height:134px;width:150px;
-                            border-radius: 15px !important;">
+                            <div>
+                                <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                                             height:87px;width:87px;
+                                             border-radius: 50% !important;"
+                                            ng-click="showServiceDetails(serviceObj[0].subCategory[2])"
+                                    >
                                
-                                <div class="title">
-                                  IT
-                                </div>
-                                <div class="content">
-                                  <b><i>IT filing for indivisual</i></b>
-                                  
-                                </div>
-                              </ons-card>
-                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
-                            height:134px;width:150px;
-                            border-radius: 15px !important;">
+                               <ons-icon icon="md-map" class="cardIcon"></ons-icon>
+                                </ons-card>
+                                <p class="cardTitle" >
+                                   <b>NRI Tax Filing</b>
+                                </p>
+                            </div>
+                             <div>
+                                <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                                             height:87px;width:87px;
+                                             border-radius: 50% !important;">
                                
-                                <div class="title">
-                                 VAT
-                                </div>
-                                <div class="content">
-                                  <b><i>VAT filing</i></b>
-                                  
-                                </div>
-                              </ons-card>
+                               <ons-icon icon="md-assignment-check" class="cardIcon"></ons-icon>
+                                </ons-card>
+                                <p class="cardTitle" >
+                                   <b>Audit Filing</b>
+                                </p>
+                            </div>
+                             <div>
+                                <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
+                                             height:87px;width:87px;
+                                             border-radius: 50% !important;"
+                                             ng-click="showServiceDetails(serviceObj[0].subCategory[0])"
+                                    >
+                               
+                               <ons-icon icon="md-assignment-account" class="cardIcon"></ons-icon>
+                                </ons-card>
+                                <p class="cardTitle" >
+                                   <b>Individual Tax filing</b>
+                                </p>
+                            </div>
+                            
+                            
+                           
                         </div>
 
-                        <!--row 3-->
-
-                        <div style="display:inline-flex">
-                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
-                             height:134px;width:150px;
-                            border-radius: 15px !important;">
-                               
-                                <div class="title">
-                                  Audit
-                                </div>
-                                <div class="content">
-                                  <b><i>IT Auditing</i></b> 
-                                  
-                                </div>
-                              </ons-card>
-                            <ons-card style="margin:15px;border: 2px solid rgb(40, 53, 147) !important;
-                            border-radius: 15px !important;">
-                               
-                                <div class="title">
-                                  GST
-                                </div>
-                                <div class="content">
-                                 <b><i>GST Registration</i></b>
-                                  
-                                </div>
-                              </ons-card>
-                        </div>
                        
 
                      </ons-page>
                 </template>
+
+                
 
                 <template id="menuPage.html">
                     <ons-page class="menuPageStyle" style="background-color: #efeff4;">
@@ -852,6 +872,47 @@
                     </ons-page>
 
                 </template>
+                <template id="serviceDetails.html">
+                     <ons-page class="searchPageStyle" style="background-color:white">
+                        <ons-toolbar>
+
+                            <div class="left">
+                                <ons-back-button>{{serviceToolBarTitle}}</ons-back-button>
+                                
+                            </div>
+                            <div class="center">
+                                {{serviceToolBarTitle}}
+                                <!--<ons-search-input placeholder="Search for services here e.g. Tax audit" ng-model="searchText" ng-change="searchTextChange()" style="width:90%"></ons-search-input>-->
+                            </div>
+
+                        </ons-toolbar>
+                        <div style="width:100%;height:200px;background-color:steelblue">
+                                    <img style="height:200px;margin-left:75px" src="icons/ban.png"/>
+                        </div>
+                         <div style="padding:15px">
+                             <p style="font-size:22px"><b>{{serviceToolBarTitle}}</b></p>
+                             <div style="display:inline-flex">
+                                 <img style="width:100px" src="icons/stars.png"/>
+                                 <div style="margin-left:10px"><b>4.0/5 (15 Reviews)</b></div>
+                             </div>
+                             <p>
+                                 <div style="display:inline-flex">
+                                  <ons-icon icon="md-balance-wallet" style="font-size:22px"></ons-icon>
+                                 <div style="margin-left:10px"><b>Rs.{{fee}}</b></div>
+                             </div>
+                             </p>
+                             
+                             <p style="margin:0px"><b>Description:</b></p>
+                             <p><b>{{serviceDetails}}</b></p>
+                             <p ng-show="showLastDate">
+                                 <b>Last Date to submit: {{LastDateOfFilling}}</b>
+                             </p>
+
+                             <ons-button modifier="large" class="button-margin" style="margin-top:5%;" >Request Now</ons-button>
+                         </div>
+                         
+                    </ons-page>
+                </template>
 
                 <template id="searchPage.html">
 
@@ -872,26 +933,12 @@
                             <ons-search-input placeholder="Search here e.g. Tax audit" ng-model="searchText" ng-change="searchTextChange()" style="width:90%; margin-top: 10px;margin-bottom:10px"></ons-search-input>
                         </p>
 
-                        <ons-list>
-                            <ons-list-header ng-show="type1"><b>Tax Consultation</b></ons-list-header>
-                            <ons-list-item tappable style="padding-left:10%" ng-repeat="item in searchItems | filter:searchText">{{item}}</ons-list-item>
+                        <ons-list ng-repeat="category in serviceObj">
+                            <ons-list-header ng-show="type1"><b>{{category.ServiceCatName}}</b></ons-list-header>
+                            <ons-list-item tappable style="padding-left:10%" ng-repeat="item in category.subCategory | filter:{'ServiceSubCatName':  searchText}" ng-click="showServiceDetails(item)">{{item.ServiceSubCatName}}</ons-list-item>
 
                         </ons-list>
-                        <ons-list>
-                            <ons-list-header ng-show="type2"><b>Direct Tax Service</b></ons-list-header>
-                            <ons-list-item tappable style="padding-left:10%" ng-repeat="item in searchItems2 | filter:searchText">{{item}}</ons-list-item>
-
-                        </ons-list>
-                        <ons-list>
-                            <ons-list-header ng-show="type3"><b>Indirect Tax Service</b></ons-list-header>
-                            <ons-list-item tappable style="padding-left:10%" ng-repeat="item in searchItems3 | filter:searchText">{{item}}</ons-list-item>
-
-                        </ons-list>
-                        <ons-list>
-                            <ons-list-header ng-show="type4"><b>Tax Audit Service</b></ons-list-header>
-                            <ons-list-item tappable style="padding-left:10%" ng-repeat="item in searchItems4 | filter:searchText">{{item}}</ons-list-item>
-
-                        </ons-list>
+                        
 
                     </ons-page>
 
