@@ -52,6 +52,138 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
     this.username = '';
     this.password = '';
     $scope.searchText = '';
+    
+
+    $scope.serviceObj = [
+        {   ServiceCatId: 1,
+            ServiceCatName: "IT Return/Tax Filling",
+            subCategory: [{
+                ServiceSubCatId: 2,
+                ServiceSubCatName: "Salaried Individual Tax Filing",
+                ServiceSubCatDetails: "Tax Filing for a salaried individual for the fiscal year.",
+                LastDateOfFilling: "31-07-2019",
+                Fee:"700",
+                
+                documents:[{
+                    ServiceDocId: 1,
+                    ServiceDocName: "Salary Form 16"
+                },
+                {
+                    ServiceDocId: 2,
+                    ServiceDocName: "Income from House rent"
+                },
+                {
+                    ServiceDocId: 3,
+                    ServiceDocName: "Other Income , Interest from fixed deposit"
+                },
+                {
+                    ServiceDocId: 4,
+                    ServiceDocName: "Withdrawal from PF & Bank Deposits"
+                }]
+            },
+            {
+                ServiceSubCatId: 4,
+                ServiceSubCatName: "Individual Tax Filing (Non Salaried)",
+                ServiceSubCatDetails: "Tax Filing for an individual with income from Capital Gains or Tax Relief under Section 89",
+                LastDateOfFilling: "NA",
+                Fee:"780",
+                documents:[{
+                    ServiceDocId: 5,
+                    ServiceDocName: "Salary - form 16"
+                },
+                {
+                    ServiceDocId: 6,
+                    ServiceDocName: "Withdrawal from PF & Bank Deposits"
+                },
+                {
+                    ServiceDocId: 7,
+                    ServiceDocName: "Capital Gains from sale of stocks, mutual funds & property"
+                },
+                {
+                    ServiceDocId: 8,
+                    ServiceDocName: "Donations"
+                }]
+            },
+            {
+                ServiceSubCatId: 5,
+                ServiceSubCatName: "NRI Tax Returns Filing",
+                ServiceSubCatDetails: "Tax Returns Filing for Non-Resident Indian (NRI) for the fiscal year",
+                LastDateOfFilling: "31-07-2019",
+                Fee:"800",
+                documents:[
+                {
+                    ServiceDocId: 7,
+                    ServiceDocName: "Capital Gains from sale of stocks, mutual funds & property"
+                },
+                {
+                    ServiceDocId: 8,
+                    ServiceDocName: "Donations"
+                }]
+            }
+            ]
+        },
+        {   ServiceCatId: 2,
+            ServiceCatName: "GST Filling / New Registration",
+            subCategory: [{
+                ServiceSubCatId: 6,
+                ServiceSubCatName: "GST Registration",
+                ServiceSubCatDetails: "Goods And Services Tax (GST) Registration for a small/ medium or large business owner.",
+                Fee:"3000",
+                documents:[{
+                    ServiceDocId: 9,
+                    ServiceDocName: "Copy of PAN of the Applicant"
+                },
+                {
+                    ServiceDocId: 10,
+                    ServiceDocName: "copy of Aadhaar card"
+                },
+                {
+                    ServiceDocId: 11,
+                    ServiceDocName: "Identity and Address proof of Promoters/Director with Photographs"
+                },
+                {
+                    ServiceDocId: 12,
+                    ServiceDocName: "Digital Signature"
+                }]
+               },
+               {
+                   ServiceSubCatId: 8,
+                   ServiceSubCatName: "GST Filing - TRAN 1",
+                   ServiceSubCatDetails: "GST Filing - TRAN 1",
+                   Fee:"1500"
+              
+               }]
+        }
+    
+    ];
+
+    $scope.serviceSubObj = [
+        {   ServiceCatId: 1,
+            ServiceSubCatId: 2,
+            ServiceCatName: "Salaried Individual Tax Filing"
+        },
+        {   ServiceCatId: 1,
+            ServiceSubCatId: 2,
+            ServiceCatName: "Salaried Individual Tax Filing"
+        },
+        {   ServiceCatId: 1,
+            ServiceSubCatId: 2,
+            ServiceCatName: "Salaried Individual Tax Filing"
+        },
+        {   ServiceCatId: 1,
+            ServiceSubCatId: 2,
+            ServiceCatName: "Salaried Individual Tax Filing"
+        },
+        {   ServiceCatId: 1,
+            ServiceSubCatId: 2,
+            ServiceCatName: "Salaried Individual Tax Filing"
+        },
+        {   ServiceCatId: 1,
+            ServiceSubCatId: 2,
+            ServiceCatName: "Salaried Individual Tax Filing"
+        },
+    
+    ];
     $scope.searchItems = ['Tax Consultant', 'TDS Return Service'];
     $scope.searchItems2 = ['Income Tax Filing for Individual', 'Income Tax Filing for Business House'];
     $scope.searchItems3 = ['GST Return Filing', 'Service Tax Filing', 'VAT Filing', 'GST Registration', 'Service Tax Return Service'];
@@ -142,6 +274,22 @@ LoginApp.controller("mainController", function ($scope, $http, $sce, $timeout, $
     }
 
     $scope.loadHomePage();
+
+    $scope.showServiceDetails = function(serviceObj){
+        $scope.serviceToolBarTitle = serviceObj.ServiceSubCatName;
+        $scope.serviceDetails = serviceObj.ServiceSubCatDetails;
+        $scope.fee = serviceObj.Fee;
+        if(serviceObj.LastDateOfFilling){
+            $scope.LastDateOfFilling = serviceObj.LastDateOfFilling;
+            $scope.showLastDate = true;
+        }
+        else{
+            $scope.showLastDate = false;
+        }
+            
+
+        pushPage({ 'id': 'serviceDetails.html', 'title': 'Service Details' });
+    }
 
     //load verification code
     $scope.verificationCode = "";
@@ -339,7 +487,7 @@ ons.ready(function () {
 
             var actI = document.getElementById('carousel').getActiveIndex();
 
-            if (actI < 3) {
+            if (actI < 1) {
                 swipeNext();
             }
             else {
